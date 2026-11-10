@@ -1,0 +1,17 @@
+local ColorMode = require("../../../Enums/ColorMode")
+local RbxDesignFoundations = require("../../../Packages/RbxDesignFoundations")
+local ThemeName = require("../../../Enums/ThemeName")
+
+type ColorMode = ColorMode.ColorMode
+type ThemeName = ThemeName.ThemeName
+
+local function getGenerator(themeName: ThemeName, colorMode: ColorMode): (number) -> RbxDesignFoundations.Tokens
+	local themes = RbxDesignFoundations.themes
+	local loadTheme = themes[themeName] or themes[ThemeName.Default]
+	local theme = loadTheme()
+	return if colorMode == ColorMode.Light then theme.Light else theme.Dark
+end
+
+return {
+	getGenerator = getGenerator,
+}
