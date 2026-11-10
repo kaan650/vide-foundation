@@ -328,10 +328,13 @@ local function NumberInput(numberInputProps: NumberInputProps): GuiObject
 	end
 
 	local function onTextChanged(text: string)
-		textInput(text)
+		--! Unfocused, this is the TextBox echoing the binding that reads textInput, and the handler runs inside that
+		--! binding. Writing textInput there re-runs the running binding: Vide errors, clears its queue, and other
+		--! NumberInputs on the same value stop updating. The value effect already set textInput.
 		if not isFocused() then
 			return
 		end
+		textInput(text)
 
 		local number = tonumber(text)
 		if props.onTextChanged ~= nil then

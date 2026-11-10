@@ -100,6 +100,9 @@ local Coachmark = require("@self/Components/Coachmark")
 export type CoachmarkProps = Coachmark.CoachmarkProps
 export type CoachmarkSteps = Coachmark.CoachmarkSteps
 
+local ColorPicker = require("@self/Components/ColorPicker")
+export type ColorPickerProps = ColorPicker.ColorPickerProps
+
 local Divider = require("@self/Components/Divider")
 export type DividerProps = Divider.DividerProps
 
@@ -248,6 +251,7 @@ return {
 	Chip = Chip,
 	ChipGroup = ChipGroup,
 	Coachmark = Coachmark,
+	ColorPicker = ColorPicker,
 	Divider = Divider,
 	Dropdown = Dropdown,
 	EducationalTooltip = EducationalTooltip,

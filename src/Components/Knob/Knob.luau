@@ -32,6 +32,9 @@ export type KnobProps = {
 	-- Icon rendered instead of the default knob circle.
 	icon: Value<KnobIcon?>?,
 	isDisabled: Value<boolean>?,
+	-- `style` stands for a React binding (ColorPicker's knobs): the shadow stays a CanvasGroup, as Foundation renders
+	-- it then.
+	isStyleBinding: boolean?,
 } & Types.CommonProps
 
 local defaultProps = {
@@ -187,6 +190,9 @@ local function Knob(knobProps: KnobProps): GuiObject
 			Vide.show(function()
 				return Value.read(props.hasShadow) and not isDisabled()
 			end, function()
+				if props.isStyleBinding then
+					return shadow(true) :: any
+				end
 				return Vide.switch(function()
 					return knobTransparency() > 0
 				end)({
