@@ -26,6 +26,9 @@ export type TokenOverrides = Tokens.TokenOverrides
 local View = require("@self/Components/View")
 export type ViewProps = View.ViewProps
 
+local Button = require("@self/Components/Button")
+export type ButtonProps = Button.ButtonProps
+
 local Icon = require("@self/Components/Icon")
 export type IconProps = Icon.IconProps
 
@@ -40,6 +43,7 @@ export type FoundationProviderProps = FoundationProvider.FoundationProviderProps
 
 return {
 	-- Components
+	Button = Button,
 	Icon = Icon,
 	Image = Image,
 	Text = Text,

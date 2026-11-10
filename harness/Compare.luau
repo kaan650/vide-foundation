@@ -136,12 +136,12 @@ local function childrenOf(instance: Instance): { Instance }
 	return list
 end
 
-local function diff(vide: Instance, react: Instance, path: string, origins: { Vector2 }, out: { string }, options)
+local function diff(vide: Instance, react: Instance, path: string, origins: { Vector2 }, out: { string }, options, isRoot: boolean?)
 	if vide.ClassName ~= react.ClassName then
 		table.insert(out, `{path}: class {vide.ClassName} vs {react.ClassName}`)
 		return
 	end
-	if vide.Name ~= react.Name and not options.ignoreNames then
+	if vide.Name ~= react.Name and not options.ignoreNames and not isRoot then
 		table.insert(out, `{path}: name {vide.Name} vs {react.Name}`)
 	end
 	local videTags, reactTags = sortedTags(vide), sortedTags(react)
@@ -247,7 +247,7 @@ function Compare.run(spec)
 
 	waitFrames(spec.frames or 6)
 	if spec.before then
-		spec.before(videFrame, reactFrame)
+		spec.before(videFrame, reactFrame, root, React, F)
 		waitFrames(spec.frames or 6)
 	end
 
@@ -264,7 +264,8 @@ function Compare.run(spec)
 			videRoots[i].Name,
 			{ videFrame.AbsolutePosition, reactFrame.AbsolutePosition },
 			out,
-			options
+			options,
+			true
 		)
 	end
 

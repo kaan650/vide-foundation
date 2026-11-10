@@ -131,7 +131,9 @@ local function Image(imageProps: ImageProps): GuiObject
 		AutoButtonColor = if class == "ImageButton" then props.AutoButtonColor else nil,
 		ResampleMode = props.ResampleMode,
 		TileSize = props.TileSize,
-		tags(if props.backgroundStyle ~= nil then DEFAULT_TAGS_WITH_BG else DEFAULT_TAGS, props.tag, getTestIdTag(props.testId)),
+		tags(function()
+			return if Value.read(props.backgroundStyle) ~= nil then DEFAULT_TAGS_WITH_BG else DEFAULT_TAGS
+		end, props.tag, getTestIdTag(props.testId)),
 	}
 
 	if props.ImageContent ~= nil then

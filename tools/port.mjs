@@ -29,6 +29,13 @@ function relRequire(fromParts, targetParts) {
 	return (ups === 0 ? "./" : "../".repeat(ups)) + rest;
 }
 
+const REMAP = {
+	"Packages/Dash": ["Utility", "Dash"],
+	"Packages/Motion": ["Utility", "Motion"],
+	"Packages/Otter": ["Utility", "Motion"],
+	"Packages/ReactOtter": ["Utility", "Motion"],
+};
+
 export function port(relFile, destRel = relFile.replace(/\.lua$/, ".luau")) {
 	let text = fs.readFileSync(path.join(FOUNDATION, relFile), "utf8").replace(/\r\n/g, "\n");
 	const self = instancePath(destRel);
@@ -86,17 +93,20 @@ export function port(relFile, destRel = relFile.replace(/\.lua$/, ".luau")) {
 	text = out.join("\n");
 
 	text = text.replace(/require\(([^()"]+)\)/g, (whole, expr) => {
-		const p = resolveExpr(expr);
+		let p = resolveExpr(expr);
 		if (!p) return whole;
+		p = REMAP[p.join("/")] ?? p;
 		return `require("${relRequire(self, p)}")`;
 	});
 
 	const leftovers = [];
-	for (const word of ["React", "ReactIs", "ReactUtils", "ReactOtter", "Otter", "Motion", "Dash", "Flags", "Signal", "Logger", "Wrappers"]) {
-		if (new RegExp(`\\b${word}\\b`).test(text)) leftovers.push(word);
+	// Scan code only: words inside strings and comments are not leftovers.
+	const code = text.replace(/"[^"\n]*"/g, '""').replace(/--.*$/gm, "");
+	for (const word of ["React", "ReactIs", "ReactUtils", "Flags", "Signal"]) {
+		if (new RegExp(`\\b${word}\\b`).test(code)) leftovers.push(word);
 	}
 	for (const [name, p] of aliases) {
-		if (new RegExp(`\\b${name}\\b`).test(text)) leftovers.push(`alias ${name}=${p.join(".")}`);
+		if (new RegExp(`\\b${name}\\b`).test(code)) leftovers.push(`alias ${name}=${p.join(".")}`);
 	}
 
 	const dest = path.join(SRC, destRel);

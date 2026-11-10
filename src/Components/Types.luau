@@ -234,16 +234,17 @@ export type Cursor = CursorType | CursorConfig
 export type BaseGuiObjectProps = {
 	aspectRatio: AspectRatio?,
 	cornerRadius: CornerRadius?,
-	flexItem: FlexItem?,
-	layout: ListLayout?,
+	-- The table props below may also be sources of a table or nil, which add and remove the component.
+	flexItem: Value<FlexItem?>?,
+	layout: Value<ListLayout?>?,
 	padding: Padding?,
 	scale: Value<number>?,
-	sizeConstraint: SizeConstraint?,
-	stroke: Stroke?,
+	sizeConstraint: Value<SizeConstraint?>?,
+	stroke: Value<Stroke?>?,
 
 	backgroundStyle: ColorStyle?,
 	selection: Selection?,
-	cursor: Cursor?,
+	cursor: Value<Cursor?>?,
 	selectionGroup: (Value<boolean> | SelectionGroup)?,
 
 	AutoLocalize: Value<boolean>?,

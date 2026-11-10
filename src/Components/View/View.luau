@@ -54,7 +54,9 @@ local function View(viewProps: ViewProps): GuiObject
 		--* ImageButton is needed for some state changes (Enter triggering SelectedPressed), but its auto color is not.
 		AutoButtonColor = if class == "ImageButton" then false else nil,
 		tags(
-			if props.backgroundStyle ~= nil then DEFAULT_TAGS_WITH_BG else DEFAULT_TAGS,
+			function()
+				return if Value.read(props.backgroundStyle) ~= nil then DEFAULT_TAGS_WITH_BG else DEFAULT_TAGS
+			end,
 			props.tag,
 			getTestIdTag(props.testId)
 		),

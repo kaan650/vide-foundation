@@ -81,7 +81,9 @@ local function Text(textProps: TextProps): GuiObject
 
 	local defaultTags = function(): string
 		local style = fontStyle()
-		local base = if props.backgroundStyle ~= nil then `{DEFAULT_TAGS} x-default-transparency` else DEFAULT_TAGS
+		local base = if Value.read(props.backgroundStyle) ~= nil
+			then `{DEFAULT_TAGS} x-default-transparency`
+			else DEFAULT_TAGS
 		return if style and style.FontSize then `{base} x-default-text-size` else base
 	end
 
@@ -101,7 +103,9 @@ local function Text(textProps: TextProps): GuiObject
 			reactivePadding = Vide.show(function()
 				return getLineHeightPaddingOffset(fontStyle(), fontFace()) ~= 0
 			end, function()
-				return Padding({ value = paddingFor(lineHeightPadding) })
+				local padding = Padding({ value = paddingFor(lineHeightPadding) })
+				padding.Name = "Padding"
+				return padding
 			end)
 		elseif getLineHeightPaddingOffset(fontStyle(), fontFace()) ~= 0 then
 			guiObjectProps = table.clone(props)

@@ -21,7 +21,7 @@ export type WithInteractableProps = {
 	BackgroundColor3: Value<Color3?>?,
 	BackgroundTransparency: Value<number?>?,
 	SelectionImageObject: Value<GuiObject?>?,
-	cursor: Types.Cursor?,
+	cursor: Types.Value<Types.Cursor?>?,
 } & Types.BaseInteractableProps
 
 --* Engine default for BackgroundColor3; a GetStyled value equal to it with no transparency means "never styled".
