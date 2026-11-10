@@ -89,13 +89,20 @@ SystemBanner, Tabs, Text, TextArea, TextInput, Toast, Toggle, ToggleGroup, Toolt
 Enums are under `Foundation.Enums`, hooks under `Foundation.Hooks`, and `BaseMenu` and `Interactable` under
 `Foundation.UNSTABLE`, as in Foundation.
 
+## Stories
+
+`stories/` holds a [UI Labs](https://ui-labs.luau.page/) storybook, "VideFoundation", with Foundation's own stories
+ported to Vide: every component's playground, variants, sizes and states, the token and image galleries, and a few
+gallery pages. Each story has theme and color-mode controls, and a `section` control for its pages. Open the dev
+place (see below) with the UI Labs plugin installed.
+
 ## Development
 
 - `rokit install`, `wally install`, then `rojo serve dev.project.json` and open a place with the Rojo plugin.
 - `tools/analyze.sh` runs luau-lsp in strict mode with the new type solver; it prints nothing when clean.
 - `node tools/gen-reference.mjs` loads Roblox's React Foundation from your Studio install into the dev place, and
   `harness/Compare.luau` renders a Vide component next to the React one and diffs them. `docs/PORTING.md` explains
-  the porting rules and how to run a comparison.
+  the porting rules and how to run a comparison; `docs/STORIES.md` does the same for stories.
 - `docs/flags.md` lists Foundation's feature flags and the live value each one is fixed to.
 
 ## Credits
