@@ -41,6 +41,25 @@ variant, size and state the way Roblox's designers lay them out. Each one become
   opened by a button, a controlled TextInput) keep their state in sources inside the section function.
 - Comments: English and few, as in `docs/PORTING.md`.
 
+## Patterns (from the first stories: Shared, Elements, BaseComponents, Button family)
+
+Read `stories/Components/Button.story.luau`, `stories/Components/IconButton.story.luau` and `stories/Shared/*` first.
+
+- A `stories` list becomes `foundation.sections` (even with one entry); a single `story` becomes `foundation.single`.
+  Tall sections go in `foundation.scroll(children)`.
+- `Dash.values(Enum)` for a Choose list needs `foundation.Dash.values(Enum :: any)`; its order matches React's, so
+  the default choice is the same. `React.None` in a list becomes `foundation.NONE`, read with `foundation.orNil(c)`.
+- Types: `local VideFoundation = require("@game/ReplicatedStorage/Packages/VideFoundation")` for exported types;
+  enums missing from `VF.Enums` come from `@game/ReplicatedStorage/Packages/VideFoundation/Enums/<Name>`. Token colors
+  returned from function props need `:: ColorStyleValue`.
+- Build instances inside the section function (inside the provider), never at module level: MatrixGrid rows and
+  labels included.
+- `foundation.rebuildOn(source, render)` when a prop only takes plain values but comes from a control, when React
+  remounts something with `key`, or when React leaves a property unset conditionally (a binding can't yield nil).
+- Keyed dynamic lists: `Vide.values` over the key strings. Static lists: plain loops, `LayoutOrder = index`.
+- Assets follow Kaan's rule: `Content.fromAssetId(id)` / `Content.fromUri(...)`, never `rbxassetid://` strings.
+- `foundation.story` applies the overrides set in the TokenOverrides story to every story.
+
 ## Checking a story
 
 Mount each story in Studio (place `VideFoundationDev.rbxl`, Rojo connected) through MCP `execute_luau` in Edit mode,
@@ -55,3 +74,9 @@ into a Frame under a ScreenGui in StarterGui. Then:
 3. Screenshot (`screen_capture`) the Playground and one matrix section of each story and look at it: it should look
    like Foundation's story (no overlapping, nothing missing, readable in Dark and Light).
 4. Clean up every ScreenGui and destroy every mount.
+
+An `execute_luau` call that yields (`task.wait`) for long can drop the MCP connection ("Target is not reachable"):
+run the check in a `task.spawn`ed thread that writes results into a `_G` table, then read it in a later call.
+`Clone()` of an `Archivable = false` ModuleScript returns nil. React originals, stories included, are in
+`ReplicatedStorage.ReferencePackages._Index.Foundation.Foundation`; mounting one with `ReactRoblox.createRoot`,
+`F.FoundationProvider` and an `F.View` with the same root tags gives an exact visual reference.
