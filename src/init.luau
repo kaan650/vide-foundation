@@ -122,7 +122,6 @@ return {
 	StatusIndicator = StatusIndicator,
 	Text = Text,
 	Tooltip = Tooltip,
-	Types = Types,
 	View = View,
 
 	-- Providers
