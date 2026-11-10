@@ -9,7 +9,7 @@ return {
 		isDisabled = false,
 		size = foundation.UILabs.Choose({ "Medium", "Small", "Large", "XSmall" }),
 	}),
-	story = function(props)
+	story = function(props: { controls: { [string]: any } })
 		local controls = props.controls
 		local text = Vide.source("")
 		local amount = Vide.source(5)

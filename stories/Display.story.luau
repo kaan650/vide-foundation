@@ -10,7 +10,7 @@ return {
 	controls = foundation.controls({
 		count = foundation.UILabs.Slider(3, 0, 150, 1),
 	}),
-	story = function(props)
+	story = function(props: { controls: { [string]: any } })
 		local controls = props.controls
 		local selectedChip = Vide.source("all")
 

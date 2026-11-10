@@ -13,7 +13,7 @@ return {
 		inputDelay = 0,
 		icon = "",
 	}),
-	story = function(props)
+	story = function(props: { controls: { [string]: any } })
 		local controls = props.controls
 		local function icon(): string?
 			local name = controls.icon()
