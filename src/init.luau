@@ -4,6 +4,12 @@ local Tokens = require("@self/Providers/Style/Tokens")
 local Toast = require("@self/Components/Toast")
 export type ToastProps = Toast.ToastProps
 
+local Toggle = require("@self/Components/Toggle")
+export type ToggleProps = Toggle.ToggleProps
+
+local ToggleGroup = require("@self/Components/ToggleGroup")
+export type ToggleGroupProps = ToggleGroup.ToggleGroupProps
+
 local Tooltip = require("@self/Components/Tooltip")
 export type TooltipProps = Tooltip.TooltipProps
 
@@ -59,6 +65,12 @@ local ButtonGroup = require("@self/Components/ButtonGroup")
 export type ButtonGroupProps = ButtonGroup.ButtonGroupProps
 export type ButtonGroupItem = ButtonGroup.ButtonGroupItem
 export type ButtonGroupSize = ButtonGroup.ButtonGroupSize
+
+local Checkbox = require("@self/Components/Checkbox")
+export type CheckboxProps = Checkbox.CheckboxProps
+
+local CheckboxGroup = require("@self/Components/CheckboxGroup")
+export type CheckboxGroupProps = CheckboxGroup.CheckboxGroupProps
 
 local Chip = require("@self/Components/Chip")
 export type ChipProps = Chip.ChipProps
@@ -122,6 +134,10 @@ export type PopoverAnchor = Types.PopoverAnchor
 local Progress = require("@self/Components/Progress")
 export type ProgressProps = Progress.ProgressProps
 
+local RadioGroup = require("@self/Components/RadioGroup")
+export type RadioGroupProps = RadioGroup.RadioGroupProps
+export type RadioGroupItemProps = RadioGroup.RadioGroupItemProps
+
 local ScrollView = require("@self/Components/ScrollView")
 export type ScrollViewProps = ScrollView.ScrollViewProps
 
@@ -157,6 +173,8 @@ return {
 	Badge = Badge,
 	Button = Button,
 	ButtonGroup = ButtonGroup,
+	Checkbox = Checkbox,
+	CheckboxGroup = CheckboxGroup,
 	Chip = Chip,
 	Coachmark = Coachmark,
 	Divider = Divider,
@@ -172,9 +190,9 @@ return {
 	InputLabel = InputLabel,
 	KeyLabel = KeyLabel,
 	Loading = Loading,
-	Pill = Chip,
 	Popover = Popover,
 	Progress = Progress,
+	RadioGroup = RadioGroup,
 	ScrollView = ScrollView,
 	Skeleton = Skeleton,
 	Snackbar = Snackbar,
@@ -183,6 +201,8 @@ return {
 	SystemBanner = SystemBanner,
 	Text = Text,
 	Toast = Toast,
+	Toggle = Toggle,
+	ToggleGroup = ToggleGroup,
 	Tooltip = Tooltip,
 	View = View,
 

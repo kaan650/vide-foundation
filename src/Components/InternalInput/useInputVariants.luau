@@ -1,0 +1,45 @@
+local InputSize = require("../../Enums/InputSize")
+type InputSize = InputSize.InputSize
+
+local composeStyleVariant = require("../../Utility/composeStyleVariant")
+type VariantProps = composeStyleVariant.VariantProps
+
+local Tokens = require("../../Providers/Style/Tokens")
+type Tokens = Tokens.Tokens
+
+local VariantsContext = require("../../Providers/Style/VariantsContext")
+
+type InputVariantProps = {
+	container: { tag: string, padding: UDim },
+	input: { stroke: { thickness: number } },
+}
+
+local function variantsFactory(tokens: Tokens)
+	local strokeThickness = math.ceil(tokens.Stroke.Standard)
+	local common = {
+		container = {
+			tag = "row align-x-left align-y-top auto-xy",
+			padding = UDim.new(0, strokeThickness),
+		},
+		input = { stroke = { thickness = strokeThickness } },
+	}
+
+	local sizes: { [InputSize]: VariantProps } = {
+		[InputSize.XSmall] = { container = { tag = "gap-medium" } },
+		[InputSize.Small] = { container = { tag = "gap-medium" } },
+		[InputSize.Medium] = { container = { tag = "gap-medium" } },
+		[InputSize.Large] = { container = { tag = "gap-medium" } },
+	}
+
+	local labelPosition: { [Enum.HorizontalAlignment]: VariantProps } = {
+		[Enum.HorizontalAlignment.Left] = { container = { tag = "flex-x-between size-full-0" } },
+		[Enum.HorizontalAlignment.Right] = { container = { tag = "" } },
+	}
+
+	return { common = common, sizes = sizes, labelPosition = labelPosition }
+end
+
+return function(tokens: Tokens, size: InputSize, labelPosition: Enum.HorizontalAlignment): InputVariantProps
+	local props = VariantsContext.useVariants("InternalInput", variantsFactory, tokens)
+	return (composeStyleVariant :: any)(props.common, props.sizes[size], props.labelPosition[labelPosition])
+end
