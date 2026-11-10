@@ -1,4 +1,4 @@
-local foundation = require("./foundation")
+local foundation = require("../foundation")
 local VF = foundation.VF
 
 local VARIANTS = { "Emphasis", "SoftEmphasis", "Standard", "Alert", "Utility", "Link" }

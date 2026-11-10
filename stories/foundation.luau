@@ -30,6 +30,42 @@ local function story(props: { controls: { [string]: any } }, build: () -> any)
 	})
 end
 
+export type Section = {
+	name: string,
+	summary: string?,
+	-- Builds the section; `controls` holds a source per control.
+	story: (controls: { [string]: any }) -> any,
+}
+
+--- One UI Labs story from a Foundation story module that holds several stories (Playground, Variants, Sizing...).
+--- A `section` control picks which one is shown. Pass Foundation's summary, its controls and its stories in order.
+local function sections(spec: { summary: string, controls: { [string]: any }?, sections: { Section } })
+	local names = {}
+	local builders = {}
+	for _, section in spec.sections do
+		table.insert(names, section.name)
+	end
+
+	local allControls = controls(spec.controls)
+	allControls.section = UILabs.Choose(names)
+
+	return {
+		summary = spec.summary,
+		vide = Vide,
+		controls = allControls,
+		story = function(props: { controls: { [string]: any } })
+			for _, section in spec.sections do
+				builders[section.name] = function()
+					return section.story(props.controls)
+				end
+			end
+			return story(props, function()
+				return Vide.switch(props.controls.section)(builders)
+			end)
+		end,
+	}
+end
+
 --- A callback that prints its arguments, for buttons in stories.
 local function action(name: string)
 	return function(...)
@@ -43,5 +79,6 @@ return {
 	UILabs = UILabs,
 	controls = controls,
 	story = story,
+	sections = sections,
 	action = action,
 }

@@ -1,4 +1,4 @@
-local foundation = require("./foundation")
+local foundation = require("../foundation")
 local VF = foundation.VF
 local Vide = foundation.Vide
 
