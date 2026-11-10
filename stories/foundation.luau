@@ -1,6 +1,7 @@
 local Vide = require("@game/ReplicatedStorage/Packages/Vide")
 local UILabs = require("@game/ReplicatedStorage/DevPackages/UILabs")
 local VF = require("@game/ReplicatedStorage/Packages/VideFoundation")
+local create = require("@game/ReplicatedStorage/Packages/VideFoundation/Utility/create")
 
 local TokenOverridesStore = require("./Shared/TokenOverridesStore")
 
@@ -21,17 +22,31 @@ end
 --- Mounts `build` inside a FoundationProvider on a surface background, following the theme controls and the token
 --- overrides set in the Elements/TokenOverrides story.
 local function story(props: { controls: { [string]: any } }, build: () -> any)
-	return VF.FoundationProvider({
-		colorMode = props.controls.colorMode,
-		themeName = props.controls.themeName,
-		tokenOverrides = TokenOverridesStore.use() :: any,
-		children = function()
-			return VF.View({
-				tag = "size-full bg-surface-0 padding-xlarge col gap-large",
-				children = build(),
-			})
-		end,
+	--* Popovers, menus, dialogs and sheets render into this frame over the story, as in Foundation's storybook.
+	--* Without it they go to a CoreGui ScreenGui, which UI Labs' widget does not show.
+	local overlay = create("Frame")({
+		Name = "Overlay",
+		Size = UDim2.fromScale(1, 1),
+		BackgroundTransparency = 1,
+		ZIndex = 2,
 	})
+	Vide.cleanup(overlay)
+
+	return {
+		VF.FoundationProvider({
+			colorMode = props.controls.colorMode,
+			themeName = props.controls.themeName,
+			tokenOverrides = TokenOverridesStore.use() :: any,
+			overlayGui = overlay,
+			children = function()
+				return VF.View({
+					tag = "size-full bg-surface-0 padding-xlarge col gap-large",
+					children = build(),
+				})
+			end,
+		}),
+		overlay,
+	}
 end
 
 export type Section = {
@@ -128,7 +143,7 @@ return {
 	--- Builds a child again whenever a source changes, as a React `key` change remounts it.
 	rebuildOn = require("@game/ReplicatedStorage/Packages/VideFoundation/Utility/rebuildOn"),
 	--- Vide.create without Vide's class defaults, for engine instances (`create("UIGradient")({ ... })`).
-	create = require("@game/ReplicatedStorage/Packages/VideFoundation/Utility/create"),
+	create = create,
 	controls = controls,
 	story = story,
 	sections = sections,

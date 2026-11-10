@@ -59,6 +59,13 @@ Read `stories/Components/Button.story.luau`, `stories/Components/IconButton.stor
 - Keyed dynamic lists: `Vide.values` over the key strings. Static lists: plain loops, `LayoutOrder = index`.
 - Assets follow Kaan's rule: `Content.fromAssetId(id)` / `Content.fromUri(...)`, never `rbxassetid://` strings.
 - `foundation.story` applies the overrides set in the TokenOverrides story to every story.
+- Overlays (popovers, menus, dialogs, sheets) render into an `Overlay` frame `foundation.story` puts over the story,
+  as Foundation's storybook does, so they show in UI Labs' widget. Open state is a `Vide.source` in the section
+  function, toggled by a Button.
+- Child order: React children without a `LayoutOrder` tie in the list layout and keep their mount order, which is the
+  `pairs` order of the keyed children table (`{ Text = ..., Button = ... }` mounts Button first). Check the React
+  render and match it. Vide parents a nested array (what `Popover.Root` or a `Tooltip` returns) after its direct
+  siblings, so a sibling of one needs a `LayoutOrder` to keep React's order.
 
 ## Checking a story
 
@@ -79,4 +86,10 @@ An `execute_luau` call that yields (`task.wait`) for long can drop the MCP conne
 run the check in a `task.spawn`ed thread that writes results into a `_G` table, then read it in a later call.
 `Clone()` of an `Archivable = false` ModuleScript returns nil. React originals, stories included, are in
 `ReplicatedStorage.ReferencePackages._Index.Foundation.Foundation`; mounting one with `ReactRoblox.createRoot`,
-`F.FoundationProvider` and an `F.View` with the same root tags gives an exact visual reference.
+`F.FoundationProvider` and an `F.View` with the same root tags gives an exact visual reference. `createRoot` clears
+its container, so the React overlay frame goes beside it with a portaled `StyleLink`, as `StoryMiddleware` does.
+
+`require` caches: after a `src` change, check against a fresh clone of `ReplicatedStorage.Packages` and resolve
+`@game/ReplicatedStorage/Packages/...` to it, Vide included. `Vide.strict` is global, so agents checking at the same
+time flip it under each other. To find a story's own state sources, wrap `Vide.source` while a section builds and
+keep those whose caller (`debug.info(2, "s")`) is a story module.
