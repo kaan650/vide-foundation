@@ -39,7 +39,15 @@ covered.
   StudioWidgets providers. Foundation only uses them in Roblox's internal plugins, where
   `plugin:GetPluginComponent("Panels")` works; elsewhere popovers use the overlay, as here.
 - `ObjectViewport`, which only Foundation's stories use.
+- Code that only runs while a flag that is on live is off, such as DateTimePicker's pre-beta body
+  (`Calendar/Calendar`, `Calendar/CalendarDay`, `Time/TimeDropdown`).
 - Deprecated enum aliases `CheckboxSize` and `ToggleSize`.
+
+## Assets at runtime
+
+Builder Icons load from `rbxasset://LuaPackages/Packages/_Index/BuilderIcons/...`, the copy Roblox ships with the
+client, as Foundation does. Checked on 2026-11-10: the font files are in the Windows player install, and a game
+LocalScript in Play mode renders the glyphs (fetch status Success). Mobile and console clients were not checked.
 
 ## Not verified with real input
 
