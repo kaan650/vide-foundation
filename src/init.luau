@@ -1,6 +1,13 @@
 local BuilderIcons = require("@self/Packages/BuilderIcons")
 local StyleSheetRegistry = require("@self/StyleSheet/StyleSheetRegistry")
 local Tokens = require("@self/Providers/Style/Tokens")
+local TextArea = require("@self/Components/TextArea")
+export type TextAreaProps = TextArea.TextAreaProps
+
+local TextInput = require("@self/Components/TextInput")
+export type TextInputProps = TextInput.TextInputProps
+export type TextInputTrailingIcon = TextInput.TextInputTrailingIcon
+
 local Toast = require("@self/Components/Toast")
 export type ToastProps = Toast.ToastProps
 
@@ -125,6 +132,9 @@ export type KeyLabelProps = KeyLabel.KeyLabelProps
 local Loading = require("@self/Components/Loading")
 export type LoadingProps = Loading.LoadingProps
 
+local NumberInput = require("@self/Components/NumberInput")
+export type NumberInputProps = NumberInput.NumberInputProps
+
 local Popover = require("@self/Components/Popover")
 export type PopoverProps = Popover.PopoverProps
 export type PopoverAnchorProps = Popover.PopoverAnchorProps
@@ -140,6 +150,9 @@ export type RadioGroupItemProps = RadioGroup.RadioGroupItemProps
 
 local ScrollView = require("@self/Components/ScrollView")
 export type ScrollViewProps = ScrollView.ScrollViewProps
+
+local SearchInput = require("@self/Components/SearchInput")
+export type SearchInputProps = SearchInput.SearchInputProps
 
 local Skeleton = require("@self/Components/Skeleton")
 export type SkeletonProps = Skeleton.SkeletonProps
@@ -190,16 +203,20 @@ return {
 	InputLabel = InputLabel,
 	KeyLabel = KeyLabel,
 	Loading = Loading,
+	NumberInput = NumberInput,
 	Popover = Popover,
 	Progress = Progress,
 	RadioGroup = RadioGroup,
 	ScrollView = ScrollView,
+	SearchInput = SearchInput,
 	Skeleton = Skeleton,
 	Snackbar = Snackbar,
 	StatusBadge = StatusBadge,
 	StatusIndicator = StatusIndicator,
 	SystemBanner = SystemBanner,
 	Text = Text,
+	TextArea = TextArea,
+	TextInput = TextInput,
 	Toast = Toast,
 	Toggle = Toggle,
 	ToggleGroup = ToggleGroup,
