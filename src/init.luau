@@ -103,6 +103,14 @@ export type CoachmarkSteps = Coachmark.CoachmarkSteps
 local ColorPicker = require("@self/Components/ColorPicker")
 export type ColorPickerProps = ColorPicker.ColorPickerProps
 
+local Dialog = require("@self/Components/Dialog")
+export type DialogProps = Dialog.DialogProps
+export type DialogActionsProps = Dialog.DialogActionsProps
+export type DialogContentProps = Dialog.DialogContentProps
+export type DialogTextProps = Dialog.DialogTextProps
+export type DialogHeroMediaProps = Dialog.DialogHeroMediaProps
+export type DialogTitleProps = Dialog.DialogTitleProps
+
 local Divider = require("@self/Components/Divider")
 export type DividerProps = Divider.DividerProps
 
@@ -202,6 +210,14 @@ export type SearchInputProps = SearchInput.SearchInputProps
 local SegmentedControl = require("@self/Components/SegmentedControl")
 export type SegmentedControlProps = SegmentedControl.SegmentedControlProps
 
+local Sheet = require("@self/Components/Sheet")
+export type SheetProps = Sheet.SheetProps
+export type SheetRef = Sheet.SheetRef
+export type SheetActionsProps = Sheet.SheetActionsProps
+export type SheetContentProps = Sheet.SheetContentProps
+export type SheetFullBleedProps = Sheet.SheetFullBleedProps
+export type SheetHeaderProps = Sheet.SheetHeaderProps
+
 local Skeleton = require("@self/Components/Skeleton")
 export type SkeletonProps = Skeleton.SkeletonProps
 
@@ -252,6 +268,7 @@ return {
 	ChipGroup = ChipGroup,
 	Coachmark = Coachmark,
 	ColorPicker = ColorPicker,
+	Dialog = Dialog,
 	Divider = Divider,
 	Dropdown = Dropdown,
 	EducationalTooltip = EducationalTooltip,
@@ -279,6 +296,7 @@ return {
 	ScrollView = ScrollView,
 	SearchInput = SearchInput,
 	SegmentedControl = SegmentedControl,
+	Sheet = Sheet,
 	Skeleton = Skeleton,
 	Slider = Slider,
 	Snackbar = Snackbar,
@@ -304,6 +322,8 @@ return {
 
 	-- Hooks: call them while a component is being created, under FoundationProvider.
 	Hooks = {
+		useDialogNavigation = require("@self/Components/Dialog/useDialogNavigation"),
+		useSheetNavigation = require("@self/Components/Sheet/useSheetNavigation"),
 		useMeasurableRef = require("@self/Components/Popover/useMeasurableRef"),
 		usePointerPosition = require("@self/Utility/usePointerPosition"),
 		useBreakpoint = require("@self/Providers/Responsive/Hooks/useBreakpoint"),
