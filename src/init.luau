@@ -103,6 +103,9 @@ export type CoachmarkSteps = Coachmark.CoachmarkSteps
 local ColorPicker = require("@self/Components/ColorPicker")
 export type ColorPickerProps = ColorPicker.ColorPickerProps
 
+local DateTimePicker = require("@self/Components/DateTimePicker")
+export type DateTimePickerProps = DateTimePicker.DateTimePickerProps
+
 local Dialog = require("@self/Components/Dialog")
 export type DialogProps = Dialog.DialogProps
 export type DialogActionsProps = Dialog.DialogActionsProps
@@ -268,6 +271,7 @@ return {
 	ChipGroup = ChipGroup,
 	Coachmark = Coachmark,
 	ColorPicker = ColorPicker,
+	DateTimePicker = DateTimePicker,
 	Dialog = Dialog,
 	Divider = Divider,
 	Dropdown = Dropdown,
