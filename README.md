@@ -17,7 +17,7 @@ With [Wally](https://wally.run):
 VideFoundation = "kaan650/vide-foundation@0.1.0"
 ```
 
-It depends on Vide 0.4, Ripple 0.10 and vide-ripple 0.10.
+It depends on Vide 0.4 and Ripple 0.10.
 
 ## Use
 

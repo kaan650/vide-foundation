@@ -15,7 +15,7 @@ props, `show`/`switch`), `Interactable/withInteractable`.
 - Every component folder has `init.luau` re-exporting the component and its exported types. `node tools/gen-inits.mjs`
   writes missing ones.
 - Tests, stories and `.md` docs are not copied.
-- `src/Packages/` holds dependencies: `Vide`, `Ripple`, `VideRipple` (Wally re-exports) and Roblox's data packages
+- `src/Packages/` holds dependencies: `Vide` and `Ripple` (Wally re-exports) and Roblox's data packages
   (`BuilderIcons`, `FoundationImages`, `FoundationCloudAssets`, `RbxDesignFoundations`), unchanged.
 - React, ReactOtter, Otter, Motion, ReactUtils, ReactIs, Dash, Signal, Lumberyak, SafeFlags are not dependencies.
   `Utility/Dash` and `Utility/Motion` replace Dash and Motion/Otter/ReactOtter with the same API.

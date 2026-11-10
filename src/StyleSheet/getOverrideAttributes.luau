@@ -26,13 +26,8 @@ local function emitLeafAttributes(result: OverrideAttributes, attrBase: string, 
 	end
 end
 
--- Returns a map of attribute name -> base override value.
--- The returned values mirror the `attribute.value` found in generated rules:
--- platform scale (Console 1.5x) is baked in, but the user-supplied scale factor
--- is NOT. Callers are responsible for running the value through scaleValue with
--- the user scale so overrides scale the same way as the base rule values do.
---
--- Keys are target token paths. Values: if a string, a source token path; otherwise a literal.
+--- A map of StyleSheet attribute name to override value, in the form the generated rules use. Keys of `overrides`
+--- are target token paths; a string value is a source token path, anything else a literal.
 
 local function getOverrideAttributes(
 	themeName: ThemeName?,

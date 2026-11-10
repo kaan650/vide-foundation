@@ -434,6 +434,9 @@ return {
 	},
 
 	UNSTABLE = {
+		CarouselIndicator = require("@self/Components/CarouselIndicator"),
+		Gradient = require("@self/Components/Gradient"),
+		Tile = require("@self/Components/Tile"),
 		BaseMenu = BaseMenu,
 		AlertActions = require("@self/Components/AlertActions"),
 		CloseAffordance = require("@self/Components/CloseAffordance"),
