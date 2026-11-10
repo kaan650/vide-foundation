@@ -57,7 +57,7 @@ Read `stories/Components/Button.story.luau`, `stories/Components/IconButton.stor
 - `foundation.rebuildOn(source, render)` when a prop only takes plain values but comes from a control, when React
   remounts something with `key`, or when React leaves a property unset conditionally (a binding can't yield nil).
 - Keyed dynamic lists: `Vide.values` over the key strings. Static lists: plain loops, `LayoutOrder = index`.
-- Assets follow Kaan's rule: `Content.fromAssetId(id)` / `Content.fromUri(...)`, never `rbxassetid://` strings.
+- Assets are `Content` values: `Content.fromAssetId(id)` / `Content.fromUri(...)`, never `rbxassetid://` strings.
 - `foundation.story` applies the overrides set in the TokenOverrides story to every story.
 - Overlays (popovers, menus, dialogs, sheets) render into an `Overlay` frame `foundation.story` puts over the story,
   as Foundation's storybook does, so they show in UI Labs' widget. Open state is a `Vide.source` in the section
@@ -90,6 +90,6 @@ run the check in a `task.spawn`ed thread that writes results into a `_G` table, 
 its container, so the React overlay frame goes beside it with a portaled `StyleLink`, as `StoryMiddleware` does.
 
 `require` caches: after a `src` change, check against a fresh clone of `ReplicatedStorage.Packages` and resolve
-`@game/ReplicatedStorage/Packages/...` to it, Vide included. `Vide.strict` is global, so agents checking at the same
+`@game/ReplicatedStorage/Packages/...` to it, Vide included. `Vide.strict` is global, so two checks running at the same
 time flip it under each other. To find a story's own state sources, wrap `Vide.source` while a section builds and
 keep those whose caller (`debug.info(2, "s")`) is a story module.

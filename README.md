@@ -75,7 +75,38 @@ end, playerGui.ScreenGui)
 - Containers that provide a context (`Popover.Root`, `List.Root`, `RadioGroup`, `Accordion.Root`...) take
   `children` as a builder function, like the provider.
 
-`docs/DEVIATIONS.md` lists every place where the API or behavior differs from React Foundation, and why.
+## Differences from React Foundation
+
+**API.**
+- Refs and imperative handles are callback props (`textBoxRef`, `inputRef`, `scrollingFrameRef`, `ref`).
+- React remounts a component whose root class changes, such as a disabled control fading into a CanvasGroup. When
+  such a prop is a source, the component returns a source of its current instance instead of an instance:
+  CloseAffordance, IconButton, InputLabel, Chip, InputChip, Checkbox, Toggle, RadioGroup items, Pagination (on
+  `variant`). Vide accepts it as a child; with plain props these return instances. Slider keeps a CanvasGroup root
+  while `isDisabled` is a source.
+- Feature flags are fixed to the values Roblox runs live, so props that only exist behind flags that are off are
+  not here: Slider `orientation`, SegmentedControl `variant`/`fillBehavior`, Progress bar labels, NumberInput
+  Stacked/Split controls.
+
+**Foundation bugs.**
+- Kept: Tabs never picks a default active tab, so pass `defaultActiveTabId`. ChipGroup in Row mode always shows both
+  edge fades.
+- Not kept: Foundation's tabs ignore `LayoutOrder` after a reorder, and ChipGroup drops the caller's
+  `onAbsoluteSizeChanged`/`onAbsolutePositionChanged`.
+
+**Not ported.** Popover's internal-plugin path (StudioPanels, StudioWidgets), which only works in Roblox's own
+plugins; Foundation's story-only `ObjectViewport`; the deprecated enum aliases `CheckboxSize` and `ToggleSize`.
+
+**Not verified with real input.** Studio's Edit mode cannot hover, press or drag, so the comparison covers rendering
+and prop changes but not pointer interaction: state layers on hover and press, click-outside, Slider and NumberInput
+dragging, gamepad navigation. These are line-by-line ports; try them in the stories.
+
+**Small differences.**
+- Builder Icons load from the copy Roblox ships with the client (`rbxasset://LuaPackages/...`), as Foundation does.
+  Checked on Windows; mobile and console were not checked.
+- Style rules have no specificity: when one element carries two tags that set the same property, the rule registered
+  first loses, and registration follows which components mounted first, here as in React.
+- Loading's spinner angle is a few frames ahead of React's.
 
 ## Components
 

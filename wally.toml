@@ -1,10 +1,14 @@
 [package]
 name = "kaan650/vide-foundation"
 version = "0.1.0"
+description = "Roblox's Foundation design system for Vide"
+license = "MIT"
+authors = ["kaan650"]
+repository = "https://github.com/kaan650/vide-foundation"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 exclude = ["**"]
-include = ["src", "src/**", "default.project.json", "wally.toml", "README.md"]
+include = ["src", "src/**", "default.project.json", "wally.toml", "README.md", "LICENSE"]
 
 [dependencies]
 Vide = "centau/vide@0.4.1"
