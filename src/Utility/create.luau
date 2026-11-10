@@ -64,7 +64,10 @@ export type function Properties(instance: type?)
 				end
 				properties:setproperty(i, types.optional(listener))
 			elseif v.write then
-				properties:setproperty(i, types.optional(types.unionof(v.write, types.newfunction({}, { head = { v.write } }))))
+				properties:setproperty(
+					i,
+					types.optional(types.unionof(v.write, types.newfunction({}, { head = { v.write } })))
+				)
 			end
 		end
 
