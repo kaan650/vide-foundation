@@ -42,6 +42,9 @@ for (const arg of process.argv.slice(2)) {
 	console.log(`${name}: ${types.length} types`);
 }
 
-const names = components().sort();
+//* A component exported under a nested table (UNSTABLE.BaseMenu) stays out of the top-level list.
+const names = components()
+	.filter((n) => !text.includes(`		${n} = ${n},`))
+	.sort();
 text = text.replace(/\t-- Components\n(\t\w+ = \w+,\n)+/, "\t-- Components\n" + names.map((n) => `\t${n} = ${n},\n`).join(""));
 fs.writeFileSync(INIT, text);

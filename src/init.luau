@@ -69,6 +69,12 @@ local Badge = require("@self/Components/Badge")
 export type BadgeProps = Badge.BadgeProps
 export type BadgeIcon = Badge.BadgeIcon
 
+local BaseMenu = require("@self/Components/BaseMenu")
+export type BaseMenuProps<Item = BaseMenuItem> = BaseMenu.BaseMenuProps<Item>
+export type BaseMenuItem = BaseMenu.BaseMenuItem
+export type BaseMenuItems<Item = BaseMenuItem> = BaseMenu.BaseMenuItems<Item>
+export type BaseMenuItemGroup<Item = BaseMenuItem> = BaseMenu.BaseMenuItemGroup<Item>
+
 local Button = require("@self/Components/Button")
 export type ButtonProps = Button.ButtonProps
 
@@ -92,6 +98,11 @@ export type CoachmarkSteps = Coachmark.CoachmarkSteps
 
 local Divider = require("@self/Components/Divider")
 export type DividerProps = Divider.DividerProps
+
+local Dropdown = require("@self/Components/Dropdown")
+export type DropdownProps = Dropdown.DropdownProps
+export type DropdownItem = Dropdown.DropdownItem
+export type DropdownItems = Dropdown.DropdownItems
 
 local EducationalTooltip = require("@self/Components/EducationalTooltip")
 export type EducationalTooltipProps = EducationalTooltip.EducationalTooltipProps
@@ -138,6 +149,11 @@ export type KnobProps = Knob.KnobProps
 
 local Loading = require("@self/Components/Loading")
 export type LoadingProps = Loading.LoadingProps
+
+local Menu = require("@self/Components/Menu")
+export type MenuProps = Menu.MenuProps
+export type MenuItem = Menu.MenuItem
+export type MenuItems = Menu.MenuItems
 
 local NumberInput = require("@self/Components/NumberInput")
 export type NumberInputProps = NumberInput.NumberInputProps
@@ -212,6 +228,7 @@ return {
 	Chip = Chip,
 	Coachmark = Coachmark,
 	Divider = Divider,
+	Dropdown = Dropdown,
 	EducationalTooltip = EducationalTooltip,
 	Empty = Empty,
 	FeedbackAlert = FeedbackAlert,
@@ -225,6 +242,7 @@ return {
 	KeyLabel = KeyLabel,
 	Knob = Knob,
 	Loading = Loading,
+	Menu = Menu,
 	NumberInput = NumberInput,
 	Popover = Popover,
 	Progress = Progress,
@@ -363,6 +381,7 @@ return {
 	},
 
 	UNSTABLE = {
+		BaseMenu = BaseMenu,
 		AlertActions = require("@self/Components/AlertActions"),
 		CloseAffordance = require("@self/Components/CloseAffordance"),
 		HintText = require("@self/Components/HintText"),

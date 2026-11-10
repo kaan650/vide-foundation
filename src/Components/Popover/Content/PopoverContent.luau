@@ -48,6 +48,8 @@ export type PopoverContentProps = {
 	ref: ((content: GuiObject?) -> ())?,
 	-- Builds the content each time the popover opens; nested popovers made here stack above this one.
 	children: (() -> any)?,
+	-- The React key the content renders under, which names its container. Defaults to "Content".
+	name: string?,
 }
 
 local defaultProps = {
@@ -246,7 +248,7 @@ local function PopoverContent(contentProps: PopoverContentProps): () -> any
 				contentView,
 			},
 		})
-		container.Name = "Content"
+		container.Name = props.name or "Content"
 		Vide.cleanup(container)
 
 		content(contentView)

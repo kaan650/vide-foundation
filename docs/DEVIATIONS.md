@@ -35,6 +35,11 @@ scrub, gamepad navigation in menus, OverflowScrollContainer scrim clicks, touch-
 
 ## Known small differences
 
+- Foundation has no CSS specificity: when one element carries two tags that set the same property at the same
+  priority (Dropdown text switching between `content-emphasis` and `content-muted`), the rule registered first in
+  the app loses. Both libraries register rules on first use, so the order follows which components mounted first;
+  a Vide app and a React app mounting different screens first can resolve such a pair differently.
+
 - Loading's spinner starts its rotation at creation; React starts it after mount, so the angle is offset by a few
   frames.
 - TextArea's invisible bounds checker can hold the new text one update earlier than React when `isDisabled` and
