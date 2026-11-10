@@ -1,0 +1,20 @@
+
+local InputSize = require("../../Enums/InputSize")
+type InputSize = InputSize.InputSize
+
+local Tokens = require("../../Providers/Style/Tokens")
+type Tokens = Tokens.Tokens
+
+local function getKnobSize(tokens: Tokens, size: InputSize): UDim2
+	local knobSizes: { [InputSize]: number } = {
+		[InputSize.XSmall] = tokens.Size.Size_300,
+		[InputSize.Small] = tokens.Size.Size_400,
+		[InputSize.Medium] = tokens.Size.Size_500,
+		[InputSize.Large] = tokens.Size.Size_600,
+	}
+
+	local knobSize = knobSizes[size]
+	return UDim2.fromOffset(knobSize, knobSize)
+end
+
+return getKnobSize

@@ -1,15 +1,6 @@
-local ThumbnailType = require(script.Parent.ThumbnailType)
-type ThumbnailType = ThumbnailType.ThumbnailType
+local ThumbnailType = require("./ThumbnailType")
 
--- We leave the door open here for adding other media types in the future
--- and keep the concepts of ThumbnailType and MediaType separate.
-export type MediaType = ThumbnailType -- | "Video"
+-- Kept apart from ThumbnailType so other media types (video) can be added later.
+export type MediaType = ThumbnailType.ThumbnailType
 
-local MediaTypeEnum = ThumbnailType
---[[
-local MediaTypeEnum = Dash.join(ThumbnailType, {
-	Video = "Video" :: "Video",
-})
-]]
-
-return MediaTypeEnum
+return ThumbnailType

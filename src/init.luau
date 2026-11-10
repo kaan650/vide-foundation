@@ -45,6 +45,10 @@ export type TokenOverrides = Tokens.TokenOverrides
 local View = require("@self/Components/View")
 export type ViewProps = View.ViewProps
 
+local Accordion = require("@self/Components/Accordion")
+export type AccordionProps = Accordion.AccordionProps
+export type AccordionItemProps = Accordion.AccordionItemProps
+
 local Alert = require("@self/Components/Alert")
 export type AlertProps = Alert.AlertProps
 
@@ -129,6 +133,9 @@ export type InputLabelProps = InputLabel.InputLabelProps
 local KeyLabel = require("@self/Components/KeyLabel")
 export type KeyLabelProps = KeyLabel.KeyLabelProps
 
+local Knob = require("@self/Components/Knob")
+export type KnobProps = Knob.KnobProps
+
 local Loading = require("@self/Components/Loading")
 export type LoadingProps = Loading.LoadingProps
 
@@ -148,14 +155,23 @@ local RadioGroup = require("@self/Components/RadioGroup")
 export type RadioGroupProps = RadioGroup.RadioGroupProps
 export type RadioGroupItemProps = RadioGroup.RadioGroupItemProps
 
+local Rating = require("@self/Components/Rating")
+export type RatingProps = Rating.RatingProps
+
 local ScrollView = require("@self/Components/ScrollView")
 export type ScrollViewProps = ScrollView.ScrollViewProps
 
 local SearchInput = require("@self/Components/SearchInput")
 export type SearchInputProps = SearchInput.SearchInputProps
 
+local SegmentedControl = require("@self/Components/SegmentedControl")
+export type SegmentedControlProps = SegmentedControl.SegmentedControlProps
+
 local Skeleton = require("@self/Components/Skeleton")
 export type SkeletonProps = Skeleton.SkeletonProps
+
+local Slider = require("@self/Components/Slider")
+export type SliderProps = Slider.SliderProps
 
 local Snackbar = require("@self/Components/Snackbar")
 export type SnackbarProps = Snackbar.SnackbarProps
@@ -166,6 +182,10 @@ export type StatusBadgeProps = StatusBadge.StatusBadgeProps
 
 local StatusIndicator = require("@self/Components/StatusIndicator")
 export type StatusIndicatorProps = StatusIndicator.StatusIndicatorProps
+
+local Stepper = require("@self/Components/Stepper")
+export type StepperProps = Stepper.StepperProps
+export type Step = Stepper.Step
 
 local SystemBanner = require("@self/Components/SystemBanner")
 export type SystemBannerProps = SystemBanner.SystemBannerProps
@@ -178,6 +198,7 @@ export type FoundationProviderProps = FoundationProvider.FoundationProviderProps
 
 return {
 	-- Components
+	Accordion = Accordion,
 	Alert = Alert,
 	Avatar = Avatar,
 	AvatarGroup = AvatarGroup,
@@ -202,17 +223,22 @@ return {
 	InputChip = InputChip,
 	InputLabel = InputLabel,
 	KeyLabel = KeyLabel,
+	Knob = Knob,
 	Loading = Loading,
 	NumberInput = NumberInput,
 	Popover = Popover,
 	Progress = Progress,
 	RadioGroup = RadioGroup,
+	Rating = Rating,
 	ScrollView = ScrollView,
 	SearchInput = SearchInput,
+	SegmentedControl = SegmentedControl,
 	Skeleton = Skeleton,
+	Slider = Slider,
 	Snackbar = Snackbar,
 	StatusBadge = StatusBadge,
 	StatusIndicator = StatusIndicator,
+	Stepper = Stepper,
 	SystemBanner = SystemBanner,
 	Text = Text,
 	TextArea = TextArea,
