@@ -1,6 +1,9 @@
 local BuilderIcons = require("@self/Packages/BuilderIcons")
 local StyleSheetRegistry = require("@self/StyleSheet/StyleSheetRegistry")
 local Tokens = require("@self/Providers/Style/Tokens")
+local Tooltip = require("@self/Components/Tooltip")
+export type TooltipProps = Tooltip.TooltipProps
+
 local Types = require("@self/Components/Types")
 
 export type Value<T> = Types.Value<T>
@@ -26,11 +29,28 @@ export type TokenOverrides = Tokens.TokenOverrides
 local View = require("@self/Components/View")
 export type ViewProps = View.ViewProps
 
+local Avatar = require("@self/Components/Avatar")
+export type AvatarProps = Avatar.AvatarProps
+
+local AvatarIcon = require("@self/Components/AvatarIcon")
+export type AvatarIconProps = AvatarIcon.AvatarIconProps
+
+local Badge = require("@self/Components/Badge")
+export type BadgeProps = Badge.BadgeProps
+export type BadgeIcon = Badge.BadgeIcon
+
 local Button = require("@self/Components/Button")
 export type ButtonProps = Button.ButtonProps
 
+local Coachmark = require("@self/Components/Coachmark")
+export type CoachmarkProps = Coachmark.CoachmarkProps
+export type CoachmarkSteps = Coachmark.CoachmarkSteps
+
 local Divider = require("@self/Components/Divider")
 export type DividerProps = Divider.DividerProps
+
+local EducationalTooltip = require("@self/Components/EducationalTooltip")
+export type EducationalTooltipProps = EducationalTooltip.EducationalTooltipProps
 
 local Empty = require("@self/Components/Empty")
 export type EmptyProps = Empty.EmptyProps
@@ -46,14 +66,32 @@ export type IconProps = Icon.IconProps
 local Image = require("@self/Components/Image")
 export type ImageProps = Image.ImageProps
 
+local KeyLabel = require("@self/Components/KeyLabel")
+export type KeyLabelProps = KeyLabel.KeyLabelProps
+
 local Loading = require("@self/Components/Loading")
 export type LoadingProps = Loading.LoadingProps
+
+local Popover = require("@self/Components/Popover")
+export type PopoverProps = Popover.PopoverProps
+export type PopoverAnchorProps = Popover.PopoverAnchorProps
+export type PopoverContentProps = Popover.PopoverContentProps
+export type PopoverAnchor = Types.PopoverAnchor
+
+local Progress = require("@self/Components/Progress")
+export type ProgressProps = Progress.ProgressProps
 
 local ScrollView = require("@self/Components/ScrollView")
 export type ScrollViewProps = ScrollView.ScrollViewProps
 
 local Skeleton = require("@self/Components/Skeleton")
 export type SkeletonProps = Skeleton.SkeletonProps
+
+local StatusBadge = require("@self/Components/StatusBadge")
+export type StatusBadgeProps = StatusBadge.StatusBadgeProps
+
+local StatusIndicator = require("@self/Components/StatusIndicator")
+export type StatusIndicatorProps = StatusIndicator.StatusIndicatorProps
 
 local Text = require("@self/Components/Text")
 export type TextProps = Text.TextProps
@@ -63,16 +101,28 @@ export type FoundationProviderProps = FoundationProvider.FoundationProviderProps
 
 return {
 	-- Components
+	Avatar = Avatar,
+	AvatarIcon = AvatarIcon,
+	Badge = Badge,
 	Button = Button,
+	Coachmark = Coachmark,
 	Divider = Divider,
+	EducationalTooltip = EducationalTooltip,
 	Empty = Empty,
 	Grid = Grid,
 	Icon = Icon,
 	Image = Image,
+	KeyLabel = KeyLabel,
 	Loading = Loading,
+	Popover = Popover,
+	Progress = Progress,
 	ScrollView = ScrollView,
 	Skeleton = Skeleton,
+	StatusBadge = StatusBadge,
+	StatusIndicator = StatusIndicator,
 	Text = Text,
+	Tooltip = Tooltip,
+	Types = Types,
 	View = View,
 
 	-- Providers
@@ -83,6 +133,8 @@ return {
 
 	-- Hooks: call them while a component is being created, under FoundationProvider.
 	Hooks = {
+		useMeasurableRef = require("@self/Components/Popover/useMeasurableRef"),
+		usePointerPosition = require("@self/Utility/usePointerPosition"),
 		useBreakpoint = require("@self/Providers/Responsive/Hooks/useBreakpoint"),
 		usePulseBinding = require("@self/Utility/usePulseBinding"),
 		useCursor = require("@self/Providers/Cursor/useCursor"),

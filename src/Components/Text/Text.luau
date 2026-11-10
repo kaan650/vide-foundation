@@ -103,7 +103,10 @@ local function Text(textProps: TextProps): GuiObject
 			reactivePadding = Vide.show(function()
 				return getLineHeightPaddingOffset(fontStyle(), fontFace()) ~= 0
 			end, function()
-				local padding = Padding({ value = paddingFor(lineHeightPadding) })
+				local padding = Padding({
+					value = paddingFor(lineHeightPadding),
+					testId = if props.testId then `{props.testId}--padding` else nil,
+				})
 				padding.Name = "Padding"
 				return padding
 			end)

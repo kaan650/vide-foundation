@@ -98,6 +98,9 @@ end
 local function equal(a: any, b: any): boolean
 	if typeof(a) ~= typeof(b) then
 		return false
+	elseif a == b then
+		--* Equal infinite values would otherwise compare as NaN below.
+		return true
 	elseif typeof(a) == "number" then
 		return math.abs(a - b) < 1e-3
 	elseif typeof(a) == "Vector2" then
@@ -130,10 +133,39 @@ local function childrenOf(instance: Instance): { Instance }
 			return la < lb
 		elseif a.ClassName ~= b.ClassName then
 			return a.ClassName < b.ClassName
+		elseif a.Name ~= b.Name then
+			return a.Name < b.Name
 		end
-		return a.Name < b.Name
+		local za = if a:IsA("GuiObject") then a.ZIndex else 0
+		local zb = if b:IsA("GuiObject") then b.ZIndex else 0
+		return za < zb
 	end)
 	return list
+end
+
+--* Overlay content is placed in screen space: elements that follow the anchor match relative to the side frames
+--* (the default), full-screen ones match as they are. `shift` is the Vide frame's offset from the React frame.
+local function overlayPositionsMatch(vide: Instance, react: Instance, property: string, shift: Vector2): boolean
+	if property == "AbsolutePosition" then
+		return equal((vide :: any).AbsolutePosition, (react :: any).AbsolutePosition)
+	elseif property == "Position" then
+		local a, b = (vide :: any).Position :: UDim2, (react :: any).Position :: UDim2
+		return a.X.Scale == b.X.Scale
+			and a.Y.Scale == b.Y.Scale
+			and equal(Vector2.new(a.X.Offset, a.Y.Offset) - shift, Vector2.new(b.X.Offset, b.Y.Offset))
+	end
+	return false
+end
+
+local function findOverlay(displayOrder: number): Instance?
+	for _, container in { game:GetService("CoreGui"), game:GetService("Players").LocalPlayer and game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui") } do
+		for _, child in container:GetChildren() do
+			if child:IsA("ScreenGui") and child.Name == "FoundationOverlay" and child.DisplayOrder == displayOrder then
+				return child:FindFirstChild("SafeAreaFrame")
+			end
+		end
+	end
+	return nil
 end
 
 local function diff(vide: Instance, react: Instance, path: string, origins: { Vector2 }, out: { string }, options, isRoot: boolean?)
@@ -153,7 +185,7 @@ local function diff(vide: Instance, react: Instance, path: string, origins: { Ve
 			continue
 		end
 		local a, b = read(vide, property, origins[1]), read(react, property, origins[2])
-		if not equal(a, b) then
+		if not equal(a, b) and not (options.overlayShift and overlayPositionsMatch(vide, react, property, options.overlayShift)) then
 			table.insert(out, `{path}.{property}: {format(a)} vs {format(b)}`)
 		end
 	end
@@ -181,10 +213,18 @@ local function waitFrames(count: number)
 	end
 end
 
+--- Diffs two subtrees the comparator skips (a Folder's children) with its rules; positions are relative to `origins`.
+function Compare.diffTrees(vide: Instance, react: Instance, origins: { Vector2 }, options): { string }
+	local out = {}
+	diff(vide, react, vide.Name, origins, out, options or {}, true)
+	return out
+end
+
 --- Mounts both sides and returns the diff report. `spec.id` namespaces the ScreenGui, so runs with different ids can
 --- overlap. `spec.keep` leaves both sides mounted for a screenshot. `spec.vide(VF, Vide)` and `spec.react(F, React)` return the UI
 --- to place inside each provider; `vide` also gets the cloned package
 --- root, to require a module the root does not export yet. `spec.size` sets each side's frame (default 600x400).
+--- `spec.overlay` also diffs what each side rendered into its overlay ScreenGui (popovers, tooltips, dialogs).
 function Compare.run(spec)
 	local id = spec.id or "main"
 	local guiName = `VFCompare_{id}`
@@ -231,10 +271,22 @@ function Compare.run(spec)
 	local videFrame = side("Vide", 20)
 	local reactFrame = side("React", 40 + size.X)
 
+	--* With `spec.overlay`, each side's overlay ScreenGui gets a DisplayOrder unique to this id, to find it again.
+	local videOverlayOrder, reactOverlayOrder
+	if spec.overlay then
+		local hash = 0
+		for i = 1, #id do
+			hash = (hash * 31 + string.byte(id, i)) % 500000
+		end
+		videOverlayOrder = 1000000 + hash * 2
+		reactOverlayOrder = videOverlayOrder + 1
+	end
+
 	local colorMode = spec.colorMode or "Dark"
 	local destroyVide = Vide.mount(function()
 		return VF.FoundationProvider({
 			colorMode = colorMode,
+			overlayGui = if videOverlayOrder then { DisplayOrder = videOverlayOrder } else nil,
 			children = function()
 				return spec.vide(VF, Vide, packages.VideFoundation)
 			end,
@@ -242,7 +294,10 @@ function Compare.run(spec)
 	end, videFrame)
 
 	local root = ReactRoblox.createRoot(reactFrame)
-	root:render(React.createElement(F.FoundationProvider, { theme = colorMode }, {
+	root:render(React.createElement(F.FoundationProvider, {
+		theme = colorMode,
+		overlayGui = if reactOverlayOrder then { DisplayOrder = reactOverlayOrder } else nil,
+	}, {
 		Content = spec.react(F, React),
 	}))
 
@@ -273,6 +328,25 @@ function Compare.run(spec)
 			options,
 			true
 		)
+	end
+
+	if spec.overlay then
+		local videOverlay, reactOverlay = findOverlay(videOverlayOrder), findOverlay(reactOverlayOrder)
+		if not videOverlay or not reactOverlay then
+			table.insert(out, `overlay: {if videOverlay then "found" else "missing"} vs {if reactOverlay then "found" else "missing"}`)
+		else
+			local overlayOptions = table.clone(options)
+			overlayOptions.overlayShift = videFrame.AbsolutePosition - reactFrame.AbsolutePosition
+			diff(
+				videOverlay,
+				reactOverlay,
+				"overlay",
+				{ videFrame.AbsolutePosition, reactFrame.AbsolutePosition },
+				out,
+				overlayOptions,
+				true
+			)
+		end
 	end
 
 	if not spec.keep then
