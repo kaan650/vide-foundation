@@ -1,6 +1,6 @@
 [package]
 name = "kaan650/vide-foundation"
-version = "0.1.0"
+version = "0.1.1"
 description = "Roblox's Foundation design system for Vide"
 license = "MIT"
 authors = ["kaan650"]

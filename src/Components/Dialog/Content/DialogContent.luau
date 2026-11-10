@@ -1,3 +1,5 @@
+local Vide = require("../../../Packages/Vide")
+
 local ScrollView = require("../../ScrollView")
 local Types = require("../../Types")
 local Value = require("../../../Utility/Value")
@@ -28,7 +30,40 @@ local function DialogContent(props: DialogContentProps): GuiObject
 		end,
 	})
 
-	return ScrollView(withCommonProps(commonProps, {
+	--! Roblox measures some layouts inside a ScrollingFrame too short when the dialog sizes this body: a horizontal
+	--! list row of auto-sized items (two inputs side by side) counts as 0, and React's dialog cuts the content off.
+	--! Reproduced with plain instances and in React Foundation 1.109 (2026-11-10). The canvas height is right, so it
+	--! becomes the body's minimum height, capped by the room the dialog has, which keeps scrolling when the content
+	--! is taller than the screen.
+	local minHeight = Vide.source(0)
+	local scrollingFrame: ScrollingFrame? = nil
+	local content: GuiObject? = nil
+
+	local function fitToCanvas()
+		local body = if content then content.Parent else nil
+		local inner = if body then body.Parent else nil
+		local container = if inner then inner.Parent else nil
+		local frame = scrollingFrame
+		if
+			not content
+			or not frame
+			or not (inner and inner:IsA("GuiObject"))
+			or not (container and container:IsA("GuiObject"))
+		then
+			return
+		end
+		local others = inner.AbsoluteSize.Y - content.AbsoluteSize.Y
+		local room = container.AbsoluteSize.Y - others
+		minHeight(math.max(0, math.min(frame.AbsoluteCanvasSize.Y, room)))
+	end
+
+	local function onScrollSizeChanged(frame: ScrollingFrame)
+		scrollingFrame = frame
+		updateScrollBarPadding(frame)
+		fitToCanvas()
+	end
+
+	local view = ScrollView(withCommonProps(commonProps, {
 		scroll = {
 			AutomaticCanvasSize = Enum.AutomaticSize.Y,
 			CanvasSize = UDim2.new(0, 0, 0, 0),
@@ -50,13 +85,44 @@ local function DialogContent(props: DialogContentProps): GuiObject
 			NextSelectionLeft = props.NextSelectionLeft,
 			NextSelectionRight = props.NextSelectionRight,
 		},
-		onAbsoluteCanvasSizeChanged = updateScrollBarPadding,
+		sizeConstraint = {
+			MinSize = function()
+				return Vector2.new(0, minHeight())
+			end,
+		},
+		onAbsoluteCanvasSizeChanged = onScrollSizeChanged,
 		onAbsoluteWindowSizeChanged = updateScrollBarPadding,
 		tag = function()
 			return variants().content.tag
 		end,
 		children = { scrollPadding, props.children },
 	}) :: any)
+	content = view
+
+	-- The room changes with the screen, which the body's own events don't report
+	local containerConnection: RBXScriptConnection? = nil
+	local function watchContainer()
+		if containerConnection then
+			containerConnection:Disconnect()
+			containerConnection = nil
+		end
+		local body = view.Parent
+		local inner = if body then body.Parent else nil
+		local container = if inner then inner.Parent else nil
+		if container and container:IsA("GuiObject") then
+			containerConnection = container:GetPropertyChangedSignal("AbsoluteSize"):Connect(fitToCanvas)
+			fitToCanvas()
+		end
+	end
+	local ancestryConnection = view.AncestryChanged:Connect(watchContainer)
+	Vide.cleanup(function()
+		ancestryConnection:Disconnect()
+		if containerConnection then
+			containerConnection:Disconnect()
+		end
+	end)
+
+	return view
 end
 
 return DialogContent
