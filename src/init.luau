@@ -147,6 +147,11 @@ export type KeyLabelProps = KeyLabel.KeyLabelProps
 local Knob = require("@self/Components/Knob")
 export type KnobProps = Knob.KnobProps
 
+local List = require("@self/Components/List")
+export type ListProps = List.ListProps
+export type ListAccessoryProps = List.ListAccessoryProps
+export type ListItemProps = List.ListItemProps
+
 local Loading = require("@self/Components/Loading")
 export type LoadingProps = Loading.LoadingProps
 
@@ -241,6 +246,7 @@ return {
 	InputLabel = InputLabel,
 	KeyLabel = KeyLabel,
 	Knob = Knob,
+	List = List,
 	Loading = Loading,
 	Menu = Menu,
 	NumberInput = NumberInput,
