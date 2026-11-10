@@ -32,11 +32,21 @@ export type TokenOverrides = Tokens.TokenOverrides
 local View = require("@self/Components/View")
 export type ViewProps = View.ViewProps
 
+local Alert = require("@self/Components/Alert")
+export type AlertProps = Alert.AlertProps
+
 local Avatar = require("@self/Components/Avatar")
 export type AvatarProps = Avatar.AvatarProps
 
+local AvatarGroup = require("@self/Components/AvatarGroup")
+export type AvatarGroupProps = AvatarGroup.AvatarGroupProps
+export type AvatarGroupItem = AvatarGroup.AvatarGroupItem
+
 local AvatarIcon = require("@self/Components/AvatarIcon")
 export type AvatarIconProps = AvatarIcon.AvatarIconProps
+
+local AvatarIconGroup = require("@self/Components/AvatarIconGroup")
+export type AvatarIconGroupProps = AvatarIconGroup.AvatarIconGroupProps
 
 local Badge = require("@self/Components/Badge")
 export type BadgeProps = Badge.BadgeProps
@@ -49,6 +59,9 @@ local ButtonGroup = require("@self/Components/ButtonGroup")
 export type ButtonGroupProps = ButtonGroup.ButtonGroupProps
 export type ButtonGroupItem = ButtonGroup.ButtonGroupItem
 export type ButtonGroupSize = ButtonGroup.ButtonGroupSize
+
+local Chip = require("@self/Components/Chip")
+export type ChipProps = Chip.ChipProps
 
 local Coachmark = require("@self/Components/Coachmark")
 export type CoachmarkProps = Coachmark.CoachmarkProps
@@ -63,10 +76,21 @@ export type EducationalTooltipProps = EducationalTooltip.EducationalTooltipProps
 local Empty = require("@self/Components/Empty")
 export type EmptyProps = Empty.EmptyProps
 
+local FeedbackAlert = require("@self/Components/FeedbackAlert")
+export type FeedbackAlertProps = FeedbackAlert.FeedbackAlertProps
+
 local Grid = require("@self/Components/Grid")
 export type GridProps = Grid.GridProps
 export type GridCellProps = Grid.GridCellProps
 export type GridDebugProps = Grid.GridDebugProps
+
+local HeaderBar = require("@self/Components/HeaderBar")
+export type HeaderBarAction = HeaderBar.HeaderBarAction
+export type HeaderBarActionsProps = HeaderBar.HeaderBarActionsProps
+export type HeaderBarContentProps = HeaderBar.HeaderBarContentProps
+export type HeaderBarLeadingProps = HeaderBar.HeaderBarLeadingProps
+export type HeaderBarProps = HeaderBar.HeaderBarProps
+export type HeaderBarTrailingProps = HeaderBar.HeaderBarTrailingProps
 
 local Icon = require("@self/Components/Icon")
 export type IconProps = Icon.IconProps
@@ -76,6 +100,9 @@ export type IconButtonProps = IconButton.IconButtonProps
 
 local Image = require("@self/Components/Image")
 export type ImageProps = Image.ImageProps
+
+local InputChip = require("@self/Components/InputChip")
+export type InputChipProps = InputChip.InputChipProps
 
 local InputLabel = require("@self/Components/InputLabel")
 export type InputLabelProps = InputLabel.InputLabelProps
@@ -111,6 +138,9 @@ export type StatusBadgeProps = StatusBadge.StatusBadgeProps
 local StatusIndicator = require("@self/Components/StatusIndicator")
 export type StatusIndicatorProps = StatusIndicator.StatusIndicatorProps
 
+local SystemBanner = require("@self/Components/SystemBanner")
+export type SystemBannerProps = SystemBanner.SystemBannerProps
+
 local Text = require("@self/Components/Text")
 export type TextProps = Text.TextProps
 
@@ -119,22 +149,30 @@ export type FoundationProviderProps = FoundationProvider.FoundationProviderProps
 
 return {
 	-- Components
+	Alert = Alert,
 	Avatar = Avatar,
+	AvatarGroup = AvatarGroup,
 	AvatarIcon = AvatarIcon,
+	AvatarIconGroup = AvatarIconGroup,
 	Badge = Badge,
 	Button = Button,
 	ButtonGroup = ButtonGroup,
+	Chip = Chip,
 	Coachmark = Coachmark,
 	Divider = Divider,
 	EducationalTooltip = EducationalTooltip,
 	Empty = Empty,
+	FeedbackAlert = FeedbackAlert,
 	Grid = Grid,
+	HeaderBar = HeaderBar,
 	Icon = Icon,
 	IconButton = IconButton,
 	Image = Image,
+	InputChip = InputChip,
 	InputLabel = InputLabel,
 	KeyLabel = KeyLabel,
 	Loading = Loading,
+	Pill = Chip,
 	Popover = Popover,
 	Progress = Progress,
 	ScrollView = ScrollView,
@@ -142,6 +180,7 @@ return {
 	Snackbar = Snackbar,
 	StatusBadge = StatusBadge,
 	StatusIndicator = StatusIndicator,
+	SystemBanner = SystemBanner,
 	Text = Text,
 	Toast = Toast,
 	Tooltip = Tooltip,

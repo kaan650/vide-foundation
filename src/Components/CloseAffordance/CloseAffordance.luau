@@ -75,9 +75,12 @@ local function CloseAffordance(closeAffordanceProps: CloseAffordanceProps): GuiO
 		icon.Name = "Icon"
 
 		return View(withCommonProps(props, {
-			onActivated = function()
-				props.onActivated()
-			end,
+			--* Without a handler (a disabled InputChip) the button is a plain Frame, as in Foundation.
+			onActivated = if props.onActivated
+				then function()
+					props.onActivated()
+				end
+				else nil,
 			selection = {
 				Selectable = if isDisabled then false else props.Selectable,
 				NextSelectionUp = props.NextSelectionUp,
