@@ -9,7 +9,10 @@ covered.
 - Every data prop accepts a plain value or a source. A component is created once; sources keep it up to date.
 - Providers and container components that set a context take `children` as a builder, `() -> any`, so the content
   is created inside the context: `FoundationProvider`, `Popover.Root`/`Popover.Content`, `Accordion.Root`,
-  `Tile.Root`, `HeaderBar` slots, `CheckboxGroup`, `RadioGroup`, `ToggleGroup`, `Grid.Debug`, `Coachmark` media.
+  `Tile.Root`, `List.Root`, `HeaderBar` slots, `CheckboxGroup`, `RadioGroup`, `ToggleGroup`,
+  `OptionSelectorGroup.Root`, `Grid.Debug`, `Coachmark` media, Tabs `content`.
+- Pagination returns a source of its instance when `variant` is a source, since MultiPage and the directional
+  variants are different components.
 - Refs and imperative handles are callback props (`textBoxRef`, `inputRef`, `scrollingFrameRef`, Popover's `ref`).
 - When a source changes a component's root class (a disabled control fading into a CanvasGroup, a label gaining a
   handler), React remounts it. The Vide component then returns a source of its current instance instead of an
@@ -18,6 +21,17 @@ covered.
   instance. Slider instead keeps a CanvasGroup root while `isDisabled` is a source.
 - Props that only exist behind flags that are off live are not ported: Slider `orientation`, SegmentedControl
   `variant`/`fillBehavior`, Progress bar labels, NumberInput Stacked/Split controls.
+
+## Foundation bugs
+
+- **Kept:** Tabs never picks a default active tab. Foundation reads `props[1].id` instead of `props.tabs[1].id`, so
+  without `defaultActiveTabId` or `activeTabId` no tab is active and the underline has no width. Pass
+  `defaultActiveTabId` to start on the first tab.
+- **Kept:** ChipGroup in Row mode always shows both edge fades, even when nothing overflows.
+- **Not kept:** Foundation's TabItem ignores its `LayoutOrder`, so React tabs keep their mount order after a reorder
+  and a tab that becomes disabled jumps to the end. Here tabs always follow their position in `tabs`.
+- **Not kept:** ChipGroup overwrites the caller's `onAbsoluteSizeChanged` and `onAbsolutePositionChanged`. Here they
+  are called.
 
 ## Not ported
 
