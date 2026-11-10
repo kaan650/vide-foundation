@@ -180,16 +180,18 @@ local function GridDebug(gridDebugProps: GridDebugProps): GuiObject
 			--* Foundation interpolates a missing alignment, which adds a "nil" tag.
 			return `size-full-full {if align then alignTags[align] else nil}`
 		end,
+		--! Siblings at one ZIndex draw in child order: React parents the overlay first, so the measure bar and the
+		--! size label draw over it.
 		children = {
-			sheetChildren,
+			overlay,
 			measureWrapper,
 			measure,
+			sizeLabel,
+			sheetChildren,
 			create("UISizeConstraint")({
 				Name = "GridDebugSizeConstraint",
 				MaxSize = maxSize,
 			}),
-			sizeLabel,
-			overlay,
 			content,
 		},
 	})

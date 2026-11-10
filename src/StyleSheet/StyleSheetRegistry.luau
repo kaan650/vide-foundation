@@ -16,10 +16,15 @@ type TokenOverrides = Tokens.TokenOverrides
 type StyleRuleNoTag = Types.StyleRuleNoTag
 type OverrideAttributes = getOverrideAttributes.OverrideAttributes
 
-local registryFolder = Instance.new("Folder")
-registryFolder.Name = "FoundationStyleSheets"
-registryFolder.Archivable = false
-registryFolder.Parent = script.Parent.Parent
+--* Story tools such as UI Labs load fresh copies of the package for every story; sharing the folder keeps them from
+--* leaving one empty folder per load. Each copy still tracks and destroys only its own sheets.
+local registryFolder = script.Parent.Parent:FindFirstChild("FoundationStyleSheets")
+if not registryFolder then
+	registryFolder = Instance.new("Folder")
+	registryFolder.Name = "FoundationStyleSheets"
+	registryFolder.Archivable = false
+	registryFolder.Parent = script.Parent.Parent
+end
 
 type FoundationStyleSheet = {
 	themeName: ThemeName,
