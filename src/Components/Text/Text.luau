@@ -89,7 +89,8 @@ local function Text(textProps: TextProps): GuiObject
 		local staticOffset = if isStatic then getLineHeightPaddingOffset(fontStyle(), fontFace()) else nil
 		if not isStatic or staticOffset ~= 0 then
 			local offset = function(): UDim
-				return UDim.new(0, getLineHeightPaddingOffset(fontStyle(), fontFace()))
+				--! Foundation passes the offset through a Vector2, whose float32 rounds 3.9999 up to 4 before UDim truncates it.
+				return UDim.new(0, Vector2.new(0, getLineHeightPaddingOffset(fontStyle(), fontFace())).Y)
 			end
 			guiObjectProps = table.clone(props)
 			guiObjectProps.padding = {
