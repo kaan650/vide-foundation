@@ -1,5 +1,8 @@
+local Vide = require("../../Packages/Vide")
+
 local FontScales = require("./FontScales")
 local GuiObjectChildren = require("../../Utility/GuiObjectChildren")
+local Padding = require("../Padding")
 local Types = require("../Types")
 local Value = require("../../Utility/Value")
 local create = require("../../Utility/create")
@@ -83,22 +86,26 @@ local function Text(textProps: TextProps): GuiObject
 	end
 
 	--* Line height padding only applies when the caller set no padding, like Foundation's styling does.
-	local guiObjectProps = props
+	local function lineHeightPadding(): UDim
+		--! Foundation passes the offset through a Vector2, whose float32 rounds 3.9999 up to 4 before UDim truncates it.
+		return UDim.new(0, Vector2.new(0, getLineHeightPaddingOffset(fontStyle(), fontFace())).Y)
+	end
+	local function paddingFor(offset: Types.Value<UDim>): Types.PaddingTable
+		return { top = offset, bottom = offset, left = UDim.new(0, 0), right = UDim.new(0, 0) }
+	end
+
+	local guiObjectProps: any = props
+	local reactivePadding: any = nil
 	if props.padding == nil and props.fontStyle ~= nil then
-		local isStatic = type(props.fontStyle) ~= "function"
-		local staticOffset = if isStatic then getLineHeightPaddingOffset(fontStyle(), fontFace()) else nil
-		if not isStatic or staticOffset ~= 0 then
-			local offset = function(): UDim
-				--! Foundation passes the offset through a Vector2, whose float32 rounds 3.9999 up to 4 before UDim truncates it.
-				return UDim.new(0, Vector2.new(0, getLineHeightPaddingOffset(fontStyle(), fontFace())).Y)
-			end
+		if type(props.fontStyle) == "function" then
+			reactivePadding = Vide.show(function()
+				return getLineHeightPaddingOffset(fontStyle(), fontFace()) ~= 0
+			end, function()
+				return Padding({ value = paddingFor(lineHeightPadding) })
+			end)
+		elseif getLineHeightPaddingOffset(fontStyle(), fontFace()) ~= 0 then
 			guiObjectProps = table.clone(props)
-			guiObjectProps.padding = {
-				top = offset,
-				bottom = offset,
-				left = UDim.new(0, 0),
-				right = UDim.new(0, 0),
-			}
+			guiObjectProps.padding = paddingFor(lineHeightPadding())
 		end
 	end
 
@@ -114,6 +121,7 @@ local function Text(textProps: TextProps): GuiObject
 		TextYAlignment = props.TextYAlignment,
 		tags(defaultTags, props.tag, getTestIdTag(props.testId)),
 		GuiObjectChildren(guiObjectProps),
+		reactivePadding,
 	}
 
 	if props.fontStyle ~= nil then

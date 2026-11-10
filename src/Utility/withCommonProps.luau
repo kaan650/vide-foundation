@@ -1,41 +1,19 @@
-local Vide = require("../Packages/Vide")
-
 local Types = require("../Components/Types")
 type CommonProps = Types.CommonProps
 
---- Adds the props every Foundation component forwards to its root instance into `properties`.
-local function withCommonProps(props: CommonProps, properties: { [any]: any }): { [any]: any }
-	properties.AnchorPoint = props.AnchorPoint
-	properties.LayoutOrder = props.LayoutOrder
-	properties.Position = props.Position
-	properties.Visible = props.Visible
-	properties.ZIndex = props.ZIndex
-
-	local onAbsoluteSizeChanged = props.onAbsoluteSizeChanged
-	if onAbsoluteSizeChanged then
-		table.insert(
-			properties,
-			Vide.action(function(instance: Instance)
-				Vide.cleanup((instance :: GuiObject):GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
-					onAbsoluteSizeChanged(instance :: GuiObject)
-				end))
-			end)
-		)
-	end
-
-	local onAbsolutePositionChanged = props.onAbsolutePositionChanged
-	if onAbsolutePositionChanged then
-		table.insert(
-			properties,
-			Vide.action(function(instance: Instance)
-				Vide.cleanup((instance :: GuiObject):GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
-					onAbsolutePositionChanged(instance :: GuiObject)
-				end))
-			end)
-		)
-	end
-
-	return properties
+--- Copies the props every Foundation component forwards into `baseProps`, for passing them on to another
+--- Foundation component.
+local function withCommonProps<T>(props: CommonProps, baseProps: T): T & CommonProps
+	local target = baseProps :: any
+	target.AnchorPoint = props.AnchorPoint
+	target.LayoutOrder = props.LayoutOrder
+	target.Position = props.Position
+	target.Visible = props.Visible
+	target.ZIndex = props.ZIndex
+	target.onAbsoluteSizeChanged = props.onAbsoluteSizeChanged
+	target.onAbsolutePositionChanged = props.onAbsolutePositionChanged
+	target.testId = props.testId
+	return target
 end
 
 return withCommonProps
