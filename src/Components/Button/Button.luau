@@ -304,11 +304,17 @@ local function Button(buttonProps: ButtonProps): GuiObject
 				}
 			end
 			else nil,
-		flexItem = if props.fillBehavior ~= nil
+		flexItem = if type(props.fillBehavior) == "function"
+			then function(): Types.FlexItem?
+				local behavior = fillBehavior()
+				if behavior == nil then
+					return nil
+				end
+				return { FlexMode = if behavior == FillBehavior.Fill then Enum.UIFlexMode.Fill else Enum.UIFlexMode.Shrink }
+			end
+			elseif props.fillBehavior ~= nil
 			then {
-				FlexMode = function()
-					return if fillBehavior() == FillBehavior.Fill then Enum.UIFlexMode.Fill else Enum.UIFlexMode.Shrink
-				end,
+				FlexMode = if props.fillBehavior == FillBehavior.Fill then Enum.UIFlexMode.Fill else Enum.UIFlexMode.Shrink,
 			}
 			else nil,
 		stroke = if not isVariantStatic

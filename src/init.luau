@@ -1,6 +1,9 @@
 local BuilderIcons = require("@self/Packages/BuilderIcons")
 local StyleSheetRegistry = require("@self/StyleSheet/StyleSheetRegistry")
 local Tokens = require("@self/Providers/Style/Tokens")
+local Toast = require("@self/Components/Toast")
+export type ToastProps = Toast.ToastProps
+
 local Tooltip = require("@self/Components/Tooltip")
 export type TooltipProps = Tooltip.TooltipProps
 
@@ -42,6 +45,11 @@ export type BadgeIcon = Badge.BadgeIcon
 local Button = require("@self/Components/Button")
 export type ButtonProps = Button.ButtonProps
 
+local ButtonGroup = require("@self/Components/ButtonGroup")
+export type ButtonGroupProps = ButtonGroup.ButtonGroupProps
+export type ButtonGroupItem = ButtonGroup.ButtonGroupItem
+export type ButtonGroupSize = ButtonGroup.ButtonGroupSize
+
 local Coachmark = require("@self/Components/Coachmark")
 export type CoachmarkProps = Coachmark.CoachmarkProps
 export type CoachmarkSteps = Coachmark.CoachmarkSteps
@@ -63,8 +71,14 @@ export type GridDebugProps = Grid.GridDebugProps
 local Icon = require("@self/Components/Icon")
 export type IconProps = Icon.IconProps
 
+local IconButton = require("@self/Components/IconButton")
+export type IconButtonProps = IconButton.IconButtonProps
+
 local Image = require("@self/Components/Image")
 export type ImageProps = Image.ImageProps
+
+local InputLabel = require("@self/Components/InputLabel")
+export type InputLabelProps = InputLabel.InputLabelProps
 
 local KeyLabel = require("@self/Components/KeyLabel")
 export type KeyLabelProps = KeyLabel.KeyLabelProps
@@ -87,6 +101,10 @@ export type ScrollViewProps = ScrollView.ScrollViewProps
 local Skeleton = require("@self/Components/Skeleton")
 export type SkeletonProps = Skeleton.SkeletonProps
 
+local Snackbar = require("@self/Components/Snackbar")
+export type SnackbarProps = Snackbar.SnackbarProps
+export type SnackbarAction = Snackbar.SnackbarAction
+
 local StatusBadge = require("@self/Components/StatusBadge")
 export type StatusBadgeProps = StatusBadge.StatusBadgeProps
 
@@ -105,22 +123,27 @@ return {
 	AvatarIcon = AvatarIcon,
 	Badge = Badge,
 	Button = Button,
+	ButtonGroup = ButtonGroup,
 	Coachmark = Coachmark,
 	Divider = Divider,
 	EducationalTooltip = EducationalTooltip,
 	Empty = Empty,
 	Grid = Grid,
 	Icon = Icon,
+	IconButton = IconButton,
 	Image = Image,
+	InputLabel = InputLabel,
 	KeyLabel = KeyLabel,
 	Loading = Loading,
 	Popover = Popover,
 	Progress = Progress,
 	ScrollView = ScrollView,
 	Skeleton = Skeleton,
+	Snackbar = Snackbar,
 	StatusBadge = StatusBadge,
 	StatusIndicator = StatusIndicator,
 	Text = Text,
+	Toast = Toast,
 	Tooltip = Tooltip,
 	View = View,
 
@@ -238,6 +261,11 @@ return {
 	},
 
 	UNSTABLE = {
+		AlertActions = require("@self/Components/AlertActions"),
+		CloseAffordance = require("@self/Components/CloseAffordance"),
+		HintText = require("@self/Components/HintText"),
+		InputField = require("@self/Components/InputField"),
+		InternalInputGroup = require("@self/Components/InternalInputGroup"),
 		Interactable = require("@self/Components/Interactable"),
 	},
 }

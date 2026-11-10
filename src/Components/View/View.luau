@@ -66,13 +66,16 @@ local function View(viewProps: ViewProps): GuiObject
 
 	if isInteractable then
 		local backgroundStyle = props.backgroundStyle
+		--! CanvasGroup has no Activated events. React only connects them while enabled, and disabled controls are the
+		--! ones that fade into a CanvasGroup.
+		local hasActivation = class ~= "CanvasGroup"
 		withInteractable({
 			BackgroundColor3 = if backgroundStyle then Value.index(backgroundStyle, "Color3") else nil,
 			BackgroundTransparency = if backgroundStyle then Value.index(backgroundStyle, "Transparency") else nil,
 			SelectionImageObject = if props.selection then props.selection.SelectionImageObject else nil,
 			isDisabled = props.isDisabled,
-			onActivated = props.onActivated,
-			onSecondaryActivated = props.onSecondaryActivated,
+			onActivated = if hasActivation then props.onActivated else nil,
+			onSecondaryActivated = if hasActivation then props.onSecondaryActivated else nil,
 			onStateChanged = props.onStateChanged,
 			stateLayer = props.stateLayer,
 			cursor = props.cursor,
