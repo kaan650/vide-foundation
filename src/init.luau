@@ -92,6 +92,10 @@ export type CheckboxGroupProps = CheckboxGroup.CheckboxGroupProps
 local Chip = require("@self/Components/Chip")
 export type ChipProps = Chip.ChipProps
 
+local ChipGroup = require("@self/Components/ChipGroup")
+export type ChipGroupProps = ChipGroup.ChipGroupProps
+export type ChipGroupItem = ChipGroup.ChipGroupItem
+
 local Coachmark = require("@self/Components/Coachmark")
 export type CoachmarkProps = Coachmark.CoachmarkProps
 export type CoachmarkSteps = Coachmark.CoachmarkSteps
@@ -218,6 +222,10 @@ export type Step = Stepper.Step
 local SystemBanner = require("@self/Components/SystemBanner")
 export type SystemBannerProps = SystemBanner.SystemBannerProps
 
+local Tabs = require("@self/Components/Tabs")
+export type TabsProps = Tabs.TabsProps
+export type TabItem = Tabs.TabItem
+
 local Text = require("@self/Components/Text")
 export type TextProps = Text.TextProps
 
@@ -238,6 +246,7 @@ return {
 	Checkbox = Checkbox,
 	CheckboxGroup = CheckboxGroup,
 	Chip = Chip,
+	ChipGroup = ChipGroup,
 	Coachmark = Coachmark,
 	Divider = Divider,
 	Dropdown = Dropdown,
@@ -273,6 +282,7 @@ return {
 	StatusIndicator = StatusIndicator,
 	Stepper = Stepper,
 	SystemBanner = SystemBanner,
+	Tabs = Tabs,
 	Text = Text,
 	TextArea = TextArea,
 	TextInput = TextInput,
