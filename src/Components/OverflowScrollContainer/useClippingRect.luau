@@ -34,7 +34,9 @@ local function useClippingRect(gui: () -> GuiObject?): () -> Rect
 			--* Foundation measures once mounted; here the instance gets its ancestors after creation, so the search
 			--* runs again whenever they change.
 			Vide.cleanup(target.AncestryChanged:Connect(function()
-				ancestry(ancestry() + 1)
+				--! This fires inside whatever scope parents the instance. A tracked read would subscribe that scope,
+				--! and strict mode then errors when the write asks it to rerun while it is still active.
+				ancestry(Vide.untrack(ancestry) + 1)
 			end))
 
 			local ancestor = findClippingAncestor(target)
