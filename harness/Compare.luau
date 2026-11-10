@@ -181,23 +181,29 @@ local function waitFrames(count: number)
 	end
 end
 
---- Mounts both sides and returns the diff report. `spec.vide(VF, Vide)` and `spec.react(F, React)` return the UI
---- to place inside each provider. `spec.size` sets each side's frame (default 600x400).
+--- Mounts both sides and returns the diff report. `spec.id` namespaces the ScreenGui, so runs with different ids can
+--- overlap. `spec.keep` leaves both sides mounted for a screenshot. `spec.vide(VF, Vide)` and `spec.react(F, React)` return the UI
+--- to place inside each provider; `vide` also gets the cloned package
+--- root, to require a module the root does not export yet. `spec.size` sets each side's frame (default 600x400).
 function Compare.run(spec)
-	for _, name in { "VFCompare", "VFComparePackages" } do
+	local id = spec.id or "main"
+	local guiName = `VFCompare_{id}`
+	local packagesName = `VFComparePackages_{id}`
+	_G.VFCompareCleanups = _G.VFCompareCleanups or {}
+	for _, name in { guiName, packagesName } do
 		local old = StarterGui:FindFirstChild(name) or ReplicatedStorage:FindFirstChild(name)
 		if old then
 			old:Destroy()
 		end
 	end
-	if _G.VFCompareCleanup then
-		pcall(_G.VFCompareCleanup)
-		_G.VFCompareCleanup = nil
+	if _G.VFCompareCleanups[id] then
+		pcall(_G.VFCompareCleanups[id])
+		_G.VFCompareCleanups[id] = nil
 	end
 
 	--* Fresh copies of the Vide packages, so changes Rojo just synced are used.
 	local packages = ReplicatedStorage.Packages:Clone()
-	packages.Name = "VFComparePackages"
+	packages.Name = packagesName
 	packages.Parent = ReplicatedStorage
 	local Vide = require(packages.Vide)
 	local VF = require(packages.VideFoundation)
@@ -209,7 +215,7 @@ function Compare.run(spec)
 
 	local size = spec.size or Vector2.new(600, 400)
 	local gui = Instance.new("ScreenGui")
-	gui.Name = "VFCompare"
+	gui.Name = guiName
 	gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 	gui.Parent = StarterGui
 
@@ -230,7 +236,7 @@ function Compare.run(spec)
 		return VF.FoundationProvider({
 			colorMode = colorMode,
 			children = function()
-				return spec.vide(VF, Vide)
+				return spec.vide(VF, Vide, packages.VideFoundation)
 			end,
 		})
 	end, videFrame)
@@ -240,7 +246,7 @@ function Compare.run(spec)
 		Content = spec.react(F, React),
 	}))
 
-	_G.VFCompareCleanup = function()
+	_G.VFCompareCleanups[id] = function()
 		destroyVide()
 		root:unmount()
 	end
@@ -270,8 +276,8 @@ function Compare.run(spec)
 	end
 
 	if not spec.keep then
-		_G.VFCompareCleanup()
-		_G.VFCompareCleanup = nil
+		_G.VFCompareCleanups[id]()
+		_G.VFCompareCleanups[id] = nil
 		gui:Destroy()
 		packages:Destroy()
 	end
