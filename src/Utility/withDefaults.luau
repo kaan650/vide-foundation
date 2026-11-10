@@ -11,7 +11,8 @@ local function deepJoin(a: { [any]: any }, b: { [any]: any }): { [any]: any }
 end
 
 --- Fills missing props from `defaults`. A table prop is merged into its table default, key by key. A source prop
---- falls back to the default whenever it reads nil, the way React applies defaults on every render.
+--- gets the same treatment on every read (nil falls back, a table is merged), the way React applies defaults on
+--- every render.
 local function withDefaults<P, D>(props: P, defaults: D): P & D
 	local result = table.clone(props :: any)
 	for key, default in defaults :: any do
@@ -26,6 +27,8 @@ local function withDefaults<P, D>(props: P, defaults: D): P & D
 				local resolved = (source :: any)()
 				if resolved == nil then
 					return default
+				elseif type(resolved) == "table" and type(default) == "table" then
+					return deepJoin(default, resolved)
 				end
 				return resolved
 			end

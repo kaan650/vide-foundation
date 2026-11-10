@@ -29,11 +29,31 @@ export type ViewProps = View.ViewProps
 local Button = require("@self/Components/Button")
 export type ButtonProps = Button.ButtonProps
 
+local Divider = require("@self/Components/Divider")
+export type DividerProps = Divider.DividerProps
+
+local Empty = require("@self/Components/Empty")
+export type EmptyProps = Empty.EmptyProps
+
+local Grid = require("@self/Components/Grid")
+export type GridProps = Grid.GridProps
+export type GridCellProps = Grid.GridCellProps
+export type GridDebugProps = Grid.GridDebugProps
+
 local Icon = require("@self/Components/Icon")
 export type IconProps = Icon.IconProps
 
 local Image = require("@self/Components/Image")
 export type ImageProps = Image.ImageProps
+
+local Loading = require("@self/Components/Loading")
+export type LoadingProps = Loading.LoadingProps
+
+local ScrollView = require("@self/Components/ScrollView")
+export type ScrollViewProps = ScrollView.ScrollViewProps
+
+local Skeleton = require("@self/Components/Skeleton")
+export type SkeletonProps = Skeleton.SkeletonProps
 
 local Text = require("@self/Components/Text")
 export type TextProps = Text.TextProps
@@ -44,8 +64,14 @@ export type FoundationProviderProps = FoundationProvider.FoundationProviderProps
 return {
 	-- Components
 	Button = Button,
+	Divider = Divider,
+	Empty = Empty,
+	Grid = Grid,
 	Icon = Icon,
 	Image = Image,
+	Loading = Loading,
+	ScrollView = ScrollView,
+	Skeleton = Skeleton,
 	Text = Text,
 	View = View,
 
@@ -57,6 +83,8 @@ return {
 
 	-- Hooks: call them while a component is being created, under FoundationProvider.
 	Hooks = {
+		useBreakpoint = require("@self/Providers/Responsive/Hooks/useBreakpoint"),
+		usePulseBinding = require("@self/Utility/usePulseBinding"),
 		useCursor = require("@self/Providers/Cursor/useCursor"),
 		useOverlay = require("@self/Providers/Overlay/useOverlay"),
 		usePreferences = require("@self/Providers/Preferences/usePreferences"),
@@ -152,6 +180,7 @@ return {
 		addStyleTags = StyleSheetRegistry.addStyleTags,
 		releaseStyleSheet = StyleSheetRegistry.releaseStyleSheet,
 		getTokens = Tokens.getTokens,
+		getGridMetrics = require("@self/Utility/getGridMetrics"),
 		blendColors = require("@self/Utility/blendColors"),
 		withCommonProps = require("@self/Utility/withCommonProps"),
 		withDefaults = require("@self/Utility/withDefaults"),
