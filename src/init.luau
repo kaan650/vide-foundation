@@ -163,6 +163,13 @@ export type MenuItems = Menu.MenuItems
 local NumberInput = require("@self/Components/NumberInput")
 export type NumberInputProps = NumberInput.NumberInputProps
 
+local OptionSelectorGroup = require("@self/Components/OptionSelectorGroup")
+export type OptionSelectorGroupProps = OptionSelectorGroup.OptionSelectorGroupProps
+export type OptionSelectorGroupItemProps = OptionSelectorGroup.OptionSelectorGroupItemProps
+
+local Pagination = require("@self/Components/Pagination")
+export type PaginationProps = Pagination.PaginationProps
+
 local Popover = require("@self/Components/Popover")
 export type PopoverProps = Popover.PopoverProps
 export type PopoverAnchorProps = Popover.PopoverAnchorProps
@@ -250,6 +257,8 @@ return {
 	Loading = Loading,
 	Menu = Menu,
 	NumberInput = NumberInput,
+	OptionSelectorGroup = OptionSelectorGroup,
+	Pagination = Pagination,
 	Popover = Popover,
 	Progress = Progress,
 	RadioGroup = RadioGroup,
