@@ -78,6 +78,14 @@ fragment, an array).
   never inside effects or callbacks. `useTokens()`, `useTextSizeOffset()`, `usePreferences()`, `useOverlay()` return
   sources.
 
+### Root class changes
+
+React remounts a component whose root element type changes (a disabled control fading into a CanvasGroup, a label
+that becomes a TextButton when it gets a handler). With a plain prop the Vide component returns the instance as
+usual. When the deciding prop is a source, it returns a source of the current instance built with
+`Utility/rebuildOn`, which is a valid Vide child. Parents name either form with `Utility/named`. A component React
+renders as nothing returns nil (static) or a source (reactive), like AlertActions.
+
 ### Instance names
 
 Children get the name of the React key they render under (`IconWrapper`, `Text`, `Loading`...), set with
@@ -124,9 +132,14 @@ root.
    })
    ```
 
-   `VF` is the package root, so export the component in `src/init.luau` first (or require its module from the cloned
-   package inside `vide`). Cover the variants, sizes and states, and for reactive props, start from one value and
+   Require the module from the cloned package root, the third argument: `vide = function(VF, Vide, root) return
+   require(root.Components.Divider)({...}) end`. Cover the variants, sizes and states, and for reactive props, start from one value and
    switch in `before` to the value React renders.
+   `spec.overlay = true` also diffs the overlay content (popovers, menus, dialogs). `Compare.diffTrees` diffs subtrees
+   the comparator skips, such as children of a Folder. Edit mode runs at about 240 fps: an animation needs `frames`
+   well above its duration (150 for a 0.3 s ease). Components Foundation does not export are required from
+   `ReplicatedStorage.ReferencePackages._Index.Foundation.Foundation.Components.<Name>` on the React side.
+
 3. A difference mid-animation (a transparency sampled while tweening) is acceptable; anything else is fixed or written
    down with its reason.
 
