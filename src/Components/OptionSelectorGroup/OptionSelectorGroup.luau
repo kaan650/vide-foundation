@@ -76,7 +76,11 @@ local function OptionSelectorGroup(optionSelectorGroupProps: OptionSelectorGroup
 	end
 
 	local variantProps = Vide.derive(function()
-		return useOptionSelectorGroupVariants(tokens(), Value.read(props.size) or OptionSelectorGroupSize.Medium, orientation())
+		return useOptionSelectorGroupVariants(
+			tokens(),
+			Value.read(props.size) or OptionSelectorGroupSize.Medium,
+			orientation()
+		)
 	end)
 
 	local legend = Vide.show(function()

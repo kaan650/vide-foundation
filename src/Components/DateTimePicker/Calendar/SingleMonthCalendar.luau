@@ -181,7 +181,7 @@ local function SingleMonthCalendar(props: SingleMonthCalendarProps): () -> GuiOb
 		})
 	end
 
-	return rebuildOn<<boolean>>(props.showTimeList, function(showTimeList: boolean): GuiObject
+	return rebuildOn(props.showTimeList, function(showTimeList: boolean): GuiObject
 		if showTimeList then
 			return withTimeList()
 		end

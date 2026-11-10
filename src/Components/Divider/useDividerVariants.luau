@@ -1,4 +1,3 @@
-
 local Types = require("../Types")
 type ColorStyleValue = Types.ColorStyleValue
 

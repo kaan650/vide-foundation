@@ -56,7 +56,10 @@ local function RangeCalendarDayCell(props: RangeCalendarDayCellProps): GuiObject
 			bandRadiusTag = bandRadiusTag,
 			bandSize = bandSize,
 			isHighlighted = DateTimeCalendarDayAppearanceUtilities.isDayHighlighted(dateTime, highlightDates, true),
-			isSelectable = DateTimeCalendarDayAppearanceUtilities.isDaySelectable(dateTime, props.selectableDateRange()),
+			isSelectable = DateTimeCalendarDayAppearanceUtilities.isDaySelectable(
+				dateTime,
+				props.selectableDateRange()
+			),
 			isSelected = isSelected,
 		}
 	end)

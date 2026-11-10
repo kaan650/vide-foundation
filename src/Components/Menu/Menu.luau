@@ -92,10 +92,13 @@ local function Menu(menuProps: MenuProps): { any }
 		testId = props.testId,
 		children = function()
 			return {
-				Popover.Anchor(withCommonProps(props, {
-					anchorRef = props.anchorRef,
-					children = if props.anchorRef then nil else props.children,
-				} :: Popover.PopoverAnchorProps)),
+				Popover.Anchor(withCommonProps(
+					props,
+					{
+						anchorRef = props.anchorRef,
+						children = if props.anchorRef then nil else props.children,
+					} :: Popover.PopoverAnchorProps
+				)),
 				Popover.Content({
 					side = function()
 						local current = tokens()
@@ -115,7 +118,7 @@ local function Menu(menuProps: MenuProps): { any }
 					selection = props.selection,
 					selectionGroup = props.selectionGroup,
 					children = function()
-						return named("Menu", rebuildOn<<boolean>>(hasMaxHeight, buildMenu))
+						return named("Menu", rebuildOn(hasMaxHeight, buildMenu))
 					end,
 				}),
 			}

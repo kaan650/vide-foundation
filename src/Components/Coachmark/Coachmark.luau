@@ -265,10 +265,13 @@ local function Coachmark(coachmarkProps: CoachmarkProps): { any }
 		testId = testId,
 		children = function()
 			return {
-				Popover.Anchor(withCommonProps(props, {
-					anchorRef = props.anchorRef,
-					children = props.children,
-				} :: PopoverAnchorProps)),
+				Popover.Anchor(withCommonProps(
+					props,
+					{
+						anchorRef = props.anchorRef,
+						children = props.children,
+					} :: PopoverAnchorProps
+				)),
 				Popover.Content({
 					hasArrow = true,
 					align = props.align,

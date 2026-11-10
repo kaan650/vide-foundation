@@ -1,4 +1,3 @@
-
 local Dash = require("../../Utility/Dash")
 
 local Types = require("../Types")

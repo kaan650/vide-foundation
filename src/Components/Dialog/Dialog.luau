@@ -341,7 +341,7 @@ local function Dialog(props: InternalProps): () -> any
 			end
 			return if animating() then "animating" else "static"
 		end
-		local wrapper = rebuildOn<<WrapperState>>(wrapperState, Wrapper)
+		local wrapper = rebuildOn(wrapperState, Wrapper)
 
 		local content = View({
 			ZIndex = elevation.zIndex,

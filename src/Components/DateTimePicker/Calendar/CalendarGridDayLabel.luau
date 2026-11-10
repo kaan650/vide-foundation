@@ -127,7 +127,7 @@ local function CalendarGridDayLabel(props: CalendarGridDayLabelProps): GuiObject
 		tag = "size-full",
 		children = {
 			band,
-			named("Day", rebuildOn<<boolean>>(isSelectable, dayElement)),
+			named("Day", rebuildOn(isSelectable, dayElement)),
 		},
 	})
 end

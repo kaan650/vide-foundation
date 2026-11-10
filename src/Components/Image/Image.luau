@@ -178,7 +178,9 @@ local function Image(imageProps: ImageProps): GuiObject
 	if slice then
 		local function scaledSlice(): Slice
 			local image = Value.read(props.Image)
-			return if image and shouldUseFoundationSlice(image) then getScaledSlice(slice.center, slice.scale) else slice
+			return if image and shouldUseFoundationSlice(image)
+				then getScaledSlice(slice.center, slice.scale)
+				else slice
 		end
 		if isReactiveImage then
 			properties.SliceCenter = function()

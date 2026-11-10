@@ -296,7 +296,7 @@ local function InternalInput(inputProps: InternalInputProps): GuiObject | () -> 
 	if type(props.isDisabled) ~= "function" and type(label.text) ~= "function" then
 		return build(layoutName())
 	end
-	return rebuildOn<<string>>(Vide.derive(layoutName), build)
+	return rebuildOn(Vide.derive(layoutName), build)
 end
 
 return InternalInput

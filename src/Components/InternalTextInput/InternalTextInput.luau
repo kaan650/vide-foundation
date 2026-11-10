@@ -556,7 +556,9 @@ local function InternalTextInput(textInputProps: InternalTextInputProps): GuiObj
 				Interactable = interactable,
 				Size = if scrollable then textBoxSizeFullHeight else nil,
 				automaticSize = function(): Enum.AutomaticSize?
-					return if scrollable and not isTouchFocused() and Value.read(props.text) ~= ""
+					return if scrollable
+							and not isTouchFocused()
+							and Value.read(props.text) ~= ""
 						then Enum.AutomaticSize.Y
 						else nil
 				end,
@@ -734,7 +736,7 @@ local function InternalTextInput(textInputProps: InternalTextInputProps): GuiObj
 			slot(props.leadingElement, "Leading", 1, disabled),
 			named(
 				"TextBoxWrapper",
-				rebuildOn<<boolean>>(isScrollable, function(scrollable: boolean)
+				rebuildOn(isScrollable, function(scrollable: boolean)
 					return textBoxWrapper(scrollable, disabled)
 				end)
 			),
@@ -887,7 +889,7 @@ local function InternalTextInput(textInputProps: InternalTextInputProps): GuiObj
 	end
 
 	local isDisabledProp = props.isDisabled
-	return rebuildOn<<boolean>>(if type(isDisabledProp) == "function" then isDisabled else isDisabledProp == true, build)
+	return rebuildOn(if type(isDisabledProp) == "function" then isDisabled else isDisabledProp == true, build)
 end
 
 return InternalTextInput

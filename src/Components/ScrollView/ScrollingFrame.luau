@@ -75,7 +75,9 @@ local function ScrollingFrame(scrollingFrameProps: ScrollingFrameProps): Scrolli
 	local function setIsScrollBarVisible(isVisible: boolean, delay: number?)
 		cancelDelay()
 		if isVisible then
-			setScrollBarTransparency(Motion.spring(Vide.untrack(scrollBarStyle).Transparency :: number, ANIMATION_CONFIG))
+			setScrollBarTransparency(
+				Motion.spring(Vide.untrack(scrollBarStyle).Transparency :: number, ANIMATION_CONFIG)
+			)
 		end
 		if delay ~= nil then
 			delayThread = task.delay(delay, function()

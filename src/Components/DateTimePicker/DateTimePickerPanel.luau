@@ -65,7 +65,7 @@ local function DateTimePickerPanel(props: DateTimePickerPanelProps): GuiObject
 		return if props.isSectioned() then "padding-x-large padding-y-large" else "padding-top-large"
 	end
 
-	local actionBar = rebuildOn<<boolean>>(props.showReset, function(showReset: boolean): GuiObject
+	local actionBar = rebuildOn(props.showReset, function(showReset: boolean): GuiObject
 		if showReset then
 			local resetButton = Button({
 				isDisabled = props.isResetButtonDisabled,

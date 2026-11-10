@@ -80,7 +80,9 @@ return {
 				}),
 				VF.Text({
 					Text = function()
-						return `text={text()} amount={amount()} checked={checked()} toggle={enabled()} volume={math.round(volume())}`
+						return `text={text()} amount={amount()} checked={checked()} toggle={enabled()} volume={math.round(
+							volume()
+						)}`
 					end,
 					tag = "auto-xy text-body-medium content-default",
 					LayoutOrder = 6,

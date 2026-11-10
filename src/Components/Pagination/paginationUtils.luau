@@ -1,4 +1,3 @@
-
 local PaginationSize = require("../../Enums/PaginationSize")
 type PaginationSize = PaginationSize.PaginationSize
 

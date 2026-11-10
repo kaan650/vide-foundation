@@ -345,8 +345,10 @@ local function BaseMenuItem(props: BaseMenuItemProps): any
 		return item
 	end
 
-	local disabled: Value<boolean> = if type(props.isDisabled) == "function" then isDisabled else props.isDisabled == true
-	local item = rebuildOn<<boolean>>(disabled, buildItem)
+	local disabled: Value<boolean> = if type(props.isDisabled) == "function"
+		then isDisabled
+		else props.isDisabled == true
+	local item = rebuildOn(disabled, buildItem)
 	local function itemInstance(): GuiObject?
 		return if type(item) == "function" then item() else item
 	end

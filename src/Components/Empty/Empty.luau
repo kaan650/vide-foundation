@@ -73,8 +73,8 @@ local function Empty(emptyProps: EmptyProps): GuiObject
 			icon = props.button.icon,
 			onActivated = onActivated,
 			LayoutOrder = 3,
-		})
-		;(button :: GuiObject).Name = "Button"
+		});
+		(button :: GuiObject).Name = "Button"
 	end
 
 	return View(withCommonProps(props, {

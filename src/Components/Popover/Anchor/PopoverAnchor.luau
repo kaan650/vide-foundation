@@ -31,10 +31,13 @@ local function PopoverAnchor(props: PopoverAnchorProps): GuiObject?
 		return nil
 	end
 
-	local viewProps: View.ViewProps = withCommonProps(props, {
-		tag = "auto-xy",
-		children = props.children,
-	} :: View.ViewProps)
+	local viewProps: View.ViewProps = withCommonProps(
+		props,
+		{
+			tag = "auto-xy",
+			children = props.children,
+		} :: View.ViewProps
+	)
 	viewProps.testId = `{popoverContext.testId}--anchor`
 
 	local anchor = View(viewProps)

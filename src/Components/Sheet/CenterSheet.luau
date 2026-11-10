@@ -319,7 +319,7 @@ local function CenterSheet(centerSheetProps: CenterSheetProps)
 			tag = "size-full",
 			testId = `{testId}--surface`,
 			children = {
-				rebuildOn<<boolean>>(isAnimating, SheetContainer),
+				rebuildOn(isAnimating, SheetContainer),
 				backdrop,
 			},
 		})

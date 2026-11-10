@@ -50,7 +50,9 @@ local function PageNumberSlot(props: PageNumberSlotProps): () -> GuiObject
 
 	local function variantProps(isChecked: boolean): () -> ChipVariantProps
 		return Vide.derive(function()
-			local chipSize: ChipSize = if props.slotSize() == PaginationSize.Small then ChipSize.Small else ChipSize.Medium
+			local chipSize: ChipSize = if props.slotSize() == PaginationSize.Small
+				then ChipSize.Small
+				else ChipSize.Medium
 			return useChipVariants(tokens(), chipSize, ChipVariant.Utility, isChecked, false, false)
 		end)
 	end
@@ -145,7 +147,9 @@ local function PageNumberSlot(props: PageNumberSlotProps): () -> GuiObject
 					return paginationUtils.getCircularSlotTag(props.slotSize())
 				end,
 				children = pageNumberText(function(): Types.ColorStyleValue
-					return if checkedVariant then checkedVariant().text.contentStyle else tokens().Color.Content.Default :: any
+					return if checkedVariant
+						then checkedVariant().text.contentStyle
+						else tokens().Color.Content.Default :: any
 				end, function()
 					return paginationUtils.getPageLabelTextTag(props.slotSize())
 				end, nil),
@@ -156,7 +160,7 @@ local function PageNumberSlot(props: PageNumberSlotProps): () -> GuiObject
 		return instance
 	end
 
-	return rebuildOn<<boolean>>(props.isChecked, build) :: () -> GuiObject
+	return rebuildOn(props.isChecked, build) :: () -> GuiObject
 end
 
 return PageNumberSlot

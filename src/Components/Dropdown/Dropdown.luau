@@ -96,7 +96,8 @@ local function Dropdown(dropdownProps: DropdownProps): { any }
 	end))
 
 	local marked = Vide.derive(function(): Marked
-		local items, selected = markSelectedItem<<DropdownItem>>(Value.read(props.items) :: DropdownItems, Value.read(props.value))
+		local items: DropdownItems, selected: DropdownItem? =
+			markSelectedItem(Value.read(props.items) :: any, Value.read(props.value))
 		return { items = items, selected = selected }
 	end)
 
@@ -110,36 +111,39 @@ local function Dropdown(dropdownProps: DropdownProps): { any }
 	end
 
 	local onAbsoluteSizeChanged = dropdownProps.onAbsoluteSizeChanged
-	local controlProps = withCommonProps(props, {
-		variant = props.variant,
-		onActivated = function()
-			isMenuOpen(not Vide.untrack(isMenuOpen))
-		end,
-		hasError = props.hasError,
-		isDisabled = props.isDisabled,
-		item = function(): BaseMenuItem?
-			return marked().selected :: any
-		end,
-		placeholder = props.placeholder,
-		isMenuOpen = function()
-			return isMenuOpen()
-		end,
-		width = props.width,
-		size = props.size,
-		label = props.label,
-		hint = props.hint,
-		inputRef = function(instance: GuiObject)
-			inputInstance(instance)
-			if props.ref then
-				props.ref(instance)
-			end
-		end,
-		Selectable = props.Selectable,
-		NextSelectionUp = props.NextSelectionUp,
-		NextSelectionDown = props.NextSelectionDown,
-		NextSelectionLeft = props.NextSelectionLeft,
-		NextSelectionRight = props.NextSelectionRight,
-	} :: DropdownControl.DropdownControlProps)
+	local controlProps = withCommonProps(
+		props,
+		{
+			variant = props.variant,
+			onActivated = function()
+				isMenuOpen(not Vide.untrack(isMenuOpen))
+			end,
+			hasError = props.hasError,
+			isDisabled = props.isDisabled,
+			item = function(): BaseMenuItem?
+				return marked().selected :: any
+			end,
+			placeholder = props.placeholder,
+			isMenuOpen = function()
+				return isMenuOpen()
+			end,
+			width = props.width,
+			size = props.size,
+			label = props.label,
+			hint = props.hint,
+			inputRef = function(instance: GuiObject)
+				inputInstance(instance)
+				if props.ref then
+					props.ref(instance)
+				end
+			end,
+			Selectable = props.Selectable,
+			NextSelectionUp = props.NextSelectionUp,
+			NextSelectionDown = props.NextSelectionDown,
+			NextSelectionLeft = props.NextSelectionLeft,
+			NextSelectionRight = props.NextSelectionRight,
+		} :: DropdownControl.DropdownControlProps
+	)
 	controlProps.onAbsoluteSizeChanged = function(frame: GuiObject)
 		if onAbsoluteSizeChanged then
 			onAbsoluteSizeChanged(frame)
@@ -192,7 +196,7 @@ local function Dropdown(dropdownProps: DropdownProps): { any }
 					selectionGroup = props.selectionGroup,
 					name = "Menu",
 					children = function()
-						return named("Children", rebuildOn<<boolean>>(hasMaxHeight, buildMenu))
+						return named("Children", rebuildOn(hasMaxHeight, buildMenu))
 					end,
 				}),
 			}

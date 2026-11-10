@@ -79,7 +79,7 @@ local function DateTimePickerCalendarContent(props: DateTimePickerCalendarConten
 		return props.variant() == DateTimePickerVariantEnum.DualWithPresets
 	end
 
-	return rebuildOn<<boolean>>(isPresets, function(presets: boolean): GuiObject
+	return rebuildOn(isPresets, function(presets: boolean): GuiObject
 		if presets then
 			return presetsContent()
 		end

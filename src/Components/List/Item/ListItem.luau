@@ -317,7 +317,7 @@ local function ListItem(props: ListItemProps): GuiObject
 
 	local activatedIcons: { [ActivatedIcon]: () -> any } = {
 		Chevron = function()
-			return named("ActivatedIcon", rebuildOn<<string>>(testIdValue, chevron))
+			return named("ActivatedIcon", rebuildOn(testIdValue, chevron))
 		end,
 		Radio = function()
 			return named(

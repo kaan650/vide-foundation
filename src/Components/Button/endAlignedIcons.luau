@@ -1,4 +1,3 @@
-
 local BuilderIcons = require("../../Packages/BuilderIcons")
 
 local endAlignedIcons: { [string]: true } = {

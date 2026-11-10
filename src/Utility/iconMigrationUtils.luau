@@ -1,4 +1,3 @@
-
 local BuilderIcons = require("../Packages/BuilderIcons")
 local migrationLookup: { [string]: { name: string, variant: IconVariant? } } = (BuilderIcons.Migration :: any)["uiblox"]
 type IconVariant = BuilderIcons.IconVariant

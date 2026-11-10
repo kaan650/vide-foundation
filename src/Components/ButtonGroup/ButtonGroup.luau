@@ -69,7 +69,10 @@ local function ButtonGroup(buttonGroupProps: ButtonGroupProps): GuiObject
 	Vide.effect(function()
 		local count = #Value.read(props.buttons)
 		local maxButtonCount: number = Value.read(props.maxButtonCount)
-		devAssert(count <= maxButtonCount, `ButtonGroup: a maximum of {maxButtonCount} buttons is supported, got {count}.`)
+		devAssert(
+			count <= maxButtonCount,
+			`ButtonGroup: a maximum of {maxButtonCount} buttons is supported, got {count}.`
+		)
 	end)
 
 	--* Vertical groups stretch buttons with the container's flex-x-fill, so only horizontal fill uses the buttons' UIFlexItem.

@@ -94,7 +94,9 @@ local function ScrollView(scrollViewProps: ScrollViewProps): GuiObject
 
 	local viewProps: any = table.clone(props)
 	viewProps.onStateChanged = onStateChanged
-	viewProps.stateLayer = if props.onStateChanged or props.onActivated then props.stateLayer else { affordance = "None" }
+	viewProps.stateLayer = if props.onStateChanged or props.onActivated
+		then props.stateLayer
+		else { affordance = "None" }
 	viewProps.selection = {
 		Selectable = false,
 	}

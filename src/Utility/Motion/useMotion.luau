@@ -136,7 +136,9 @@ end
 
 --- Roblox Motion's useMotion: a Vide source per animated property of `initialState`, and `animate(newState)` that
 --- moves them with each property's transition. Call it while the component is being created.
-local function useMotion(initialState: MotionState): ({ [string]: () -> any }, (newState: MotionState, options: AnimationOptions?) -> ())
+local function useMotion(
+	initialState: MotionState
+): ({ [string]: () -> any }, (newState: MotionState, options: AnimationOptions?) -> ())
 	local sources: { [string]: () -> any } = {}
 	local animators: { [string]: AnimatedValue } = {}
 	local delayed: { [string]: thread } = {}

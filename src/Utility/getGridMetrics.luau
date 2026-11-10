@@ -1,4 +1,3 @@
-
 local Breakpoint = require("../Enums/Breakpoint")
 local Dash = require("./Dash")
 local ResponsiveContext = require("../Providers/Responsive/ResponsiveContext")

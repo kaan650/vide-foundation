@@ -53,13 +53,9 @@ local function View(viewProps: ViewProps): GuiObject
 		GroupTransparency = if usesCanvasGroup then groupTransparency else nil,
 		--* ImageButton is needed for some state changes (Enter triggering SelectedPressed), but its auto color is not.
 		AutoButtonColor = if class == "ImageButton" then false else nil,
-		tags(
-			function()
-				return if Value.read(props.backgroundStyle) ~= nil then DEFAULT_TAGS_WITH_BG else DEFAULT_TAGS
-			end,
-			props.tag,
-			getTestIdTag(props.testId)
-		),
+		tags(function()
+			return if Value.read(props.backgroundStyle) ~= nil then DEFAULT_TAGS_WITH_BG else DEFAULT_TAGS
+		end, props.tag, getTestIdTag(props.testId)),
 		GuiObjectChildren(props),
 	}
 	withGuiObjectProps.withGuiObjectProps(props, properties)

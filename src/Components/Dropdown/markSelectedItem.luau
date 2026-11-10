@@ -6,7 +6,7 @@ type BaseMenuItems<Item> = BaseMenu.BaseMenuItems<Item>
 type BaseMenuItemGroup<Item> = BaseMenu.BaseMenuItemGroup<Item>
 
 --- `items` with the item whose id is `value` copied and checked, and that item. Nil `value` returns `items` as is.
-local function markSelectedItem<Item>(items: BaseMenuItems<Item>, value: Types.ItemId?): (BaseMenuItems<Item>, Item?)
+local function markSelectedItem(items: { any }, value: Types.ItemId?): ({ any }, any)
 	if value == nil then
 		return items, nil
 	end

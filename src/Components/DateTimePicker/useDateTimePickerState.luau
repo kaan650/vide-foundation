@@ -179,8 +179,7 @@ local function useDateTimePickerState(props: DateTimePickerProps): DateTimePicke
 				clearDraftToReference()
 			end
 		else
-			local dateTime =
-				DateTimeParsingUtilities.parseDateTimeFromText(DateTimeParsingUtilities.trimInputText(txt))
+			local dateTime = DateTimeParsingUtilities.parseDateTimeFromText(DateTimeParsingUtilities.trimInputText(txt))
 			if dateTime and (range == nil or DateTimeUtilities.isDateWithinRange(dateTime, range)) then
 				setDraft({ dateTime }, {
 					anchor = dateTime,

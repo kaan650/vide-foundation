@@ -37,7 +37,9 @@ local defaultTransition = presets.default
 
 local function createState(values: { [string]: any }, transitions: { [string]: TransitionConfig }?): MotionState
 	local transition: { default: TransitionConfig, [string]: TransitionConfig? } = {
-		default = if transitions and transitions.default then transitions.default :: TransitionConfig else defaultTransition,
+		default = if transitions and transitions.default
+			then transitions.default :: TransitionConfig
+			else defaultTransition,
 	}
 	local state: MotionState = { transition = transition }
 	for name, value in values do
@@ -49,7 +51,10 @@ local function createState(values: { [string]: any }, transitions: { [string]: T
 	return state
 end
 
-local function transition(presetOrConfig: (TransitionPreset | string | TransitionConfig)?, overrides: TransitionConfig?): TransitionConfig
+local function transition(
+	presetOrConfig: (TransitionPreset | string | TransitionConfig)?,
+	overrides: TransitionConfig?
+): TransitionConfig
 	local config: TransitionConfig? = if type(presetOrConfig) == "string"
 		then presets[presetOrConfig] or defaultTransition
 		else presetOrConfig :: TransitionConfig?

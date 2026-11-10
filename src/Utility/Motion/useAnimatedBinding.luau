@@ -48,15 +48,16 @@ local function useAnimatedBinding<V>(initial: V, onComplete: ((value: V) -> ())?
 		end
 	end)
 
-	return value :: any, function(goal: { [string]: Goal })
-		for key, keyGoal in goal do
-			local motor = motors[key]
-			if motor then
-				pending[key] = true
-				motor.setGoal(keyGoal)
+	return value :: any,
+		function(goal: { [string]: Goal })
+			for key, keyGoal in goal do
+				local motor = motors[key]
+				if motor then
+					pending[key] = true
+					motor.setGoal(keyGoal)
+				end
 			end
 		end
-	end
 end
 
 return useAnimatedBinding

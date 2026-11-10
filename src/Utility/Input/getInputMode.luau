@@ -1,4 +1,3 @@
-
 local InputMode = require("./InputMode")
 type InputMode = InputMode.InputMode
 

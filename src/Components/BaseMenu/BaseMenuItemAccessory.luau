@@ -47,7 +47,9 @@ export type AccessoryProps = {
 
 local function kindOf(accessory: Accessory): Kind
 	local accessoryType = (accessory :: any).type
-	return if accessoryType == "Avatar" or accessoryType == "Hint" or accessoryType == "Badge"
+	return if accessoryType == "Avatar"
+			or accessoryType == "Hint"
+			or accessoryType == "Badge"
 		then accessoryType
 		else "Icon"
 end

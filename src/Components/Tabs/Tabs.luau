@@ -229,7 +229,7 @@ local function Tabs(tabsProps: TabsProps): GuiObject
 			tag = "auto-y",
 			Size = UDim2.fromScale(1, 0),
 			testId = `{testId}--content`,
-			children = rebuildOn<<ContentBuilder?>>(activeContent, function(build: ContentBuilder?)
+			children = rebuildOn(activeContent, function(build: ContentBuilder?)
 				return (if build then build() else nil) :: any
 			end),
 		})

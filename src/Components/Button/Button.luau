@@ -288,7 +288,9 @@ local function Button(buttonProps: ButtonProps): GuiObject
 	}
 
 	return View(withCommonProps(props, {
-		AutomaticSize = if isWidthStatic then (if automaticSize() == Enum.AutomaticSize.X then Enum.AutomaticSize.X else nil) else automaticSize,
+		AutomaticSize = if isWidthStatic
+			then (if automaticSize() == Enum.AutomaticSize.X then Enum.AutomaticSize.X else nil)
+			else automaticSize,
 		cornerRadius = function()
 			return UDim.new(0, variantProps().container.radius)
 		end,
@@ -310,17 +312,19 @@ local function Button(buttonProps: ButtonProps): GuiObject
 				if behavior == nil then
 					return nil
 				end
-				return { FlexMode = if behavior == FillBehavior.Fill then Enum.UIFlexMode.Fill else Enum.UIFlexMode.Shrink }
+				return {
+					FlexMode = if behavior == FillBehavior.Fill then Enum.UIFlexMode.Fill else Enum.UIFlexMode.Shrink,
+				}
 			end
-			elseif props.fillBehavior ~= nil
-			then {
-				FlexMode = if props.fillBehavior == FillBehavior.Fill then Enum.UIFlexMode.Fill else Enum.UIFlexMode.Shrink,
+			elseif props.fillBehavior ~= nil then {
+				FlexMode = if props.fillBehavior == FillBehavior.Fill
+					then Enum.UIFlexMode.Fill
+					else Enum.UIFlexMode.Shrink,
 			}
 			else nil,
 		stroke = if not isVariantStatic
 			then stroke
-			elseif initialContainer.stroke
-			then {
+			elseif initialContainer.stroke then {
 				Color = function()
 					return (stroke() :: Types.Stroke).Color
 				end,

@@ -92,19 +92,23 @@ local function Toast(toastProps: ToastProps): GuiObject
 			return if #list > MAX_BUTTON_COUNT then table.move(list, 1, MAX_BUTTON_COUNT, 1, {}) else list
 		end
 		buttons = Vide.indexes(shownActions, function(action: () -> ActionProps, index: number)
-			return actionButton({
-				text = function()
-					return action().text
-				end,
-				variant = function()
-					return action().variant
-				end,
-				onActivated = function()
-					action().onActivated()
-				end,
-			}, index, function()
-				return #(readActions() or {}) - index
-			end)
+			return actionButton(
+				{
+					text = function()
+						return action().text
+					end,
+					variant = function()
+						return action().variant
+					end,
+					onActivated = function()
+						action().onActivated()
+					end,
+				},
+				index,
+				function()
+					return #(readActions() or {}) - index
+				end
+			)
 		end)
 	else
 		warnIfTooMany(actions)

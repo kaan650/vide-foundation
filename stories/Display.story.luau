@@ -45,7 +45,12 @@ return {
 					children = {
 						VF.StatusIndicator({ variant = "Alert" :: any, value = controls.count, LayoutOrder = 1 }),
 						VF.StatusIndicator({ variant = "Success" :: any, LayoutOrder = 2 }),
-						VF.Avatar({ userId = 1, size = "Medium" :: any, userPresence = "Active" :: any, LayoutOrder = 3 }),
+						VF.Avatar({
+							userId = 1,
+							size = "Medium" :: any,
+							userPresence = "Active" :: any,
+							LayoutOrder = 3,
+						}),
 						VF.Avatar({ userId = 156, size = "Large" :: any, LayoutOrder = 4 }),
 					},
 				}),
@@ -53,15 +58,38 @@ return {
 				VF.Tabs({
 					defaultActiveTabId = "home",
 					tabs = {
-						{ id = "home", text = "Home", content = function()
-							return VF.Text({ Text = "Home content", tag = "auto-xy text-body-medium content-default" })
-						end },
-						{ id = "inbox", text = "Inbox", indicator = { value = controls.count } :: any, content = function()
-							return VF.Text({ Text = "Inbox content", tag = "auto-xy text-body-medium content-default" })
-						end },
-						{ id = "settings", text = "Settings", icon = "gear", content = function()
-							return VF.Text({ Text = "Settings content", tag = "auto-xy text-body-medium content-default" })
-						end },
+						{
+							id = "home",
+							text = "Home",
+							content = function()
+								return VF.Text({
+									Text = "Home content",
+									tag = "auto-xy text-body-medium content-default",
+								})
+							end,
+						},
+						{
+							id = "inbox",
+							text = "Inbox",
+							indicator = { value = controls.count } :: any,
+							content = function()
+								return VF.Text({
+									Text = "Inbox content",
+									tag = "auto-xy text-body-medium content-default",
+								})
+							end,
+						},
+						{
+							id = "settings",
+							text = "Settings",
+							icon = "gear",
+							content = function()
+								return VF.Text({
+									Text = "Settings content",
+									tag = "auto-xy text-body-medium content-default",
+								})
+							end,
+						},
 					} :: any,
 					LayoutOrder = 4,
 				} :: any),

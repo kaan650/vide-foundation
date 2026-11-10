@@ -57,12 +57,14 @@ local function variantsFactory(tokens: Tokens)
 
 	local directionIcon: { [Enum.HorizontalAlignment]: { [Enum.PreferredInput]: string } } = {
 		[Enum.HorizontalAlignment.Right] = {
-			[Enum.PreferredInput.Gamepad] = getBuilderIconForKeycode(Enum.KeyCode.ButtonR1) or IconName.ChevronSmallRight,
+			[Enum.PreferredInput.Gamepad] = getBuilderIconForKeycode(Enum.KeyCode.ButtonR1)
+				or IconName.ChevronSmallRight,
 			[Enum.PreferredInput.KeyboardAndMouse] = IconName.ChevronSmallRight,
 			[Enum.PreferredInput.Touch] = IconName.ChevronSmallRight,
 		},
 		[Enum.HorizontalAlignment.Left] = {
-			[Enum.PreferredInput.Gamepad] = getBuilderIconForKeycode(Enum.KeyCode.ButtonL1) or IconName.ChevronSmallLeft,
+			[Enum.PreferredInput.Gamepad] = getBuilderIconForKeycode(Enum.KeyCode.ButtonL1)
+				or IconName.ChevronSmallLeft,
 			[Enum.PreferredInput.KeyboardAndMouse] = IconName.ChevronSmallLeft,
 			[Enum.PreferredInput.Touch] = IconName.ChevronSmallLeft,
 		},

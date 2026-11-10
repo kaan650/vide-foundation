@@ -206,12 +206,15 @@ local function Tooltip(tooltipProps: TooltipProps): { any }
 		testId = testId,
 		children = function()
 			return {
-				AnchorWrapper(withCommonProps(props, {
-					onHover = function(isHovered: boolean)
-						isOpen(isHovered)
-					end,
-					children = props.children,
-				} :: AnchorWrapperProps)),
+				AnchorWrapper(withCommonProps(
+					props,
+					{
+						onHover = function(isHovered: boolean)
+							isOpen(isHovered)
+						end,
+						children = props.children,
+					} :: AnchorWrapperProps
+				)),
 				Popover.Content({
 					hasArrow = props.hasArrow,
 					align = props.align,

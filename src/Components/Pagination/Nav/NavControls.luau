@@ -98,7 +98,10 @@ local function NavControls(props: NavControlsProps): GuiObject
 			)
 		end
 
-		table.insert(children, if isFirstOrLast(direction) then Vide.show(props.hasFirstLastButtons, button) else button())
+		table.insert(
+			children,
+			if isFirstOrLast(direction) then Vide.show(props.hasFirstLastButtons, button) else button()
+		)
 	end
 
 	return View({

@@ -52,7 +52,7 @@ local function TileHeader(tileHeaderProps: TileHeaderProps): GuiObject
 		return Value.read(props.subtitle)
 	end
 
-	local function typography(value: () -> (string | TileTypography), defaults: TypographyDefaults): any
+	local function typography(value: () -> string | TileTypography, defaults: TypographyDefaults): any
 		local function config(): TileTypography?
 			local current = value()
 			return if typeof(current) == "table" then current else nil

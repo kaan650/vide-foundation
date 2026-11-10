@@ -12,7 +12,11 @@ local TextService = Services.TextService
 
 --- The size `text` takes in `fontStyle` (whose Font is an Enum.Font), as a source; nil while there is no text.
 --- Call it while the component is being created.
-local function useTextSize(text: Value<string?>, fontStyle: Value<FontStyle>, frameSize: Value<Vector2?>?): () -> Vector2?
+local function useTextSize(
+	text: Value<string?>,
+	fontStyle: Value<FontStyle>,
+	frameSize: Value<Vector2?>?
+): () -> Vector2?
 	local preferences = usePreferences()
 
 	return Vide.derive(function(): Vector2?

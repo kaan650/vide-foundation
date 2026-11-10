@@ -73,12 +73,17 @@ local function MultiPagePagination(props: MultiPagePaginationProps): GuiObject
 	local pagesContainer = Vide.source(nil :: GuiObject?)
 	local getPagesContainer: () -> GuiObject? = pagesContainer :: any
 
-	local highlight = usePaginationAnimatedHighlight(function()
-		return paginationSlotsUtils.getPageSlotId(page())
-	end, getPagesContainer, nav.selection.slotInstances, function()
-		slotSize()
-		pageSlots()
-	end)
+	local highlight = usePaginationAnimatedHighlight(
+		function()
+			return paginationSlotsUtils.getPageSlotId(page())
+		end,
+		getPagesContainer,
+		nav.selection.slotInstances,
+		function()
+			slotSize()
+			pageSlots()
+		end
+	)
 
 	local checkedVariantProps = Vide.derive(function()
 		local chipSize: ChipSize = if slotSize() == PaginationSize.Small then ChipSize.Small else ChipSize.Medium

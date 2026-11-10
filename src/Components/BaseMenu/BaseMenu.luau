@@ -132,13 +132,16 @@ local function BaseMenu(baseMenuProps: BaseMenuProps): GuiObject
 	local visible = if props.Visible ~= nil then props.Visible else isVisible
 
 	if props.maxHeight ~= nil then
-		local scrollViewProps = withCommonProps(props, {
-			sizeConstraint = sizeConstraint,
-			scrollingFrameRef = props.scrollingFrameRef,
-			tag = function()
-				return `stroke-standard stroke-default {radiusTag()}`
-			end,
-		} :: BaseMenuScrollContainer.ScrollContainerProps)
+		local scrollViewProps = withCommonProps(
+			props,
+			{
+				sizeConstraint = sizeConstraint,
+				scrollingFrameRef = props.scrollingFrameRef,
+				tag = function()
+					return `stroke-standard stroke-default {radiusTag()}`
+				end,
+			} :: BaseMenuScrollContainer.ScrollContainerProps
+		)
 		scrollViewProps.Visible = visible
 		return BaseMenuScrollContainer({
 			maxHeight = props.maxHeight,
@@ -149,22 +152,25 @@ local function BaseMenu(baseMenuProps: BaseMenuProps): GuiObject
 		})
 	end
 
-	local viewProps = withCommonProps(props, {
-		tag = function()
-			return `col stroke-standard stroke-default {radiusTag()}`
-		end,
-		AutomaticSize = function()
-			return if autoSize() then Enum.AutomaticSize.XY else Enum.AutomaticSize.Y
-		end,
-		sizeConstraint = sizeConstraint,
-		children = {
-			Value.bindProperty("Size", function(): UDim2?
-				local widthValue = width()
-				return if autoSize() or widthValue == nil then nil else UDim2.new(widthValue, UDim.new())
-			end),
-			menuContent,
-		},
-	} :: View.ViewProps)
+	local viewProps = withCommonProps(
+		props,
+		{
+			tag = function()
+				return `col stroke-standard stroke-default {radiusTag()}`
+			end,
+			AutomaticSize = function()
+				return if autoSize() then Enum.AutomaticSize.XY else Enum.AutomaticSize.Y
+			end,
+			sizeConstraint = sizeConstraint,
+			children = {
+				Value.bindProperty("Size", function(): UDim2?
+					local widthValue = width()
+					return if autoSize() or widthValue == nil then nil else UDim2.new(widthValue, UDim.new())
+				end),
+				menuContent,
+			},
+		} :: View.ViewProps
+	)
 	viewProps.Visible = visible
 	return View(viewProps)
 end

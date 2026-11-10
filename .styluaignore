@@ -1,0 +1,6 @@
+# Roblox data copied unchanged
+src/Packages/**
+src/Generated/**
+# Wally output
+Packages/**
+DevPackages/**

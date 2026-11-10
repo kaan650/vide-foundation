@@ -1,4 +1,3 @@
-
 local Dash = require("./Dash")
 local FoundationImages = require("../Packages/FoundationImages")
 local Images = FoundationImages.Images

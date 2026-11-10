@@ -96,7 +96,10 @@ local function Skeleton(skeletonProps: SkeletonProps): GuiObject
 						local edge = shimmer().Transparency :: number
 						return NumberSequence.new({
 							NumberSequenceKeypoint.new(0, edge),
-							NumberSequenceKeypoint.new(0.5, tokens().Color.Extended.White.White_30.Transparency :: number),
+							NumberSequenceKeypoint.new(
+								0.5,
+								tokens().Color.Extended.White.White_30.Transparency :: number
+							),
 							NumberSequenceKeypoint.new(1, edge),
 						})
 					end,

@@ -57,56 +57,63 @@ local function DateTimePicker(dateTimePickerProps: DateTimePickerProps): { any }
 	local state = useDateTimePickerState(props)
 
 	local function panel(): GuiObject
-		return named("Children", DateTimePickerPanel({
-			isApplyButtonDisabled = state.isApplyButtonDisabled,
-			isResetButtonDisabled = state.isResetButtonDisabled,
-			isSectioned = isSectioned,
-			onApply = state.onApply,
-			onCancel = state.onCancel,
-			onReset = state.onReset,
-			sectionedLayout = function(): SectionedLayout?
-				return if isPresets() then "dual" elseif isTime() then "singleWithTime" else nil
-			end,
-			showReset = isSectioned,
-			testId = testId,
-			children = DateTimePickerCalendarContent({
-				onDayActivated = state.onDayActivated,
-				onPresetSelected = state.onPresetSelected,
-				onSelectedDatesChanged = state.onSelectedDatesChanged,
-				referenceDate = referenceDate,
-				selectableDateRange = selectableDateRange,
-				selectedDates = state.selectedDates,
+		return named(
+			"Children",
+			DateTimePickerPanel({
+				isApplyButtonDisabled = state.isApplyButtonDisabled,
+				isResetButtonDisabled = state.isResetButtonDisabled,
+				isSectioned = isSectioned,
+				onApply = state.onApply,
+				onCancel = state.onCancel,
+				onReset = state.onReset,
+				sectionedLayout = function(): SectionedLayout?
+					return if isPresets() then "dual" elseif isTime() then "singleWithTime" else nil
+				end,
+				showReset = isSectioned,
 				testId = testId,
-				variant = variant,
-				viewAnchorDate = state.viewAnchorDate,
-			}),
-		}))
+				children = DateTimePickerCalendarContent({
+					onDayActivated = state.onDayActivated,
+					onPresetSelected = state.onPresetSelected,
+					onSelectedDatesChanged = state.onSelectedDatesChanged,
+					referenceDate = referenceDate,
+					selectableDateRange = selectableDateRange,
+					selectedDates = state.selectedDates,
+					testId = testId,
+					variant = variant,
+					viewAnchorDate = state.viewAnchorDate,
+				}),
+			})
+		)
 	end
 
 	return Popover.Root({
 		isOpen = state.isOpen,
 		testId = testId,
 		children = function()
-			local input = TextInput(withCommonProps(props, {
-				hasError = props.hasError,
-				hint = props.hint,
-				iconTrailing = {
-					name = IconName.Calendar,
-					onActivated = state.showDateTimePicker,
-				},
-				isDisabled = props.isDisabled,
-				isRequired = props.isRequired,
-				label = props.label,
-				onChanged = state.updateInputText,
-				onFocusGained = state.onFocusGained,
-				onFocusLost = state.onFocusLost,
-				placeholder = function()
-					return Value.read(props.placeholder) or Translator:FormatByKey("CommonUI.Controls.Label.SelectDate")
-				end,
-				size = InputSize.Medium,
-				text = state.inputText,
-				width = props.width,
-			} :: TextInput.TextInputProps))
+			local input = TextInput(withCommonProps(
+				props,
+				{
+					hasError = props.hasError,
+					hint = props.hint,
+					iconTrailing = {
+						name = IconName.Calendar,
+						onActivated = state.showDateTimePicker,
+					},
+					isDisabled = props.isDisabled,
+					isRequired = props.isRequired,
+					label = props.label,
+					onChanged = state.updateInputText,
+					onFocusGained = state.onFocusGained,
+					onFocusLost = state.onFocusLost,
+					placeholder = function()
+						return Value.read(props.placeholder)
+							or Translator:FormatByKey("CommonUI.Controls.Label.SelectDate")
+					end,
+					size = InputSize.Medium,
+					text = state.inputText,
+					width = props.width,
+				} :: TextInput.TextInputProps
+			))
 
 			return {
 				named("DateInput", input),

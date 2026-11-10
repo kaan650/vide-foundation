@@ -39,7 +39,15 @@ return {
 						})
 					)
 				end
-				table.insert(buttons, VF.IconButton({ icon = "heart", size = size :: any, onActivated = foundation.action("IconButton"), LayoutOrder = 99 }))
+				table.insert(
+					buttons,
+					VF.IconButton({
+						icon = "heart",
+						size = size :: any,
+						onActivated = foundation.action("IconButton"),
+						LayoutOrder = 99,
+					})
+				)
 				table.insert(
 					rows,
 					VF.View({ tag = "auto-xy row gap-medium align-y-center", LayoutOrder = row, children = buttons })

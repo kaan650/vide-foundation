@@ -15,6 +15,16 @@ export type function Unwrap(value: type)
 				table.insert(parts, unwrap(part))
 			end
 			return if #parts == 1 then parts[1] else types.unionof(table.unpack(parts))
+		elseif component.tag == "intersection" then
+			--* A Vide source is `(() -> T) & ((T) -> T)`; reading it is the overload without parameters.
+			for _, part in component:components() do
+				if part.tag == "function" then
+					local parameters = part:parameters()
+					if (parameters.head == nil or #parameters.head == 0) and parameters.tail == nil then
+						return unwrap(part)
+					end
+				end
+			end
 		end
 		return component
 	end

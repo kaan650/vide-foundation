@@ -103,7 +103,7 @@ local function InputLabel(inputLabelProps: InputLabelProps): GuiObject | () -> G
 	if props.onActivated == nil and onHover == nil then
 		return build(nil)
 	end
-	return rebuildOn<<boolean?>>(props.isDisabled, build)
+	return rebuildOn(props.isDisabled, build)
 end
 
 return InputLabel

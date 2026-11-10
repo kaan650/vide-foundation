@@ -280,7 +280,10 @@ local function NumberInput(numberInputProps: NumberInputProps): GuiObject
 	local function containerGap(): number
 		local gap = tokens().Gap
 		local current = size()
-		return if current == InputSize.XSmall then gap.Small elseif current == InputSize.Small then gap.Medium else gap.Large
+		return if current == InputSize.XSmall
+			then gap.Small
+			elseif current == InputSize.Small then gap.Medium
+			else gap.Large
 	end
 	local function unitsXOffsets(): (number, number)
 		local horizontalPadding = variantProps().container.horizontalPadding.Offset
@@ -577,7 +580,8 @@ local function NumberInput(numberInputProps: NumberInputProps): GuiObject
 		)
 	end
 
-	local scrubbable: Value<boolean> = if type(props.isScrubbable) == "function" or type(props.scrubBehavior) == "function"
+	local scrubbable: Value<boolean> = if type(props.isScrubbable) == "function"
+			or type(props.scrubBehavior) == "function"
 		then isScrubbable
 		else isScrubbable()
 
@@ -617,7 +621,7 @@ local function NumberInput(numberInputProps: NumberInputProps): GuiObject
 						View({
 							tag = "size-full-0 auto-y",
 							children = {
-								rebuildOn<<boolean>>(scrubbable, function(current: boolean)
+								rebuildOn(scrubbable, function(current: boolean)
 									return internalInput(textBoxRef, current)
 								end),
 								Vide.show(hasUnits, unitsOverlay),

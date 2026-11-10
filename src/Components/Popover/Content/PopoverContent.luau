@@ -102,21 +102,13 @@ local function PopoverContent(contentProps: PopoverContentProps): () -> any
 	local content = Vide.source(nil :: GuiObject?)
 	local getContent: () -> GuiObject? = content :: any
 
-	local floating = useFloating(
-		popoverContext.isOpen,
-		popoverContext.anchor,
-		getContent,
-		overlay,
-		function()
-			return Value.read(props.side)
-		end,
-		function()
-			return Value.read(props.align)
-		end,
-		function()
-			return if hasArrow() then arrowHeight() else 0
-		end
-	)
+	local floating = useFloating(popoverContext.isOpen, popoverContext.anchor, getContent, overlay, function()
+		return Value.read(props.side)
+	end, function()
+		return Value.read(props.align)
+	end, function()
+		return if hasArrow() then arrowHeight() else 0
+	end)
 
 	local function offsetPosition(source: () -> Vector2): () -> UDim2
 		return function()

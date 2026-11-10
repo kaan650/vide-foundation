@@ -182,17 +182,20 @@ local function DropdownControl(dropdownControlProps: DropdownControlProps): GuiO
 		return control
 	end
 
-	return InputField(withCommonProps(props, {
-		size = function()
-			return getInputTextSize(Value.read(props.size))
-		end,
-		hasError = props.hasError,
-		isDisabled = props.isDisabled,
-		label = props.label,
-		hint = props.hint,
-		width = props.width,
-		input = input,
-	} :: InputField.InputFieldProps))
+	return InputField(withCommonProps(
+		props,
+		{
+			size = function()
+				return getInputTextSize(Value.read(props.size))
+			end,
+			hasError = props.hasError,
+			isDisabled = props.isDisabled,
+			label = props.label,
+			hint = props.hint,
+			width = props.width,
+			input = input,
+		} :: InputField.InputFieldProps
+	))
 end
 
 return DropdownControl

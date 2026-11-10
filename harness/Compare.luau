@@ -9,38 +9,108 @@ local Compare = {}
 
 local PROPERTIES = {
 	GuiObject = {
-		"Visible", "Size", "Position", "AnchorPoint", "AutomaticSize", "LayoutOrder", "ZIndex", "Rotation",
-		"BackgroundColor3", "BackgroundTransparency", "BorderSizePixel", "ClipsDescendants", "Active", "Interactable",
-		"AbsoluteSize", "AbsolutePosition",
+		"Visible",
+		"Size",
+		"Position",
+		"AnchorPoint",
+		"AutomaticSize",
+		"LayoutOrder",
+		"ZIndex",
+		"Rotation",
+		"BackgroundColor3",
+		"BackgroundTransparency",
+		"BorderSizePixel",
+		"ClipsDescendants",
+		"Active",
+		"Interactable",
+		"AbsoluteSize",
+		"AbsolutePosition",
 	},
 	CanvasGroup = { "GroupTransparency" },
 	TextLabel = {
-		"Text", "TextColor3", "TextTransparency", "TextSize", "FontFace", "LineHeight", "RichText", "TextWrapped",
-		"TextTruncate", "TextXAlignment", "TextYAlignment", "TextScaled",
+		"Text",
+		"TextColor3",
+		"TextTransparency",
+		"TextSize",
+		"FontFace",
+		"LineHeight",
+		"RichText",
+		"TextWrapped",
+		"TextTruncate",
+		"TextXAlignment",
+		"TextYAlignment",
+		"TextScaled",
 	},
 	TextButton = {
-		"Text", "TextColor3", "TextTransparency", "TextSize", "FontFace", "LineHeight", "RichText", "TextWrapped",
-		"TextTruncate", "TextXAlignment", "TextYAlignment", "TextScaled", "AutoButtonColor",
+		"Text",
+		"TextColor3",
+		"TextTransparency",
+		"TextSize",
+		"FontFace",
+		"LineHeight",
+		"RichText",
+		"TextWrapped",
+		"TextTruncate",
+		"TextXAlignment",
+		"TextYAlignment",
+		"TextScaled",
+		"AutoButtonColor",
 	},
 	TextBox = {
-		"Text", "TextColor3", "TextTransparency", "TextSize", "FontFace", "PlaceholderText", "PlaceholderColor3",
-		"TextXAlignment", "TextYAlignment", "ClearTextOnFocus", "MultiLine", "TextEditable",
+		"Text",
+		"TextColor3",
+		"TextTransparency",
+		"TextSize",
+		"FontFace",
+		"PlaceholderText",
+		"PlaceholderColor3",
+		"TextXAlignment",
+		"TextYAlignment",
+		"ClearTextOnFocus",
+		"MultiLine",
+		"TextEditable",
 	},
 	ImageLabel = {
-		"ImageContent", "ImageColor3", "ImageTransparency", "ImageRectOffset", "ImageRectSize", "ScaleType",
-		"SliceCenter", "SliceScale",
+		"ImageContent",
+		"ImageColor3",
+		"ImageTransparency",
+		"ImageRectOffset",
+		"ImageRectSize",
+		"ScaleType",
+		"SliceCenter",
+		"SliceScale",
 	},
 	ImageButton = {
-		"ImageContent", "ImageColor3", "ImageTransparency", "ImageRectOffset", "ImageRectSize", "ScaleType",
-		"SliceCenter", "SliceScale", "AutoButtonColor",
+		"ImageContent",
+		"ImageColor3",
+		"ImageTransparency",
+		"ImageRectOffset",
+		"ImageRectSize",
+		"ScaleType",
+		"SliceCenter",
+		"SliceScale",
+		"AutoButtonColor",
 	},
-	ScrollingFrame = { "CanvasSize", "AutomaticCanvasSize", "ScrollBarThickness", "ScrollingDirection", "ScrollingEnabled" },
+	ScrollingFrame = {
+		"CanvasSize",
+		"AutomaticCanvasSize",
+		"ScrollBarThickness",
+		"ScrollingDirection",
+		"ScrollingEnabled",
+	},
 	UICorner = { "CornerRadius", "TopLeftRadius", "TopRightRadius", "BottomLeftRadius", "BottomRightRadius" },
 	UIStroke = { "Color", "Thickness", "Transparency", "ApplyStrokeMode", "LineJoinMode", "BorderStrokePosition" },
 	UIPadding = { "PaddingTop", "PaddingBottom", "PaddingLeft", "PaddingRight" },
 	UIListLayout = {
-		"FillDirection", "HorizontalAlignment", "VerticalAlignment", "HorizontalFlex", "VerticalFlex", "Padding",
-		"SortOrder", "Wraps", "ItemLineAlignment",
+		"FillDirection",
+		"HorizontalAlignment",
+		"VerticalAlignment",
+		"HorizontalFlex",
+		"VerticalFlex",
+		"Padding",
+		"SortOrder",
+		"Wraps",
+		"ItemLineAlignment",
 	},
 	UIFlexItem = { "FlexMode", "GrowRatio", "ShrinkRatio", "ItemLineAlignment" },
 	UISizeConstraint = { "MinSize", "MaxSize" },
@@ -88,7 +158,12 @@ local function format(value: any): string
 	if typeof(value) == "Vector2" then
 		return string.format("(%.1f, %.1f)", value.X, value.Y)
 	elseif typeof(value) == "Color3" then
-		return string.format("rgb(%d, %d, %d)", math.round(value.R * 255), math.round(value.G * 255), math.round(value.B * 255))
+		return string.format(
+			"rgb(%d, %d, %d)",
+			math.round(value.R * 255),
+			math.round(value.G * 255),
+			math.round(value.B * 255)
+		)
 	elseif typeof(value) == "number" then
 		return string.format("%.4g", value)
 	end
@@ -158,7 +233,13 @@ local function overlayPositionsMatch(vide: Instance, react: Instance, property: 
 end
 
 local function findOverlay(displayOrder: number): Instance?
-	for _, container in { game:GetService("CoreGui"), game:GetService("Players").LocalPlayer and game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui") } do
+	for _, container in
+		{
+			game:GetService("CoreGui"),
+			game:GetService("Players").LocalPlayer and game:GetService("Players").LocalPlayer
+				:FindFirstChild("PlayerGui"),
+		}
+	do
 		for _, child in container:GetChildren() do
 			if child:IsA("ScreenGui") and child.Name == "FoundationOverlay" and child.DisplayOrder == displayOrder then
 				return child:FindFirstChild("SafeAreaFrame")
@@ -168,7 +249,15 @@ local function findOverlay(displayOrder: number): Instance?
 	return nil
 end
 
-local function diff(vide: Instance, react: Instance, path: string, origins: { Vector2 }, out: { string }, options, isRoot: boolean?)
+local function diff(
+	vide: Instance,
+	react: Instance,
+	path: string,
+	origins: { Vector2 },
+	out: { string },
+	options,
+	isRoot: boolean?
+)
 	if vide.ClassName ~= react.ClassName then
 		table.insert(out, `{path}: class {vide.ClassName} vs {react.ClassName}`)
 		return
@@ -185,7 +274,10 @@ local function diff(vide: Instance, react: Instance, path: string, origins: { Ve
 			continue
 		end
 		local a, b = read(vide, property, origins[1]), read(react, property, origins[2])
-		if not equal(a, b) and not (options.overlayShift and overlayPositionsMatch(vide, react, property, options.overlayShift)) then
+		if
+			not equal(a, b)
+			and not (options.overlayShift and overlayPositionsMatch(vide, react, property, options.overlayShift))
+		then
 			table.insert(out, `{path}.{property}: {format(a)} vs {format(b)}`)
 		end
 	end
@@ -333,7 +425,10 @@ function Compare.run(spec)
 	if spec.overlay then
 		local videOverlay, reactOverlay = findOverlay(videOverlayOrder), findOverlay(reactOverlayOrder)
 		if not videOverlay or not reactOverlay then
-			table.insert(out, `overlay: {if videOverlay then "found" else "missing"} vs {if reactOverlay then "found" else "missing"}`)
+			table.insert(
+				out,
+				`overlay: {if videOverlay then "found" else "missing"} vs {if reactOverlay then "found" else "missing"}`
+			)
 		else
 			local overlayOptions = table.clone(options)
 			overlayOptions.overlayShift = videFrame.AbsolutePosition - reactFrame.AbsolutePosition

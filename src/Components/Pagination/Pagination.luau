@@ -47,7 +47,7 @@ local function Pagination(paginationProps: PaginationProps): GuiObject | () -> G
 		end
 		else variant == PaginationVariant.MultiPage
 
-	return rebuildOn<<boolean>>(isMultiPage, function(multiPage: boolean): GuiObject
+	return rebuildOn(isMultiPage, function(multiPage: boolean): GuiObject
 		if multiPage then
 			return MultiPagePagination(props :: any)
 		end

@@ -116,30 +116,29 @@ local function GuiObjectChildren(props: GuiObjectProps & CommonProps): { any }
 
 	table.insert(
 		children,
-		tableChild(
-			props.layout,
-			"UIListLayout",
-			"ListLayout",
-			{
-				"FillDirection",
-				"ItemLineAlignment",
-				"HorizontalAlignment",
-				"HorizontalFlex",
-				"VerticalAlignment",
-				"VerticalFlex",
-				"Padding",
-				"SortOrder",
-				"Wraps",
-			},
-			testId,
-			"list-layout",
-			hasFillDirection
-		)
+		tableChild(props.layout, "UIListLayout", "ListLayout", {
+			"FillDirection",
+			"ItemLineAlignment",
+			"HorizontalAlignment",
+			"HorizontalFlex",
+			"VerticalAlignment",
+			"VerticalFlex",
+			"Padding",
+			"SortOrder",
+			"Wraps",
+		}, testId, "list-layout", hasFillDirection)
 	)
 
 	table.insert(
 		children,
-		tableChild(props.sizeConstraint, "UISizeConstraint", "SizeConstraint", { "MaxSize", "MinSize" }, testId, "size-constraint")
+		tableChild(
+			props.sizeConstraint,
+			"UISizeConstraint",
+			"SizeConstraint",
+			{ "MaxSize", "MinSize" },
+			testId,
+			"size-constraint"
+		)
 	)
 
 	if props.padding ~= nil then

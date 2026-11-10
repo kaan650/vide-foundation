@@ -1,4 +1,3 @@
-
 local ChipSize = require("../../Enums/ChipSize")
 
 local ChipGroupVariant = require("../../Enums/ChipGroupVariant")

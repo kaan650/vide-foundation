@@ -119,7 +119,10 @@ local function ColorSlider(props: ColorSliderProps): GuiObject
 				Name = "Gradient",
 				Color = function()
 					local color = baseColor()
-					return ColorSequence.new({ ColorSequenceKeypoint.new(0, color), ColorSequenceKeypoint.new(1, color) })
+					return ColorSequence.new({
+						ColorSequenceKeypoint.new(0, color),
+						ColorSequenceKeypoint.new(1, color),
+					})
 				end,
 				Transparency = ALPHA_TRANSPARENCY,
 			}),

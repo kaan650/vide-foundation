@@ -190,8 +190,14 @@ local function useFloating(
 			while node and node:IsA("GuiObject") do
 				if node.ClipsDescendants then
 					table.insert(ancestors, node)
-					table.insert(connections, node:GetPropertyChangedSignal("AbsolutePosition"):Connect(scheduleRecalculate))
-					table.insert(connections, node:GetPropertyChangedSignal("AbsoluteSize"):Connect(scheduleRecalculate))
+					table.insert(
+						connections,
+						node:GetPropertyChangedSignal("AbsolutePosition"):Connect(scheduleRecalculate)
+					)
+					table.insert(
+						connections,
+						node:GetPropertyChangedSignal("AbsoluteSize"):Connect(scheduleRecalculate)
+					)
 				end
 				node = node.Parent
 			end

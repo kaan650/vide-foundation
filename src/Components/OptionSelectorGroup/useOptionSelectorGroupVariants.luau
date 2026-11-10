@@ -1,4 +1,3 @@
-
 local InputLabelSize = require("../../Enums/InputLabelSize")
 type InputLabelSize = InputLabelSize.InputLabelSize
 

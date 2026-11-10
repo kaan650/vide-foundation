@@ -1,4 +1,3 @@
-
 local function calculateSliderValueFromPosition(position: Vector2, sliderFrame: GuiObject, range: NumberRange): number
 	local orientation = sliderFrame.AbsoluteRotation
 	--! The diagonal, not the width: Foundation measures it this way, and the press point follows it.

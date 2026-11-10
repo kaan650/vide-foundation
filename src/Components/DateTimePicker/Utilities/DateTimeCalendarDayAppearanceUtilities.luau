@@ -1,4 +1,3 @@
-
 local DateTimeCalendarViewUtilities = require("./DateTimeCalendarViewUtilities")
 local DateTimePickerRangeBandRoleEnum = require("../../../Enums/DateTimePickerRangeBandRole")
 local DateTimeRangeSelectionUtilities = require("./DateTimeRangeSelectionUtilities")

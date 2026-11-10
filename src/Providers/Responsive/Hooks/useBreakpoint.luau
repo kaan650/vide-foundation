@@ -48,7 +48,10 @@ local function shouldChangeBreakpoint(
 end
 
 --- The breakpoint for `instance`'s width and its AbsoluteSize, as sources. Before the instance exists the width is 0.
-local function useBreakpoint(instance: Value<GuiBase2d?>, options: UseBreakpointOptions?): (() -> Breakpoint, () -> Vector2)
+local function useBreakpoint(
+	instance: Value<GuiBase2d?>,
+	options: UseBreakpointOptions?
+): (() -> Breakpoint, () -> Vector2)
 	local throttleTime = if options and options.throttleTime then options.throttleTime else Constants.DEFAULT_DELAY_TIME
 	local responsive = useResponsive()
 	local function breakpointConfig(): BreakpointConfig

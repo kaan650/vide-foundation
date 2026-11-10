@@ -41,7 +41,12 @@ local function useClippingRect(gui: () -> GuiObject?): () -> Rect
 			local function update()
 				if ancestor then
 					local origin = target.AbsolutePosition
-					rect(Rect.new(ancestor.AbsolutePosition - origin, ancestor.AbsolutePosition + ancestor.AbsoluteSize - origin))
+					rect(
+						Rect.new(
+							ancestor.AbsolutePosition - origin,
+							ancestor.AbsolutePosition + ancestor.AbsoluteSize - origin
+						)
+					)
 				end
 			end
 

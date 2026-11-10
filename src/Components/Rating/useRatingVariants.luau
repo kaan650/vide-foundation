@@ -1,4 +1,3 @@
-
 local IconSize = require("../../Enums/IconSize")
 type IconSize = IconSize.IconSize
 

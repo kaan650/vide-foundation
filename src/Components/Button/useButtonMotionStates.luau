@@ -1,5 +1,3 @@
-
-
 local Motion = require("../../Utility/Motion")
 local TransitionPreset = Motion.TransitionPreset
 type TransitionConfig = Motion.TransitionConfig

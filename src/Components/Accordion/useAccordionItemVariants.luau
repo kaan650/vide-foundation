@@ -1,4 +1,3 @@
-
 local InputSize = require("../../Enums/InputSize")
 type InputSize = InputSize.InputSize
 

@@ -99,7 +99,9 @@ local function OverflowScrollContainer(props: OverflowScrollContainerProps): Gui
 		if not frame then
 			return
 		end
-		motor.setGoal(Motion.ease(frame.CanvasPosition.X + pixels, { duration = 0.2, easingStyle = Enum.EasingStyle.Quad }))
+		motor.setGoal(
+			Motion.ease(frame.CanvasPosition.X + pixels, { duration = 0.2, easingStyle = Enum.EasingStyle.Quad })
+		)
 	end
 
 	local scroll = ScrollView({

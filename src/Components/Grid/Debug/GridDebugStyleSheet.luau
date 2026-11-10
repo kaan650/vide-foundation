@@ -33,7 +33,11 @@ local function GridDebugStyleSheet(props: GridDebugStyleSheetProps): ({ Instance
 			local ratio = i / math.max(1, breakpointColCount)
 			result[`DebugColColor${i}`] = {
 				Selector = selector,
-				color = Color3.fromRGB(math.floor(255 * ratio), math.floor(255 * (1 - ratio)), math.floor(255 * ((i % 3) / 2))),
+				color = Color3.fromRGB(
+					math.floor(255 * ratio),
+					math.floor(255 * (1 - ratio)),
+					math.floor(255 * ((i % 3) / 2))
+				),
 			}
 		end
 		return result

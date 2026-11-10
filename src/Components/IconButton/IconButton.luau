@@ -185,7 +185,9 @@ local function IconButton(iconButtonProps: IconButtonProps): GuiObject | () -> G
 					return nil
 				end
 				return {
-					FlexMode = if fillBehavior == FillBehavior.Fill then Enum.UIFlexMode.Fill else Enum.UIFlexMode.Shrink,
+					FlexMode = if fillBehavior == FillBehavior.Fill
+						then Enum.UIFlexMode.Fill
+						else Enum.UIFlexMode.Shrink,
 				}
 			end,
 			selection = {

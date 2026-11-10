@@ -220,9 +220,12 @@ local function BottomSheet(bottomSheetProps: BottomSheetProps)
 		stopSpringSimulation()
 		currentSnapIndex = index
 		if outerScrollingFrame then
-			outerScrollingFrame.CanvasPosition = Vector2.new(0, Vide.untrack(function()
-				return snapValueToPosition(snapPoints()[index])
-			end))
+			outerScrollingFrame.CanvasPosition = Vector2.new(
+				0,
+				Vide.untrack(function()
+					return snapValueToPosition(snapPoints()[index])
+				end)
+			)
 		end
 		notifySnapPointChanged(index)
 	end

@@ -255,7 +255,7 @@ local function TabItem(props: TabItemProps): GuiObject | () -> GuiObject
 		}) :: any)
 	end
 
-	return rebuildOn<<boolean>>(props.isDisabled, build)
+	return rebuildOn(props.isDisabled, build)
 end
 
 return TabItem

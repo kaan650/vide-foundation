@@ -40,12 +40,7 @@ type StepItemProps = {
 local function StepItem(props: StepItemProps): GuiObject
 	local tokens = useTokens()
 	local variant = Vide.derive(function()
-		return useStepperVariants(
-			tokens(),
-			props.size(),
-			props.stepState(),
-			props.fillBehavior() == FillBehavior.Fill
-		)
+		return useStepperVariants(tokens(), props.size(), props.stepState(), props.fillBehavior() == FillBehavior.Fill)
 	end)
 
 	local measure = View({
