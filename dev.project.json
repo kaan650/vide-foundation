@@ -1,0 +1,21 @@
+{
+	"name": "VideFoundationDev",
+	"emitLegacyScripts": false,
+	"tree": {
+		"$className": "DataModel",
+		"ReplicatedStorage": {
+			"Packages": {
+				"$path": "Packages",
+				"VideFoundation": {
+					"$path": "src"
+				}
+			},
+			"DevPackages": {
+				"$path": "DevPackages"
+			},
+			"Stories": {
+				"$path": "stories"
+			}
+		}
+	}
+}
