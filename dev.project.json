@@ -15,12 +15,6 @@
 			},
 			"Stories": {
 				"$path": "stories"
-			},
-			"ReferencePackages": {
-				"$path": "reference.project.json"
-			},
-			"Harness": {
-				"$path": "harness"
 			}
 		}
 	}

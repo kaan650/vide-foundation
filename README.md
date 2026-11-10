@@ -53,6 +53,7 @@ end, playerGui.ScreenGui)
   function.
 - Refs are callback props: `ref`, `textBoxRef`, `inputRef`.
 
-The [UI Labs](https://ui-labs.luau.page/) storybook in `stories/` shows every component.
+To see every component, run `wally install` and `rojo serve dev.project.json`, then open the VideFoundation
+storybook in [UI Labs](https://ui-labs.luau.page/).
 
 Foundation, its design tokens, Builder Icons and images are made by Roblox.

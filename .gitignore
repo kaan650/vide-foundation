@@ -7,5 +7,3 @@ sourcemap.json
 *.rbxl.lock
 *.rbxlx.lock
 *.rbxm
-/reference
-reference.project.json
