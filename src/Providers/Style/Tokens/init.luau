@@ -1,6 +1,7 @@
 local RbxDesignFoundations = require("../../Packages/RbxDesignFoundations")
 
 local ColorMode = require("../../Enums/ColorMode")
+local DeprecatedTokenUtilities = require("@self/DeprecatedTokenUtilities")
 local Device = require("../../Enums/Device")
 local ThemeName = require("../../Enums/ThemeName")
 local TokenProcessingUtilities = require("@self/TokenProcessingUtilities")
@@ -45,7 +46,6 @@ local function getTokens(
 		Ease = tokens.Ease,
 		LightMode = tokens.LightMode,
 		Inverse = tokens.Inverse,
-		Semantic = tokens.Semantic,
 		Size = tokens.Size,
 		Padding = tokens.Padding,
 		Margin = tokens.Margin,
@@ -63,6 +63,9 @@ local function getTokens(
 	if tokenOverrides then
 		applyTokenOverrides(filteredTokens, tokenOverrides)
 	end
+
+	--* FoundationRemoveDeprecatedSemanticTokens is off: the old Semantic names are still built from the new tokens.
+	(filteredTokens :: any).Semantic = DeprecatedTokenUtilities.getDeprecatedSemanticTokens(filteredTokens, 1)
 
 	return (filteredTokens :: any) :: Tokens
 end

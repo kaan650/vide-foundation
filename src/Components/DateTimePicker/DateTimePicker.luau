@@ -29,7 +29,7 @@ local defaultProps = {
 
 --- A text input for a date, a date and time, or a range, with a calendar popover to pick it. Returns the input and
 --- the popover content, as React renders them as a fragment.
---- Foundation's FoundationDateTimePickerBetaUpdate is on: this is its DateTimePickerBeta.
+--- Foundation's DateTimePicker renders DateTimePickerBeta; this is that component.
 local function DateTimePicker(dateTimePickerProps: DateTimePickerProps): { any }
 	local props = withDefaults(dateTimePickerProps, defaultProps)
 	local tokens = useTokens()

@@ -43,6 +43,11 @@ export type Bindable<T> = Value<T>
 --- What Vide accepts as children: instances, arrays of them, or functions returning them.
 export type Children = Instance | { [any]: any } | () -> any
 
+export type IconConfig = string | {
+	name: string,
+	variant: IconVariant?,
+}
+
 export type IconAccessoryConfig = {
 	type: nil,
 	iconName: string,
@@ -64,6 +69,19 @@ export type BadgeAccessoryConfig = {
 	text: string?,
 	icon: string?,
 	variant: BadgeVariant?,
+}
+
+local StatusIndicatorShape = require("../Enums/StatusIndicatorShape")
+type StatusIndicatorShape = StatusIndicatorShape.StatusIndicatorShape
+local StatusIndicatorVariant = require("../Enums/StatusIndicatorVariant")
+type StatusIndicatorVariant = StatusIndicatorVariant.StatusIndicatorVariant
+
+export type StatusIndicatorAccessoryConfig = {
+	type: "StatusIndicator",
+	variant: StatusIndicatorVariant?,
+	shape: StatusIndicatorShape?,
+	value: number?,
+	max: number?,
 }
 
 export type ActionProps = {

@@ -26,8 +26,9 @@ export type DateTimePickerProps = {
 	referenceDate: Value<DateTime?>?,
 	-- Selectable date range (inclusive), compared by whole days.
 	selectableDateRange: Value<DateTimeUtilities.DateRange?>?,
-	-- Selection behavior of the open picker
+	-- Gamepad focus configuration between the picker surface and neighboring UI elements.
 	selection: Types.Selection?,
+	-- Gamepad focus grouping and directional navigation between the picker and its neighbors.
 	selectionGroup: (Value<boolean> | Types.SelectionGroup)?,
 	-- Variant of the date time picker
 	variant: Value<DateTimePickerVariantEnum.DateTimePickerVariant?>?,

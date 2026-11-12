@@ -282,10 +282,8 @@ local function CenterSheet(centerSheetProps: CenterSheetProps)
 				end
 				else nil,
 			onAbsoluteSizeChanged = function(rbx: GuiObject)
-				if Vide.untrack(centerSheetHeight) then
-					local padding = Vide.untrack(tokens).Margin.Medium * 2
-					maxAvailableHeight(math.min(rbx.AbsoluteSize.Y - padding, Vide.untrack(maxHeight)))
-				end
+				local padding = Vide.untrack(tokens).Margin.Medium * 2
+				maxAvailableHeight(math.min(rbx.AbsoluteSize.Y - padding, Vide.untrack(maxHeight)))
 			end,
 		})
 		container.Name = "SheetContainer"

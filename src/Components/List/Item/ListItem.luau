@@ -86,6 +86,8 @@ export type ListItemProps = {
 	-- / Toggle / Radio) where `onActivated(checked)` activates ONLY the input and takes priority over the
 	-- item-level `onActivated`. Set one owner of activation, not both.
 	input: Value<ListItemInput?>?,
+	-- Runs on a secondary activation (right click) of the whole item.
+	onSecondaryActivated: ((self: GuiObject, inputObject: InputObject) -> ())?,
 } & Types.SelectionProps & Types.CommonProps
 
 type ResolvedInput = {
@@ -407,6 +409,7 @@ local function ListItem(props: ListItemProps): GuiObject
 		"ListItemContainer",
 		View({
 			onActivated = onActivated :: any,
+			onSecondaryActivated = props.onSecondaryActivated,
 			tag = function()
 				local margin = listContext.hasMargin()
 				return {

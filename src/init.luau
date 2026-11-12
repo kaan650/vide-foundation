@@ -170,6 +170,44 @@ local UserPresence = require("@self/Enums/UserPresence")
 export type UserPresence = UserPresence.UserPresence
 local Visibility = require("@self/Enums/Visibility")
 export type Visibility = Visibility.Visibility
+local BannerContextPresentation = require("@self/Enums/BannerContextPresentation")
+export type BannerContextPresentation = BannerContextPresentation.BannerContextPresentation
+local BannerContextVariant = require("@self/Enums/BannerContextVariant")
+export type BannerContextVariant = BannerContextVariant.BannerContextVariant
+local BannerSize = require("@self/Enums/BannerSize")
+export type BannerSize = BannerSize.BannerSize
+local CardDensity = require("@self/Enums/CardDensity")
+export type CardDensity = CardDensity.CardDensity
+local CardHeaderSize = require("@self/Enums/CardHeaderSize")
+export type CardHeaderSize = CardHeaderSize.CardHeaderSize
+local CardHeight = require("@self/Enums/CardHeight")
+export type CardHeight = CardHeight.CardHeight
+local CardMediaAspectRatio = require("@self/Enums/CardMediaAspectRatio")
+export type CardMediaAspectRatio = CardMediaAspectRatio.CardMediaAspectRatio
+local CardMediaPlacement = require("@self/Enums/CardMediaPlacement")
+export type CardMediaPlacement = CardMediaPlacement.CardMediaPlacement
+local CardVariant = require("@self/Enums/CardVariant")
+export type CardVariant = CardVariant.CardVariant
+local LinkVariant = require("@self/Enums/LinkVariant")
+export type LinkVariant = LinkVariant.LinkVariant
+local MediaAspectRatio = require("@self/Enums/MediaAspectRatio")
+export type MediaAspectRatio = MediaAspectRatio.MediaAspectRatio
+local MediaOrientation = require("@self/Enums/MediaOrientation")
+export type MediaOrientation = MediaOrientation.MediaOrientation
+local MetadataSize = require("@self/Enums/MetadataSize")
+export type MetadataSize = MetadataSize.MetadataSize
+local Placement = require("@self/Enums/Placement")
+export type Placement = Placement.Placement
+local ScrollBarVisibility = require("@self/Enums/ScrollBarVisibility")
+export type ScrollBarVisibility = ScrollBarVisibility.ScrollBarVisibility
+local ShortcutSeparator = require("@self/Enums/ShortcutSeparator")
+export type ShortcutSeparator = ShortcutSeparator.ShortcutSeparator
+local ShortcutVariant = require("@self/Enums/ShortcutVariant")
+export type ShortcutVariant = ShortcutVariant.ShortcutVariant
+local SliderType = require("@self/Enums/SliderType")
+export type SliderType = SliderType.SliderType
+local TextOverflow = require("@self/Enums/TextOverflow")
+export type TextOverflow = TextOverflow.TextOverflow
 export type IconName = BuilderIcons.Icon
 export type IconVariant = BuilderIcons.IconVariant
 
@@ -182,6 +220,28 @@ export type PreferencesProviderProps = PreferencesProvider.PreferencesProviderPr
 
 local ResponsiveProvider = require("@self/Providers/Responsive/ResponsiveProvider")
 export type ResponsiveProviderProps = ResponsiveProvider.ResponsiveProviderProps
+
+local Link = require("@self/Components/Link")
+export type LinkProps = Link.LinkProps
+
+local Media = require("@self/Components/Media")
+export type MediaProps = Media.MediaProps
+export type MediaContent = Media.MediaContent
+export type MediaImage = Media.MediaImage
+
+local Metadata = require("@self/Components/Metadata")
+export type MetadataProps = Metadata.MetadataProps
+export type MetadataAccessory = Metadata.MetadataAccessory
+export type MetadataItem = Metadata.MetadataItem
+
+local NavigationBar = require("@self/Components/NavigationBar")
+export type NavigationBarProps = NavigationBar.NavigationBarProps
+export type NavigationBarItem = NavigationBar.NavigationBarItem
+
+local Shortcut = require("@self/Components/Shortcut")
+export type ShortcutProps = Shortcut.ShortcutProps
+export type ShortcutKey = Shortcut.ShortcutKey
+export type ShortcutSize = Shortcut.ShortcutSize
 
 local View = require("@self/Components/View")
 export type ViewProps = View.ViewProps
@@ -210,11 +270,21 @@ local Badge = require("@self/Components/Badge")
 export type BadgeProps = Badge.BadgeProps
 export type BadgeIcon = Badge.BadgeIcon
 
+local Banner = require("@self/Components/Banner")
+export type BannerProps = Banner.BannerProps
+
+local BannerContext = require("@self/Components/BannerContext")
+export type BannerContextProps = BannerContext.BannerContextProps
+
 local BaseMenu = require("@self/Components/BaseMenu")
 export type BaseMenuProps<Item = BaseMenuItem> = BaseMenu.BaseMenuProps<Item>
 export type BaseMenuItem = BaseMenu.BaseMenuItem
 export type BaseMenuItems<Item = BaseMenuItem> = BaseMenu.BaseMenuItems<Item>
 export type BaseMenuItemGroup<Item = BaseMenuItem> = BaseMenu.BaseMenuItemGroup<Item>
+
+local Breadcrumb = require("@self/Components/Breadcrumb")
+export type BreadcrumbProps = Breadcrumb.BreadcrumbProps
+export type BreadcrumbItem = Breadcrumb.BreadcrumbItem
 
 local Button = require("@self/Components/Button")
 export type ButtonProps = Button.ButtonProps
@@ -223,6 +293,9 @@ local ButtonGroup = require("@self/Components/ButtonGroup")
 export type ButtonGroupProps = ButtonGroup.ButtonGroupProps
 export type ButtonGroupItem = ButtonGroup.ButtonGroupItem
 export type ButtonGroupSize = ButtonGroup.ButtonGroupSize
+
+local Card = require("@self/Components/Card")
+export type CardProps = Card.CardProps
 
 local Checkbox = require("@self/Components/Checkbox")
 export type CheckboxProps = Checkbox.CheckboxProps
@@ -404,8 +477,12 @@ return {
 	AvatarIcon = AvatarIcon,
 	AvatarIconGroup = AvatarIconGroup,
 	Badge = Badge,
+	Banner = Banner,
+	BannerContext = BannerContext,
+	Breadcrumb = Breadcrumb,
 	Button = Button,
 	ButtonGroup = ButtonGroup,
+	Card = Card,
 	Checkbox = Checkbox,
 	CheckboxGroup = CheckboxGroup,
 	Chip = Chip,
@@ -426,11 +503,16 @@ return {
 	Image = Image,
 	InputChip = InputChip,
 	InputLabel = InputLabel,
+	-- **DEPRECATED**: KeyLabel is deprecated. Use Shortcut instead.
 	KeyLabel = KeyLabel,
+	Link = Link,
 	Knob = Knob,
 	List = List,
 	Loading = Loading,
+	Media = Media,
 	Menu = Menu,
+	Metadata = Metadata,
+	NavigationBar = NavigationBar,
 	NumberInput = NumberInput,
 	OptionSelectorGroup = OptionSelectorGroup,
 	Pagination = Pagination,
@@ -442,6 +524,7 @@ return {
 	SearchInput = SearchInput,
 	SegmentedControl = SegmentedControl,
 	Sheet = Sheet,
+	Shortcut = Shortcut,
 	Skeleton = Skeleton,
 	Slider = Slider,
 	Snackbar = Snackbar,
@@ -478,6 +561,7 @@ return {
 		usePreferences = require("@self/Providers/Preferences/usePreferences"),
 		useResponsive = require("@self/Providers/Responsive/useResponsive"),
 		useStyleSheet = require("@self/Providers/Style/StyleSheetContext").useStyleSheet,
+		useTextSize = require("@self/Utility/useTextSize"),
 		useTextSizeOffset = require("@self/Providers/Style/useTextSizeOffset"),
 		useTokens = require("@self/Providers/Style/useTokens"),
 	},
@@ -495,12 +579,21 @@ return {
 		BadgeShape = BadgeShape,
 		BadgeSize = BadgeSize,
 		BadgeVariant = BadgeVariant,
+		BannerContextPresentation = BannerContextPresentation,
+		BannerContextVariant = BannerContextVariant,
+		BannerSize = BannerSize,
 		Breakpoint = Breakpoint,
 		-- **DEPRECATED**: ButtonSize is deprecated. Use InputSize instead.
 		ButtonSize = InputSize,
 		ButtonVariant = ButtonVariant,
 		-- **DEPRECATED**: CheckboxSize is deprecated. Use InputSize instead.
 		CheckboxSize = InputSize,
+		CardDensity = CardDensity,
+		CardHeaderSize = CardHeaderSize,
+		CardHeight = CardHeight,
+		CardMediaAspectRatio = CardMediaAspectRatio,
+		CardMediaPlacement = CardMediaPlacement,
+		CardVariant = CardVariant,
 		ControlState = ControlState,
 		ChipGroupVariant = ChipGroupVariant,
 		ChipSize = ChipSize,
@@ -524,7 +617,11 @@ return {
 		InputVariant = InputVariant,
 		InputPlacement = InputPlacement,
 		InputLabelSize = InputLabelSize,
+		LinkVariant = LinkVariant,
 		ListItemInputType = ListItemInputType,
+		MediaAspectRatio = MediaAspectRatio,
+		MediaOrientation = MediaOrientation,
+		MetadataSize = MetadataSize,
 		NumberInputControlsVariant = NumberInputControlsVariant,
 		ScrubBehavior = ScrubBehavior,
 		OnChangeCallbackReason = OnChangeCallbackReason,
@@ -533,6 +630,7 @@ return {
 		Orientation = Orientation,
 		PaginationSize = PaginationSize,
 		PaginationVariant = PaginationVariant,
+		Placement = Placement,
 		PopoverAlign = PopoverAlign,
 		PopoverSide = PopoverSide,
 		ProgressShape = ProgressShape,
@@ -541,8 +639,10 @@ return {
 		Radius = Radius,
 		SearchInputShape = SearchInputShape,
 		SegmentedControlVariant = SegmentedControlVariant,
-		-- **DEPRECATED**: ScrollBarVisibility is deprecated. Use Visibility instead.
-		ScrollBarVisibility = Visibility,
+		ScrollBarVisibility = ScrollBarVisibility,
+		ShortcutSeparator = ShortcutSeparator,
+		ShortcutVariant = ShortcutVariant,
+		SliderType = SliderType,
 		SliderVariant = SliderVariant,
 		StateLayerAffordance = StateLayerAffordance,
 		StateLayerMode = StateLayerMode,
@@ -554,6 +654,7 @@ return {
 		StatusIndicatorVariant = StatusIndicatorVariant,
 		-- **DEPRECATED**: Theme is deprecated. Use ColorMode instead.
 		Theme = Theme,
+		TextOverflow = TextOverflow,
 		ThemeName = ThemeName,
 		ThumbnailType = ThumbnailType,
 		ThumbnailSize = ThumbnailSize,
@@ -570,6 +671,9 @@ return {
 		getTokens = Tokens.getTokens,
 		getGridMetrics = require("@self/Utility/getGridMetrics"),
 		blendColors = require("@self/Utility/blendColors"),
+		getTextBoundsAsync = require("@self/Utility/getTextBoundsAsync"),
+		getTextSizeOffset = require("@self/Utility/getTextSizeOffset"),
+		normalizeFontFace = require("@self/Utility/normalizeFontFace"),
 		withCommonProps = require("@self/Utility/withCommonProps"),
 		withDefaults = require("@self/Utility/withDefaults"),
 	},
@@ -577,7 +681,6 @@ return {
 	UNSTABLE = {
 		CarouselIndicator = require("@self/Components/CarouselIndicator"),
 		Gradient = require("@self/Components/Gradient"),
-		Tile = require("@self/Components/Tile"),
 		BaseMenu = BaseMenu,
 		AlertActions = AlertActions,
 		CloseAffordance = require("@self/Components/CloseAffordance"),

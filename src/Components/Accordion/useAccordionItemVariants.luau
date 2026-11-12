@@ -20,6 +20,8 @@ type AccordionItemVariantProps = {
 	content: { tag: string },
 	icon: { style: Types.ColorStyleValue, size: number },
 	text: { tag: string },
+	textContainer: { tag: string },
+	description: { tag: string },
 }
 
 local getVariants = function(tokens: Tokens)
@@ -31,7 +33,9 @@ local getVariants = function(tokens: Tokens)
 		header = { tag = "row flex-x-between align-y-center" },
 		content = { tag = "size-full-0 auto-y padding-top-xsmall" },
 		icon = { style = tokens.Color.Content.Emphasis },
-		text = { tag = "grow auto-y text-align-x-left text-truncate-end content-emphasis" },
+		text = { tag = "auto-y text-align-x-left text-truncate-end content-emphasis" },
+		textContainer = { tag = "col grow auto-y" },
+		description = { tag = "size-full-0 auto-y text-align-x-left text-truncate-end" },
 	}
 
 	local sizes: { [InputSize]: VariantProps } = {
@@ -41,6 +45,7 @@ local getVariants = function(tokens: Tokens)
 			content = { tag = "padding-bottom-small" },
 			icon = { size = IconSize.XSmall :: IconSize },
 			text = { tag = "text-title-small" },
+			description = { tag = "text-body-small" },
 		},
 		[InputSize.Small] = {
 			container = { tag = "radius-medium" },
@@ -48,6 +53,7 @@ local getVariants = function(tokens: Tokens)
 			content = { tag = "padding-bottom-large" },
 			icon = { size = IconSize.Small :: IconSize },
 			text = { tag = "text-title-small" },
+			description = { tag = "text-body-small" },
 		},
 		[InputSize.Medium] = {
 			container = { tag = "radius-medium" },
@@ -55,6 +61,7 @@ local getVariants = function(tokens: Tokens)
 			content = { tag = "padding-bottom-xlarge" },
 			icon = { size = IconSize.Medium :: IconSize },
 			text = { tag = "text-title-medium" },
+			description = { tag = "text-body-medium" },
 		},
 		[InputSize.Large] = {
 			container = { tag = "radius-medium" },
@@ -62,12 +69,15 @@ local getVariants = function(tokens: Tokens)
 			content = { tag = "padding-bottom-xlarge" },
 			icon = { size = IconSize.Large :: IconSize },
 			text = { tag = "text-title-large" },
+			description = { tag = "text-body-medium" },
 		},
 	}
 
 	local isContained: { [boolean]: VariantProps } = {
-		[false] = { header = { tag = "padding-x-xsmall" } },
-		[true] = { header = { tag = "padding-x-medium" } },
+		[true] = {
+			header = { tag = "padding-x-medium" },
+			content = { tag = "padding-x-medium" },
+		},
 	}
 
 	return { common = common, sizes = sizes, isContained = isContained }

@@ -5,11 +5,13 @@ local Dash = foundation.Dash
 local UILabs = foundation.UILabs
 
 local StatusIndicatorShape = require("@game/ReplicatedStorage/Packages/VideFoundation/Enums/StatusIndicatorShape")
+local StatusIndicatorSize = require("@game/ReplicatedStorage/Packages/VideFoundation/Enums/StatusIndicatorSize")
 local StatusIndicatorVariant = require("@game/ReplicatedStorage/Packages/VideFoundation/Enums/StatusIndicatorVariant")
 local Tokens = require("@game/ReplicatedStorage/Packages/VideFoundation/Providers/Style/Tokens")
 
 type ColorStyleValue = VideFoundation.ColorStyleValue
 type StatusIndicatorShape = StatusIndicatorShape.StatusIndicatorShape
+type StatusIndicatorSize = StatusIndicatorSize.StatusIndicatorSize
 type StatusIndicatorVariant = StatusIndicatorVariant.StatusIndicatorVariant
 
 local NO_MASK = "None"
@@ -112,6 +114,44 @@ local function AllVariantsStory()
 	})
 end
 
+local SIZES: { StatusIndicatorSize } = {
+	StatusIndicatorSize.XSmall,
+	StatusIndicatorSize.Small,
+	StatusIndicatorSize.Medium,
+	StatusIndicatorSize.Large,
+}
+
+local function SizesStory()
+	local rows = {}
+	for index, size in SIZES do
+		rows[index] = VF.View({
+			tag = "row align-y-center gap-medium auto-xy",
+			LayoutOrder = index,
+			children = {
+				VF.Text({
+					Text = size,
+					tag = "auto-y text-label-medium text-align-x-left content-muted",
+					Size = UDim2.fromOffset(64, 0),
+					LayoutOrder = 1,
+				}),
+				VF.StatusIndicator({ size = size, shape = StatusIndicatorShape.Circle, LayoutOrder = 2 }),
+				VF.StatusIndicator({ size = size, shape = StatusIndicatorShape.Ring, LayoutOrder = 3 }),
+				VF.StatusIndicator({
+					size = size,
+					variant = StatusIndicatorVariant.Emphasis,
+					value = 5,
+					LayoutOrder = 4,
+				}),
+				VF.StatusIndicator({ size = size, value = 120, max = 99, LayoutOrder = 5 }),
+			},
+		})
+	end
+	return VF.View({
+		tag = "col gap-medium size-full-0 auto-y",
+		children = rows,
+	})
+end
+
 local function IndicatorRow(props: { masked: boolean, LayoutOrder: number })
 	local tokens = VF.Hooks.useTokens()
 	local function backdrop(): ColorStyleValue
@@ -172,6 +212,11 @@ return foundation.sections({
 			name = "All Variants",
 			summary = "All variant × shape permutations, plus numeric where supported",
 			story = AllVariantsStory,
+		},
+		{
+			name = "Sizes",
+			summary = "Dots, rings and counts at each size; Large counts use LabelMedium",
+			story = SizesStory,
 		},
 		{
 			name = "On custom background",

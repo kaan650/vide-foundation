@@ -451,6 +451,44 @@ local function ScrubbingStory()
 			}),
 		})
 	end
+	--* The scrub fill takes the variant's colors, and only shows over a finite range.
+	for index, variant in VARIANT_ORDER do
+		table.insert(
+			groups,
+			Group({
+				caption = `{variant} variant`,
+				contentTag = "auto-xy",
+				LayoutOrder = #SCRUB_ORDER + index,
+				children = StatefulNumberInput({
+					defaultValue = 40,
+					label = "Drag to change",
+					hint = "0 to 100",
+					variant = variant,
+					scrubBehavior = ScrubBehavior.On,
+					minimum = 0,
+					maximum = 100,
+					step = 1,
+					width = UDim.new(0, 200),
+				}),
+			})
+		)
+	end
+	table.insert(
+		groups,
+		Group({
+			caption = "No range",
+			contentTag = "auto-xy",
+			LayoutOrder = #SCRUB_ORDER + #VARIANT_ORDER + 1,
+			children = StatefulNumberInput({
+				defaultValue = 40,
+				label = "Drag to change",
+				hint = "No fill without a minimum and maximum",
+				scrubBehavior = ScrubBehavior.On,
+				step = 1,
+				width = UDim.new(0, 200),
+			}),
+		})
+	)
 	return VF.View({ tag = "row wrap gap-xxlarge auto-xy", children = groups })
 end
 

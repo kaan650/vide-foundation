@@ -6,6 +6,7 @@ local Dash = foundation.Dash
 local UILabs = foundation.UILabs
 
 local BuilderIcons = require("@game/ReplicatedStorage/Packages/VideFoundation/Packages/BuilderIcons")
+local InputPlacement = require("@game/ReplicatedStorage/Packages/VideFoundation/Enums/InputPlacement")
 local InputSize = require("@game/ReplicatedStorage/Packages/VideFoundation/Enums/InputSize")
 local Types = require("@game/ReplicatedStorage/Packages/VideFoundation/Components/Types")
 
@@ -54,9 +55,12 @@ end
 local function PlaygroundStory(controls: { [string]: any })
 	local expandedItem = Vide.source(1)
 
-	local function leadingIcon(): AccordionItemIcon?
-		local icon = StoryIcons.parseIconControl(controls.icon())
-		return if icon then { name = icon, variant = controls.iconVariant() } else nil
+	local function icon(): AccordionItemIcon?
+		local name = StoryIcons.parseIconControl(controls.icon())
+		return if name then { name = name, variant = controls.iconVariant() } else nil
+	end
+	local function description(): string?
+		return if controls.hasDescription() then "Optional supporting details" else nil
 	end
 
 	local function handleActivated(item: ItemId, isExpanded: boolean?)
@@ -73,7 +77,8 @@ local function PlaygroundStory(controls: { [string]: any })
 			isExpanded = function()
 				return expandedItem() == id
 			end,
-			leadingIcon = leadingIcon,
+			icon = icon,
+			description = description,
 			children = itemContent(body),
 		})
 	end
@@ -84,6 +89,8 @@ local function PlaygroundStory(controls: { [string]: any })
 			return Accordion({
 				width = ACCORDION_WIDTH,
 				size = controls.size,
+				isContained = controls.isContained,
+				chevronPosition = controls.chevronPosition,
 				onActivated = handleActivated,
 				children = function()
 					return {
@@ -106,6 +113,8 @@ local function PlaygroundStory(controls: { [string]: any })
 		return Accordion({
 			width = ACCORDION_WIDTH,
 			size = controls.size,
+			isContained = controls.isContained,
+			chevronPosition = controls.chevronPosition,
 			children = function()
 				return {
 					AccordionItem({
@@ -113,21 +122,24 @@ local function PlaygroundStory(controls: { [string]: any })
 						LayoutOrder = 1,
 						id = 1,
 						isExpanded = true,
-						leadingIcon = leadingIcon,
+						icon = icon,
+						description = description,
 						children = itemContent("Content for the first item."),
 					}),
 					AccordionItem({
 						text = "Second accordion item",
 						LayoutOrder = 2,
 						id = 2,
-						leadingIcon = leadingIcon,
+						icon = icon,
+						description = description,
 						children = itemContent("Content for the second item."),
 					}),
 					AccordionItem({
 						text = "Third accordion item",
 						LayoutOrder = 3,
 						id = 3,
-						leadingIcon = leadingIcon,
+						icon = icon,
+						description = description,
 						children = itemContent("Content for the third item."),
 					}),
 				}
@@ -282,6 +294,9 @@ return foundation.sections({
 	controls = {
 		size = UILabs.Choose(Dash.values(InputSize :: any)),
 		controlled = false,
+		isContained = false,
+		chevronPosition = UILabs.Choose({ InputPlacement.End, InputPlacement.Start }),
+		hasDescription = false,
 		icon = UILabs.Choose(StoryIcons.buildIconControlOptions()),
 		iconVariant = UILabs.Choose(Dash.values(VF.Enums.IconVariant :: any)),
 	},

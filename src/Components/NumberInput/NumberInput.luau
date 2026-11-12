@@ -42,6 +42,8 @@ type InternalTextInputRef = Types.InternalTextInputRef
 type TextInputRef = Types.TextInputRef
 type Value<T> = Types.Value<T>
 
+type ScrubMode = "Off" | "Scrubbable" | "ScrubbableWithRange"
+
 local function round(num: number, numDecimalPlaces: number?): number
 	local mult = 10 ^ (numDecimalPlaces or 0)
 	return math.floor(num * mult + 0.5) / mult
@@ -411,37 +413,44 @@ local function NumberInput(numberInputProps: NumberInputProps): GuiObject
 		hasScrubStarted = false
 	end
 
+	local function hasRange(): boolean
+		return math.abs(maximum()) < math.huge and math.abs(minimum()) < math.huge
+	end
+
 	local function scrubbableTransparencySequence(): NumberSequence
-		local filledStyleTransparency = tokens().Color.Shift.Shift_300.Transparency
-		local unfilledStyleTransparency = tokens().Color.Shift.Shift_100.Transparency
-		local current = value()
+		local container = variantProps().container
+		local fgStyle, bgStyle = container.fgStyle, container.bgStyle
+		local none = tokens().Color.None.Transparency
+		local filledStyleTransparency = if fgStyle and fgStyle.Transparency then fgStyle.Transparency else none
+		local unfilledStyleTransparency = if bgStyle and bgStyle.Transparency then bgStyle.Transparency else none
+		return NumberSequence.new({
+			NumberSequenceKeypoint.new(0, filledStyleTransparency),
+			NumberSequenceKeypoint.new(0.499, filledStyleTransparency),
+			NumberSequenceKeypoint.new(0.5, unfilledStyleTransparency),
+			NumberSequenceKeypoint.new(1, unfilledStyleTransparency),
+		})
+	end
+
+	--* The gradient is filled on its left half; the offset slides that edge to the value's place in the range.
+	local function scrubbableTransparencyOffset(): Vector2
 		local min, max = minimum(), maximum()
 		local percentageScrubbed = 0
-		if current and max and min then
-			if max == min then
-				percentageScrubbed = 1
-			else
-				percentageScrubbed = (clampValueToRange(current) - min) / (max - min)
-			end
+		if hasRange() then
+			percentageScrubbed = if max == min then 1 else (clampValueToRange(value()) - min) / (max - min)
 		end
+		if percentageScrubbed <= 0 then
+			return Vector2.new(-1, 0)
+		elseif percentageScrubbed >= 1 then
+			return Vector2.new(1, 0)
+		end
+		return Vector2.new(percentageScrubbed - 0.5, 0)
+	end
 
-		if percentageScrubbed == 0 then
-			return NumberSequence.new(unfilledStyleTransparency)
-		elseif percentageScrubbed == 1 then
-			return NumberSequence.new(filledStyleTransparency)
-		elseif percentageScrubbed > 0 or percentageScrubbed < 1 then
-			local keypoints = {
-				NumberSequenceKeypoint.new(0, filledStyleTransparency),
-				NumberSequenceKeypoint.new(percentageScrubbed, filledStyleTransparency),
-				NumberSequenceKeypoint.new(math.min(percentageScrubbed + 0.001, 1), unfilledStyleTransparency),
-			}
-			if percentageScrubbed < 0.999 then
-				table.insert(keypoints, NumberSequenceKeypoint.new(1, unfilledStyleTransparency))
-			end
-			return NumberSequence.new(keypoints)
-		end
-		--* An unbounded range gives NaN, which lands here.
-		return NumberSequence.new(unfilledStyleTransparency)
+	local function scrubbableColor(): ColorSequence
+		local bgStyle = variantProps().container.bgStyle
+		return ColorSequence.new(
+			if bgStyle and bgStyle.Color3 then bgStyle.Color3 else tokens().Color.Shift.Shift_100.Color3
+		)
 	end
 
 	--* A value changed from outside replaces the text, unless the user is typing.
@@ -483,7 +492,8 @@ local function NumberInput(numberInputProps: NumberInputProps): GuiObject
 		return Vide.switch(icon)(builders :: any)
 	end
 
-	local function internalInput(textBoxRef: (InternalTextInputRef?) -> (), scrubbable: boolean): GuiObject
+	local function internalInput(textBoxRef: (InternalTextInputRef?) -> (), mode: ScrubMode): GuiObject
+		local scrubbable = mode ~= "Off"
 		return named(
 			"Input",
 			InternalTextInput({
@@ -522,13 +532,11 @@ local function NumberInput(numberInputProps: NumberInputProps): GuiObject
 				onDragEnded = if scrubbable then onDragEnded else nil,
 				onReturnPressed = props.onReturnPressed,
 				textBoxRef = textBoxRef,
-				backgroundGradient = if scrubbable
+				backgroundGradient = if mode == "ScrubbableWithRange"
 					then create("UIGradient")({
-						Color = function()
-							return ColorSequence.new(tokens().Color.Shift.Shift_300.Color3)
-						end,
+						Color = scrubbableColor,
 						Transparency = scrubbableTransparencySequence,
-						Rotation = 0,
+						Offset = scrubbableTransparencyOffset,
 					})
 					else nil,
 				trailingElement = iconElement(props.trailingIcon),
@@ -580,10 +588,20 @@ local function NumberInput(numberInputProps: NumberInputProps): GuiObject
 		)
 	end
 
-	local scrubbable: Value<boolean> = if type(props.isScrubbable) == "function"
+	--* Scrubbing adds the drag detector and a finite range adds the gradient; React adds either in place, the port
+	--* rebuilds the input.
+	local function scrubMode(): ScrubMode
+		if not isScrubbable() then
+			return "Off"
+		end
+		return if hasRange() then "ScrubbableWithRange" else "Scrubbable"
+	end
+	local scrubModeValue: Value<ScrubMode> = if type(props.isScrubbable) == "function"
 			or type(props.scrubBehavior) == "function"
-		then isScrubbable
-		else isScrubbable()
+			or type(props.minimum) == "function"
+			or type(props.maximum) == "function"
+		then scrubMode
+		else scrubMode()
 
 	return InputField(withCommonProps(props, {
 		width = width,
@@ -621,8 +639,8 @@ local function NumberInput(numberInputProps: NumberInputProps): GuiObject
 						View({
 							tag = "size-full-0 auto-y",
 							children = {
-								rebuildOn(scrubbable, function(current: boolean)
-									return internalInput(textBoxRef, current)
+								rebuildOn(scrubModeValue, function(mode: ScrubMode)
+									return internalInput(textBoxRef, mode)
 								end),
 								Vide.show(hasUnits, unitsOverlay),
 							},

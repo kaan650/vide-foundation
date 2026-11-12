@@ -6,6 +6,7 @@ type IconVariant = BuilderIcons.IconVariant
 
 local Divider = require("../../Divider")
 local Icon = require("../../Icon")
+local InputPlacement = require("../../../Enums/InputPlacement")
 local Motion = require("../../../Utility/Motion")
 local Text = require("../../Text")
 local Types = require("../../Types")
@@ -27,10 +28,14 @@ export type AccordionItemIcon = string | {
 }
 
 export type AccordionItemProps = {
-	-- Leading Builder Icon, with its variant.
+	-- **DEPRECATED**: Use `icon` instead.
 	leadingIcon: Value<AccordionItemIcon?>?,
+	-- Builder Icon on the side opposite the collapse chevron, with its variant.
+	icon: Value<AccordionItemIcon?>?,
 	-- Text in the item's header.
 	text: Value<string>,
+	-- Supplementary text below the title.
+	description: Value<string?>?,
 	-- Whether a divider closes the item.
 	hasDivider: Value<boolean>?,
 	-- Replaces both the default toggle and the parent Accordion's onActivated.
@@ -130,7 +135,7 @@ local function AccordionItem(accordionItemProps: AccordionItemProps): GuiObject
 	end)
 
 	local variantProps = Vide.derive(function()
-		return useAccordionItemVariants(tokens(), accordionContext.itemSize(), false)
+		return useAccordionItemVariants(tokens(), accordionContext.itemSize(), accordionContext.isContained())
 	end)
 
 	local onAccordionItemActivated = accordionContext.onAccordionItemActivated
@@ -161,37 +166,85 @@ local function AccordionItem(accordionItemProps: AccordionItemProps): GuiObject
 		return variantProps().icon.size
 	end
 
-	local getLeadingIcon: () -> AccordionItemIcon? = function()
-		return Value.read(props.leadingIcon)
+	local function hasDescription(): boolean
+		return Value.read(props.description) ~= nil
 	end
-	local leadingIcon = Vide.show(getLeadingIcon, function(icon: () -> AccordionItemIcon)
+	local function isChevronLeading(): boolean
+		return accordionContext.chevronPosition() == InputPlacement.Start
+	end
+
+	local getIcon: () -> AccordionItemIcon? = function()
+		return Value.read(props.icon) or Value.read(props.leadingIcon)
+	end
+	local icon = Vide.show(getIcon, function(current: () -> AccordionItemIcon)
 		local view = Icon({
-			LayoutOrder = 1,
+			LayoutOrder = function()
+				return if isChevronLeading() then 3 else 1
+			end,
 			name = function()
-				local current = icon()
-				return if type(current) == "table" then current.name else current
+				local value = current()
+				return if type(value) == "table" then value.name else value
 			end,
 			variant = function(): IconVariant?
-				local current = icon()
-				return if type(current) == "table" then current.variant else nil
+				local value = current()
+				return if type(value) == "table" then value.variant else nil
 			end :: any,
 			style = iconStyle,
 			size = iconSize,
 			testId = `{testId}--leading-icon`,
 		})
-		view.Name = "LeadingIcon"
+		view.Name = "Icon"
 		return view
 	end)
 
-	local title = Text({
-		LayoutOrder = 2,
-		Text = props.text,
-		tag = function()
-			return variantProps().text.tag
-		end,
-		testId = `{testId}--title`,
-	})
-	title.Name = "Title"
+	local function title(hasDescriptionBelow: boolean): GuiObject
+		local view = Text({
+			LayoutOrder = 2,
+			Text = props.text,
+			tag = function()
+				return {
+					[variantProps().text.tag] = true,
+					grow = not hasDescriptionBelow,
+					["size-full-0"] = hasDescriptionBelow,
+				}
+			end,
+			testId = `{testId}--title`,
+		})
+		view.Name = "Title"
+		return view
+	end
+
+	local soloTitle = Vide.show(function()
+		return not hasDescription()
+	end, function()
+		return title(false)
+	end)
+
+	local textContainer = Vide.show(hasDescription, function()
+		local description = Text({
+			LayoutOrder = 3,
+			Text = function()
+				return Value.read(props.description) or ""
+			end,
+			TextWrapped = false,
+			TextTruncate = Enum.TextTruncate.AtEnd,
+			tag = function()
+				return variantProps().description.tag
+			end,
+			testId = `{testId}--description`,
+		})
+		description.Name = "Description"
+		local view = View({
+			LayoutOrder = 2,
+			tag = function()
+				return variantProps().textContainer.tag
+			end,
+			testId = `{testId}--text-container`,
+			children = { title(true), description },
+		})
+		view.Name = "TextContainer"
+		return view
+	end)
 
 	local chevron = Icon({
 		name = IconName.ChevronLargeDown,
@@ -203,7 +256,10 @@ local function AccordionItem(accordionItemProps: AccordionItemProps): GuiObject
 	chevron.Name = "Icon"
 	local collapseIcon = View({
 		tag = "auto-xy",
-		LayoutOrder = 3,
+		LayoutOrder = function()
+			return if isChevronLeading() then 1 else 3
+		end,
+		testId = `{testId}--collapse-icon-container`,
 		children = chevron,
 	})
 	collapseIcon.Name = "CollapseIcon"
@@ -217,7 +273,15 @@ local function AccordionItem(accordionItemProps: AccordionItemProps): GuiObject
 			onActivated()
 		end,
 		testId = `{testId}--header`,
-		children = { leadingIcon, title, collapseIcon },
+		children = {
+			Value.bindProperty("AutomaticSize", function(): Enum.AutomaticSize?
+				return if hasDescription() then Enum.AutomaticSize.Y else nil
+			end),
+			icon,
+			soloTitle,
+			textContainer,
+			collapseIcon,
+		},
 	})
 	header.Name = "Header"
 

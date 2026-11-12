@@ -1,6 +1,6 @@
 # VideFoundation
 
-Roblox's Foundation design system for [Vide](https://github.com/centau/vide), ported from React Foundation 1.109.
+Roblox's Foundation design system for [Vide](https://github.com/centau/vide), ported from React Foundation 1.123.
 
 ## Install
 

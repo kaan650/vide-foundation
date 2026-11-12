@@ -26,6 +26,7 @@ type Tokens = Tokens.Tokens
 
 type InputVariantProps = {
 	container: {
+		fgStyle: ColorStyleValue?,
 		bgStyle: ColorStyleValue?,
 		strokeStyle: ColorStyleValue?,
 		strokeThickness: number?,
@@ -36,6 +37,7 @@ type InputVariantProps = {
 local function getInputVariantsFactory(tokens: Tokens)
 	local common: InputVariantProps = {
 		container = {
+			fgStyle = tokens.Color.Shift.Shift_200 :: ColorStyleValue,
 			strokeStyle = tokens.Color.Stroke.Emphasis :: ColorStyleValue,
 			strokeThickness = tokens.Stroke.Standard,
 		},
@@ -52,12 +54,14 @@ local function getInputVariantsFactory(tokens: Tokens)
 		[InputVariant.Standard] = {},
 		[InputVariant.Contrast] = {
 			container = {
+				fgStyle = tokens.Color.Shift.Shift_300,
 				bgStyle = tokens.Color.Shift.Shift_200,
 				strokeStyle = Dash.None,
 			},
 		},
 		[InputVariant.Utility] = {
 			container = {
+				fgStyle = Dash.None,
 				bgStyle = Dash.None,
 				strokeStyle = Dash.None,
 			},

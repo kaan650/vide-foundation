@@ -188,7 +188,7 @@ local function calculatePositions(
 	pos[mainAxis] = math.clamp(
 		pos[mainAxis],
 		mainAxisScreenStart,
-		math.max(mainAxisScreenEnd - mainAxisContentSize - mainAxisOffset, 0)
+		math.max(mainAxisScreenEnd - mainAxisContentSize - mainAxisOffset, mainAxisScreenStart)
 	)
 	pos.X -= screen.Min.X
 	pos.Y -= screen.Min.Y

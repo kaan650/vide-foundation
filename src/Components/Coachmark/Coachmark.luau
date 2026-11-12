@@ -1,12 +1,13 @@
 local Vide = require("../../Packages/Vide")
 
+local Button = require("../Button")
 local ButtonGroup = require("../ButtonGroup")
 local CloseAffordance = require("../CloseAffordance")
 local CloseAffordanceVariant = require("../../Enums/CloseAffordanceVariant")
 local ColorNamespace = require("../../Enums/ColorNamespace")
-local Constants = require("../../Constants")
+local FillBehavior = require("../../Enums/FillBehavior")
 local InputSize = require("../../Enums/InputSize")
-local Orientation = require("../../Enums/Orientation")
+local Logger = require("../../Utility/Logger")
 local Popover = require("../Popover")
 local PopoverAlign = require("../../Enums/PopoverAlign")
 local PopoverSide = require("../../Enums/PopoverSide")
@@ -26,11 +27,11 @@ local withDefaults = require("../../Utility/withDefaults")
 
 type ButtonGroupItem = ButtonGroup.ButtonGroupItem
 type ColorStyleValue = Types.ColorStyleValue
+type FillBehavior = FillBehavior.FillBehavior
 type PopoverAlign = PopoverAlign.PopoverAlign
 type PopoverAnchor = Types.PopoverAnchor
 type PopoverAnchorProps = Popover.PopoverAnchorProps
 type PopoverSide = PopoverSide.PopoverSide
-type SizeConstraint = Types.SizeConstraint
 type Value<T> = Types.Value<T>
 
 export type CoachmarkSteps = {
@@ -47,6 +48,9 @@ export type CoachmarkProps = {
 	media: (() -> Types.Children)?,
 	-- Actions array (up to 2 buttons supported)
 	actions: Value<{ ButtonGroupItem }?>?,
+	-- How action buttons size along the tooltip width. Unused: 1.123 reads it only with the educational tooltip
+	-- refresh, which is off, so the actions always fill.
+	actionsFillBehavior: Value<FillBehavior?>?,
 	isOpen: Value<boolean>?,
 	-- Close callback (optional) - if provided, displays a close affordance in the header
 	onClose: (() -> ())?,
@@ -56,6 +60,8 @@ export type CoachmarkProps = {
 	steps: Value<CoachmarkSteps?>?,
 	align: Value<PopoverAlign>?,
 	side: Value<PopoverSide>?,
+	-- Whether the tooltip should have an arrow. Defaults to true.
+	hasArrow: Value<boolean>?,
 	-- The element that serves as the anchor, instead of `children`.
 	anchorRef: Value<PopoverAnchor?>?,
 	-- Receives the coachmark's content frame when it opens, and nil when it closes.
@@ -70,11 +76,12 @@ local defaultProps = {
 	isOpen = false,
 	align = PopoverAlign.Start,
 	side = PopoverSide.Right,
+	hasArrow = true,
 	testId = "--foundation-coachmark",
 }
 
 local MAX_BUTTON_COUNT = 2
-local MIN_WIDTH = 240
+local MAX_WIDTH = 320
 
 local INVERSE_PRESENTATION: PresentationContext.PresentationContextValue = {
 	isIconSize = false,
@@ -90,10 +97,11 @@ end
 local function Coachmark(coachmarkProps: CoachmarkProps): { any }
 	local props = withDefaults(coachmarkProps, defaultProps)
 	local tokens = useTokens()
-	local maxXSize = useScaledValue(Constants.TOOLTIP_MAX_WIDTH)
-	local minXSize = useScaledValue(MIN_WIDTH)
+	local maxXSize = useScaledValue(MAX_WIDTH)
 	local testId = props.testId
 	local onClose = props.onClose
+	--* Without media the close affordance sits over the text, so the content pads its right side clear of it.
+	local needsCloseAffordancePadding = onClose ~= nil and props.media == nil
 
 	local function title(): string
 		return Value.read(props.title)
@@ -107,15 +115,6 @@ local function Coachmark(coachmarkProps: CoachmarkProps): { any }
 	local function actions(): { ButtonGroupItem }?
 		return Value.read(props.actions)
 	end
-
-	--* Text stays clear of the close affordance in the top-right corner.
-	local textSizeConstraint: SizeConstraint? = if onClose
-		then {
-			MaxSize = function()
-				return Vector2.new(maxXSize() - tokens().Size.Size_1200, math.huge)
-			end,
-		}
-		else nil
 
 	local function CloseAffordanceContainer(close: () -> ()): Instance
 		local closeAffordance = CloseAffordance({
@@ -153,8 +152,7 @@ local function Coachmark(coachmarkProps: CoachmarkProps): { any }
 				local current = steps()
 				return if current then stepsText(current.current, current.total) else ""
 			end,
-			tag = "auto-xy text-caption-medium text-align-x-left text-truncate-end content-inverse-default",
-			sizeConstraint = textSizeConstraint,
+			tag = "auto-xy text-label-small text-align-x-left text-truncate-end content-inverse-default",
 			testId = `{testId}--step-indicator`,
 		})
 		label.Name = "StepIndicator"
@@ -166,7 +164,6 @@ local function Coachmark(coachmarkProps: CoachmarkProps): { any }
 			LayoutOrder = 2,
 			Text = title,
 			tag = "auto-xy text-title-large text-align-x-left text-truncate-split content-inverse-emphasis",
-			sizeConstraint = textSizeConstraint,
 			testId = `{testId}--header`,
 		})
 		label.Name = "Header"
@@ -179,12 +176,7 @@ local function Coachmark(coachmarkProps: CoachmarkProps): { any }
 			Text = function()
 				return text() or ""
 			end,
-			tag = "size-full-0 auto-y text-body-medium text-wrap text-align-x-left content-inverse-default",
-			padding = {
-				top = function()
-					return UDim.new(0, tokens().Size.Size_100)
-				end,
-			},
+			tag = "auto-xy text-body-medium text-wrap text-align-x-left content-inverse-default",
 			testId = `{testId}--text`,
 		})
 		label.Name = "Text"
@@ -194,7 +186,25 @@ local function Coachmark(coachmarkProps: CoachmarkProps): { any }
 	local function ContentSection(): GuiObject
 		local section = View({
 			LayoutOrder = 2,
-			tag = "col auto-xy padding-medium",
+			tag = if needsCloseAffordancePadding
+				then "col gap-xsmall auto-xy"
+				else "col gap-xsmall auto-xy padding-x-medium padding-bottom-xsmall padding-top-medium",
+			padding = if needsCloseAffordancePadding
+				then {
+					top = function()
+						return UDim.new(0, tokens().Padding.Medium)
+					end,
+					bottom = function()
+						return UDim.new(0, tokens().Padding.XSmall)
+					end,
+					left = function()
+						return UDim.new(0, tokens().Padding.Medium)
+					end,
+					right = function()
+						return UDim.new(0, tokens().Size.Size_1200)
+					end,
+				}
+				else nil,
 			children = {
 				Vide.show(function()
 					return steps() ~= nil
@@ -212,22 +222,75 @@ local function Coachmark(coachmarkProps: CoachmarkProps): { any }
 		return section
 	end
 
-	local function Actions(): GuiObject
-		local buttonGroup = ButtonGroup({
-			buttons = function()
-				return actions() or {}
-			end,
-			maxButtonCount = MAX_BUTTON_COUNT,
-			orientation = Orientation.Horizontal,
-			size = InputSize.Small,
-			testId = `{testId}--actions`,
+	local function actionButton(item: ButtonGroupItem, index: number): GuiObject
+		local button = Button({
+			text = item.text,
+			onActivated = item.onActivated,
+			variant = item.variant,
+			isDisabled = item.isDisabled,
+			isLoading = item.isLoading,
+			icon = item.icon,
+			inputDelay = item.inputDelay,
+			LayoutOrder = index,
+			size = InputSize.Medium,
+			fillBehavior = FillBehavior.Fill,
+			testId = `{testId}--action-{index}`,
 		})
-		buttonGroup.Name = "ButtonGroup"
+		button.Name = `CoachmarkButton{index}`
+		if item.ref then
+			item.ref(button)
+		end
+		return button
+	end
+
+	local function shownActions(): { ButtonGroupItem }
+		local list = actions() or {}
+		if #list <= MAX_BUTTON_COUNT then
+			return list
+		end
+		return table.move(list, 1, MAX_BUTTON_COUNT, 1, {})
+	end
+
+	local function Actions(): GuiObject
+		Vide.effect(function()
+			local list = actions()
+			if list and #list > MAX_BUTTON_COUNT then
+				Logger:warning(`Coachmark only supports up to {MAX_BUTTON_COUNT} actions`)
+			end
+		end)
+
+		local buttons
+		if type(props.actions) == "function" then
+			buttons = Vide.indexes(shownActions, function(item: () -> ButtonGroupItem, index: number)
+				local function field(key: string): () -> any
+					return function()
+						return Value.read((item() :: any)[key])
+					end
+				end
+				return actionButton({
+					text = field("text"),
+					onActivated = function()
+						item().onActivated()
+					end,
+					variant = field("variant"),
+					isDisabled = field("isDisabled"),
+					isLoading = field("isLoading"),
+					icon = field("icon"),
+					inputDelay = field("inputDelay"),
+					ref = Vide.untrack(item).ref,
+				}, index)
+			end)
+		else
+			buttons = {}
+			for index, item in shownActions() do
+				table.insert(buttons, actionButton(item, index))
+			end
+		end
 
 		local actionsView = View({
 			LayoutOrder = 3,
-			tag = "row align-x-right size-full-0 auto-y padding-x-medium padding-bottom-medium",
-			children = buttonGroup,
+			tag = "row gap-small size-full-0 auto-y padding-x-medium",
+			children = buttons,
 		})
 		actionsView.Name = "Actions"
 		return actionsView
@@ -236,15 +299,13 @@ local function Coachmark(coachmarkProps: CoachmarkProps): { any }
 	local function Body(): GuiObject
 		return PresentationContext.context(INVERSE_PRESENTATION, function()
 			local body = View({
-				tag = "col auto-xy",
+				tag = "col gap-medium auto-xy padding-bottom-medium",
 				sizeConstraint = {
 					MaxSize = function()
 						return Vector2.new(maxXSize(), math.huge)
 					end,
-					MinSize = function()
-						return Vector2.new(minXSize(), 0)
-					end,
 				},
+				testId = testId,
 				children = {
 					if onClose then CloseAffordanceContainer(onClose) else nil,
 					if props.media then Media(props.media) else nil,
@@ -273,7 +334,7 @@ local function Coachmark(coachmarkProps: CoachmarkProps): { any }
 					} :: PopoverAnchorProps
 				)),
 				Popover.Content({
-					hasArrow = true,
+					hasArrow = props.hasArrow,
 					align = props.align,
 					DO_NOT_USE_hasContentInputSink = true,
 					onPressedOutside = props.onPressedOutside,

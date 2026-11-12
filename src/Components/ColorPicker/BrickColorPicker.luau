@@ -250,7 +250,7 @@ local function BrickColorPicker(props: BrickColorPickerProps): GuiObject
 						AnchorPoint = Vector2.new(0.5, 0.5),
 						Image = HEXAGON_IMAGE,
 						imageStyle = function(): Types.ColorStyleValue
-							return tokens().Color.ActionEmphasis.Background :: any
+							return tokens().Color.System.Emphasis :: any
 						end,
 						ZIndex = 1,
 					})

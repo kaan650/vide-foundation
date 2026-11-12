@@ -61,7 +61,7 @@ local function variantsFactory(tokens: Tokens)
 		[AvatarSize.Medium] = { statusIndicator = { size = StatusIndicatorSize.Small } },
 		[AvatarSize.Large] = { statusIndicator = { size = StatusIndicatorSize.Small } },
 		[AvatarSize.XLarge] = { statusIndicator = { size = StatusIndicatorSize.Medium } },
-		[AvatarSize.Pictogram] = { statusIndicator = { size = StatusIndicatorSize.Pictogram } },
+		[AvatarSize.Pictogram] = { statusIndicator = { size = StatusIndicatorSize.Large } },
 	}
 
 	local presence: { [UserPresence]: VariantProps } = {

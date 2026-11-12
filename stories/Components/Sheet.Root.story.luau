@@ -387,6 +387,81 @@ local function AutoSizeStory(controls: { [string]: any })
 	}
 end
 
+local function ChatMessage(index: number)
+	return VF.View({
+		LayoutOrder = index,
+		tag = {
+			["col gap-xxsmall auto-xy padding-small radius-medium"] = true,
+			["bg-shift-200"] = index % 2 == 1,
+			["bg-shift-400"] = index % 2 == 0,
+		},
+		children = {
+			VF.Text({
+				LayoutOrder = 1,
+				Text = if index % 2 == 1 then "Friend" else "You",
+				tag = "auto-xy text-caption-medium content-muted",
+			}),
+			VF.Text({
+				LayoutOrder = 2,
+				Text = `Message #{index}`,
+				tag = "auto-xy text-body-medium content-emphasis",
+			}),
+		},
+	})
+end
+
+local function ReversedContentStory(controls: { [string]: any })
+	local isOpen = Vide.source(false)
+	local messages = Vide.source(12)
+
+	return {
+		OpenButton("Open Sheet (Reversed Content)", isOpen),
+		Vide.show(isOpen, function()
+			VF.Sheet.Root({
+				snapPoints = { 0.5, 0.9 },
+				preferCenterSheet = controls.preferCenterSheet,
+				size = controls.size,
+				onClose = function()
+					isOpen(false)
+				end,
+				children = function()
+					return {
+						VF.Sheet.Header({
+							children = HeaderTitle("Chat"),
+						}),
+						VF.Sheet.Content({
+							isReversed = true,
+							isContentFullBleed = controls.isContentFullBleed,
+							children = Vide.indexes(function()
+								local list = {}
+								for index = 1, messages() do
+									list[index] = index
+								end
+								return list
+							end, function(_, index: number)
+								return ChatMessage(index)
+							end),
+						}),
+						VF.Sheet.Actions({
+							children = VF.Button({
+								LayoutOrder = 1,
+								text = "Send Message",
+								size = InputSize.Large,
+								variant = ButtonVariant.Emphasis,
+								fillBehavior = FillBehavior.Fill,
+								onActivated = function()
+									messages(messages() + 1)
+								end,
+							}),
+						}),
+					}
+				end,
+			})
+			return nil
+		end),
+	}
+end
+
 local function FocusNavigationStory(controls: { [string]: any })
 	local isOpen = Vide.source(false)
 	local checkboxStates = Vide.source({
@@ -782,5 +857,6 @@ return foundation.sections({
 		{ name = "Sheet with Left Navigation (No Header)", story = FocusNavigationLeftStory },
 		{ name = "Sheet (with TextInput)", story = TextInputStory },
 		{ name = "Sheet (FullBleed)", story = FullBleedStory },
+		{ name = "Sheet (reversed content)", story = ReversedContentStory },
 	},
 })

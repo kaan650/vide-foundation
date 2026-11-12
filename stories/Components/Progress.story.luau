@@ -157,7 +157,8 @@ local function Indicator(
 	if props.shape == ProgressShape.Bar then
 		return VF.Progress({
 			shape = ProgressShape.Bar,
-			size = props.size,
+			--* A bar has no Large size and shows Medium for it.
+			size = props.size :: any,
 			value = props.value,
 			width = props.width,
 		})
@@ -243,7 +244,23 @@ local function VariantsStory()
 	})
 end
 
+local BAR_SIZE_ORDER: { ProgressSize } = {
+	ProgressSize.Small,
+	ProgressSize.Medium,
+}
+
 local function SizingStory()
+	local bars = {}
+	for index, size in BAR_SIZE_ORDER do
+		bars[index] = LabeledProgress({
+			label = size,
+			LayoutOrder = index,
+			shape = ProgressShape.Bar,
+			size = size,
+			value = DEFAULT_VALUE,
+		})
+	end
+
 	local circles = {}
 	for index, size in SIZE_ORDER do
 		circles[index] = LabeledProgress({
@@ -271,15 +288,9 @@ local function SizingStory()
 					}),
 					Subsection({
 						LayoutOrder = 2,
-						name = "Bar (Medium only)",
-						contentTag = "auto-xy",
-						children = ProgressContainer({
-							shape = ProgressShape.Bar,
-							children = VF.Progress({
-								shape = ProgressShape.Bar,
-								value = DEFAULT_VALUE,
-							}),
-						}),
+						name = "Bar (Small and Medium)",
+						contentTag = "row gap-large auto-xy wrap",
+						children = bars,
 					}),
 				},
 			}),
@@ -528,19 +539,33 @@ local function ContentStory()
 							value = DEFAULT_VALUE,
 						} :: ProgressCircleProps),
 					}),
-					--* Bar labels exist only behind FoundationProgressBarBetaUpdate, which is off live.
 					Subsection({
 						LayoutOrder = 2,
 						name = "Bar",
-						note = "Labels are not available.",
+						note = "Min and max labels below the bar, hidden while indeterminate.",
 						contentTag = "row gap-xlarge auto-xy wrap",
-						children = LabeledProgress({
-							label = "Default labels",
-							LayoutOrder = 1,
-							shape = ProgressShape.Bar,
-							value = DEFAULT_VALUE,
-							containerWidth = BAR_CONTAINER_WIDTH,
-						}),
+						children = {
+							ProgressContainer({
+								shape = ProgressShape.Bar,
+								children = VF.Progress({
+									shape = ProgressShape.Bar,
+									value = DEFAULT_VALUE,
+									showLabel = true,
+									LayoutOrder = 1,
+								}),
+							}),
+							ProgressContainer({
+								shape = ProgressShape.Bar,
+								children = VF.Progress({
+									shape = ProgressShape.Bar,
+									value = DEFAULT_VALUE,
+									showLabel = true,
+									minValueLabel = "Start",
+									maxValueLabel = "End",
+									LayoutOrder = 2,
+								}),
+							}),
+						},
 					}),
 				},
 			}),

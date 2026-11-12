@@ -21,6 +21,10 @@ local SIZE_ORDER: { DialogSize } = DialogStoryHelpers.SIZE_ORDER
 local HERO_MEDIA = DialogStoryHelpers.HERO_MEDIA
 local HERO_MEDIA_TRANSPARENT = "component_assets/contactFullAvatar_small"
 local HERO_MEDIA_FIXED_HEIGHT = UDim.new(0, 160)
+local SCALE_TYPES: { [string]: Enum.ScaleType } = {
+	Fit = Enum.ScaleType.Fit,
+	Crop = Enum.ScaleType.Crop,
+}
 local ASPECT_RATIOS: { { label: string, value: number } } = {
 	{ label = "16:9", value = 16 / 9 },
 	{ label = "4:3", value = 4 / 3 },
@@ -74,6 +78,7 @@ local function heroMediaFromControls(controls: { [string]: any }, tokens: () -> 
 			end
 			else nil,
 		height = if controls.height() == "160px" then HERO_MEDIA_FIXED_HEIGHT else nil,
+		scaleType = SCALE_TYPES[controls.scaleType()],
 	}
 end
 
@@ -91,10 +96,10 @@ local function PlaygroundStory(controls: { [string]: any })
 		size = controls.rootSize,
 		hasBackdrop = true,
 		children = function()
-			--* HeroMedia leaves its aspect ratio and styles unset for "None" and "unset", and a binding can't yield
+			--* HeroMedia leaves its aspect ratio, styles and scale type unset for "None" and "unset", and a binding can't yield
 			--* nil, so the parts are built again when a control changes, while the dialog stays open.
 			return foundation.rebuildOn(function()
-				return `{controls.aspectRatio()}|{controls.media()}|{controls.backgroundStyle()}|{controls.mediaStyle()}|{controls.height()}`
+				return `{controls.aspectRatio()}|{controls.media()}|{controls.backgroundStyle()}|{controls.mediaStyle()}|{controls.height()}|{controls.scaleType()}`
 			end, function()
 				return makeDialogChildren({
 					hasHeroMedia = true,
@@ -221,6 +226,7 @@ return foundation.sections({
 		backgroundStyle = UILabs.Choose({ "unset", "green fill" }),
 		mediaStyle = UILabs.Choose({ "unset", "blue tint" }),
 		height = UILabs.Choose({ "default scale", "160px" }),
+		scaleType = UILabs.Choose({ "unset", "Fit", "Crop" }),
 	},
 	sections = {
 		{ name = "Playground", story = PlaygroundStory },

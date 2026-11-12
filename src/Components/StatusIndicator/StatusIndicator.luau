@@ -1,9 +1,12 @@
 local Vide = require("../../Packages/Vide")
 
+local Dash = require("../../Utility/Dash")
 local Text = require("../Text")
 local Types = require("../Types")
+local ValidNumericVariants = require("./ValidNumericVariants")
 local Value = require("../../Utility/Value")
 local View = require("../View")
+local devAssert = require("../../Utility/devAssert")
 local useStatusIndicatorVariants = require("./useStatusIndicatorVariants")
 local useTokens = require("../../Providers/Style/useTokens")
 local withCommonProps = require("../../Utility/withCommonProps")
@@ -65,14 +68,17 @@ local function StatusIndicator(statusIndicatorProps: StatusIndicatorProps): GuiO
 	end)
 
 	local variantProps = Vide.derive(function()
-		return useStatusIndicatorVariants(
-			tokens(),
-			Value.read(props.variant),
-			hasValue(),
-			shape(),
-			Value.read(props.size),
-			props.mask
-		)
+		local variant: StatusIndicatorVariant = Value.read(props.variant)
+		if hasValue() then
+			devAssert(
+				ValidNumericVariants[variant],
+				`{variant} is not a supported numeric variant. The following are valid numeric variants: {table.concat(
+					Dash.keys(ValidNumericVariants),
+					","
+				)}`
+			)
+		end
+		return useStatusIndicatorVariants(tokens(), variant, hasValue(), shape(), Value.read(props.size), props.mask)
 	end)
 
 	local function formatValue(): string
@@ -93,11 +99,11 @@ local function StatusIndicator(statusIndicatorProps: StatusIndicatorProps): GuiO
 				return variantProps().content.style :: ColorStyleValue
 			end,
 			fontStyle = function(): FontStyle
-				local labelSmall = tokens().Typography.LabelSmall
+				local content = variantProps().content
 				return {
-					Font = variantProps().content.font,
-					FontSize = labelSmall.FontSize,
-					LineHeight = labelSmall.LineHeight,
+					Font = content.font,
+					FontSize = content.typography.FontSize,
+					LineHeight = content.typography.LineHeight,
 				}
 			end,
 			tag = function()
@@ -140,7 +146,6 @@ local function StatusIndicator(statusIndicatorProps: StatusIndicatorProps): GuiO
 			end
 			else nil,
 		children = {
-			--* A numeric indicator is sized by its tags, so Size stays unset for the style rules.
 			Value.bindProperty("Size", function()
 				return variantProps().container.size
 			end),

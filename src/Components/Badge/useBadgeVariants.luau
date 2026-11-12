@@ -51,10 +51,8 @@ local function variantsFactory(tokens: Tokens)
 		),
 		[BadgeVariant.Neutral] = variant(tokens.Color.Shift.Shift_300, tokens.Color.Content.Emphasis),
 		[BadgeVariant.OverMedia] = overMedia,
-		[BadgeVariant.Emphasis] = variant(
-			tokens.Color.ActionEmphasis.Background,
-			tokens.Color.ActionEmphasis.Foreground
-		),
+		[BadgeVariant.OverMediaWhite] = overMedia,
+		[BadgeVariant.Emphasis] = variant(tokens.Color.System.Emphasis, tokens.DarkMode.Content.Emphasis),
 	}
 
 	local iconOnly: { [boolean]: VariantProps } = {

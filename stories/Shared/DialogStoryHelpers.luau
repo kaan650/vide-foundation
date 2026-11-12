@@ -26,6 +26,7 @@ export type DialogHeroMediaOptions = {
 	mediaStyle: ColorStyle?,
 	backgroundStyle: ColorStyle?,
 	height: UDim?,
+	scaleType: Enum.ScaleType?,
 }
 
 export type DialogChildrenOptions = {
@@ -111,6 +112,7 @@ local function makeDialogChildren(options: DialogChildrenOptions?): DialogChildr
 					mediaStyle = if heroMedia then heroMedia.mediaStyle else nil,
 					backgroundStyle = if heroMedia then heroMedia.backgroundStyle else nil,
 					height = if heroMedia then heroMedia.height else nil,
+					scaleType = if heroMedia then heroMedia.scaleType else nil,
 				})
 				else nil,
 			if config.hasTitle ~= false then VF.Dialog.Title({ text = config.title or "Dialog title" }) else nil,

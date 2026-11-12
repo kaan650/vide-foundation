@@ -287,6 +287,7 @@ local function Dialog(props: InternalProps): () -> any
 						return Vector2.new(maxWidth() + SHADOW_SIZE * 2, math.huge)
 					end,
 				},
+			testId = `{props.testId}--content-wrapper`,
 			tag = if reduced then "size-full" else "anchor-center-center size-full",
 			ZIndex = 2,
 			GroupTransparency = if state == "animating"

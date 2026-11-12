@@ -19,6 +19,7 @@ local getDisabledStyle = require("../../Utility/getDisabledStyle")
 local getMultiLineTextHeight = require("../../Utility/getMultiLineTextHeight")
 local isPluginSecurity = require("../../Utility/isPluginSecurity")
 local named = require("../../Utility/named")
+local normalizeFontFace = require("../../Utility/normalizeFontFace")
 local rebuildOn = require("../../Utility/rebuildOn")
 local tags = require("../../Utility/tags")
 local truncateTextToCursor = require("./truncateTextToCursor")
@@ -139,9 +140,9 @@ local function TextBox(props: TextBoxProps): TextBox
 		Selectable = false,
 		Active = if isBoundsChecker then false else nil,
 		Visible = if isBoundsChecker then false else nil,
-		Font = function()
-			return fontStyle().Font
-		end,
+		Value.bindProperty("FontFace", function(): Font?
+			return Value.read(normalizeFontFace(fontStyle().Font))
+		end),
 		TextSize = function()
 			return fontStyle().FontSize
 		end,
@@ -862,14 +863,14 @@ local function InternalTextInput(textInputProps: InternalTextInputProps): GuiObj
 				else nil,
 			isDisabled = disabled,
 			backgroundStyle = function(): ColorStyleValue?
+				if props.backgroundGradient ~= nil then
+					return getDisabledStyle({ Color3 = Color3.new(1, 1, 1), Transparency = 0.001 }, disabled)
+				end
 				local bgStyle = variantProps().container.bgStyle
 				if not bgStyle then
 					return nil
 				end
-				return getDisabledStyle({
-					Color3 = bgStyle.Color3,
-					Transparency = if props.backgroundGradient ~= nil then 0 else bgStyle.Transparency,
-				}, disabled)
+				return getDisabledStyle({ Color3 = bgStyle.Color3, Transparency = bgStyle.Transparency }, disabled)
 			end,
 			stateLayer = { affordance = StateLayerAffordance.None },
 			tag = function()

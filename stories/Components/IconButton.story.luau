@@ -18,12 +18,13 @@ type InputSize = InputSize.InputSize
 
 local IconName = VF.Enums.IconName
 
-type IconButtonVariant = "Standard" | "Emphasis" | "Utility" | "OverMedia" | "Alert"
+type IconButtonVariant = "Standard" | "Emphasis" | "SoftEmphasis" | "Utility" | "OverMedia" | "Alert"
 
 local SUPPORTED_VARIANTS: { IconButtonVariant } = {
 	ButtonVariant.Utility,
 	ButtonVariant.Standard,
 	ButtonVariant.Emphasis,
+	ButtonVariant.SoftEmphasis,
 	ButtonVariant.OverMedia,
 	ButtonVariant.Alert,
 }

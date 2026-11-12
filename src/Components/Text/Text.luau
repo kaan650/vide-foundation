@@ -7,14 +7,13 @@ local Types = require("../Types")
 local Value = require("../../Utility/Value")
 local create = require("../../Utility/create")
 local getTestIdTag = require("../../Utility/getTestIdTag")
+local normalizeFontFace = require("../../Utility/normalizeFontFace")
 local tags = require("../../Utility/tags")
 local withDefaults = require("../../Utility/withDefaults")
 local withGuiObjectProps = require("../../Utility/withGuiObjectProps")
 local withInteractable = require("../Interactable/withInteractable")
 
 type ColorStyle = Types.ColorStyle
-type FontFace = Types.FontFace
-type FontFaceTable = Types.FontFaceTable
 type FontStyle = Types.FontStyle
 type Value<T> = Types.Value<T>
 
@@ -22,6 +21,7 @@ export type TextProps = {
 	textStyle: ColorStyle?,
 	fontStyle: Value<FontStyle?>?,
 	AutoButtonColor: Value<boolean>?,
+	OpenTypeFeatures: Value<string>?,
 	RichText: Value<boolean>?,
 	Text: Value<string>?,
 	TextDirection: Value<Enum.TextDirection>?,
@@ -40,16 +40,6 @@ local defaultProps = {
 }
 
 local DEFAULT_TAGS = "gui-object-defaults text-defaults text-size-defaults text-color-defaults"
-
-local function toFont(font: FontFace?): Font?
-	if typeof(font) == "table" then
-		local fontTable = font :: FontFaceTable
-		return Font.new(fontTable.Family, fontTable.Weight, fontTable.Style)
-	elseif typeof(font) == "EnumItem" then
-		return Font.fromEnum(font :: Enum.Font)
-	end
-	return Value.read(font :: Value<Font>?)
-end
 
 --- Half the extra height `LineHeight` adds, so text sits where Foundation's design expects it.
 local function getLineHeightPaddingOffset(fontStyle: FontStyle?, fontFace: Font?): number
@@ -76,7 +66,7 @@ local function Text(textProps: TextProps): GuiObject
 	end
 	local function fontFace(): Font?
 		local style = fontStyle()
-		return if style then toFont(style.Font) else nil
+		return if style then Value.read(normalizeFontFace(style.Font)) else nil
 	end
 
 	local defaultTags = function(): string
@@ -118,6 +108,7 @@ local function Text(textProps: TextProps): GuiObject
 
 	local properties: { [any]: any } = {
 		AutoButtonColor = if class == "TextButton" then props.AutoButtonColor else nil,
+		OpenTypeFeatures = props.OpenTypeFeatures,
 		RichText = props.RichText,
 		Text = props.Text,
 		TextDirection = props.TextDirection,

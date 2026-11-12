@@ -19,6 +19,7 @@ export type DialogHeroMediaProps = {
 	backgroundStyle: ColorStyle?,
 	height: Value<UDim>?,
 	aspectRatio: AspectRatio?,
+	scaleType: Value<Enum.ScaleType>?,
 }
 
 local defaultProps = {
@@ -48,6 +49,8 @@ local function DialogHeroMedia(mediaProps: DialogHeroMediaProps): GuiObject
 			return variants().heroMedia.tag
 		end,
 		aspectRatio = props.aspectRatio,
+		ScaleType = props.scaleType,
+		testId = `{dialogContext.testId}--hero-media-image`,
 		Position = function()
 			return UDim2.fromOffset(-offsetX(), 0)
 		end,

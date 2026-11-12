@@ -18,12 +18,10 @@ type ColorStyleValue = Types.ColorStyleValue
 type SliderVariantProps = {
 	bar: {
 		tag: string,
+		height: number,
 	},
 	fill: {
 		tag: string,
-	},
-	hitbox: {
-		height: number,
 	},
 	knob: {
 		style: ColorStyleValue,
@@ -36,30 +34,30 @@ type SliderVariantProps = {
 local function variantsFactory(tokens: Tokens)
 	local common: VariantProps = {
 		bar = {
-			tag = "position-center-center anchor-center-center size-full-100 radius-small",
+			tag = "position-center-center anchor-center-center radius-circle",
 		},
 		fill = {
-			tag = "radius-small",
+			tag = "radius-circle",
 		},
 	}
 
 	local variants: { [SliderVariant]: VariantProps } = {
 		[SliderVariant.Emphasis] = {
 			bar = {
-				tag = "bg-shift-400",
+				tag = "bg-shift-200",
 			},
 			fill = {
 				tag = "bg-emphasis",
 			},
 			knob = {
 				style = tokens.Color.Extended.White.White_100,
-				dragStyle = tokens.Color.ActionEmphasis.Background,
+				dragStyle = tokens.Color.System.Emphasis,
 				hasShadow = true,
 			},
 		},
 		[SliderVariant.Standard] = {
 			bar = {
-				tag = "bg-shift-400",
+				tag = "bg-shift-200",
 			},
 			fill = {
 				tag = "bg-system-contrast",
@@ -67,7 +65,12 @@ local function variantsFactory(tokens: Tokens)
 			knob = {
 				style = tokens.Color.System.Contrast,
 				dragStyle = tokens.Color.System.Contrast,
-				hasShadow = false,
+				stroke = {
+					Color = tokens.Color.Stroke.Default.Color3,
+					Transparency = tokens.Color.Stroke.Default.Transparency,
+					Thickness = tokens.Stroke.Standard,
+				},
+				hasShadow = true,
 			},
 		},
 		[SliderVariant.Utility] = {
@@ -86,16 +89,16 @@ local function variantsFactory(tokens: Tokens)
 
 	local sizes: { [InputSize]: VariantProps } = {
 		[InputSize.XSmall] = {
-			hitbox = { height = tokens.Size.Size_300 },
+			bar = { height = tokens.Size.Size_100 },
 		},
 		[InputSize.Small] = {
-			hitbox = { height = tokens.Size.Size_400 },
+			bar = { height = tokens.Size.Size_150 },
 		},
 		[InputSize.Medium] = {
-			hitbox = { height = tokens.Size.Size_500 },
+			bar = { height = tokens.Size.Size_200 },
 		},
 		[InputSize.Large] = {
-			hitbox = { height = tokens.Size.Size_700 },
+			bar = { height = tokens.Size.Size_250 },
 		},
 	}
 

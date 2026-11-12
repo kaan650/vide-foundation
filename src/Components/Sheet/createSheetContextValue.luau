@@ -90,6 +90,10 @@ local function createSheetContextValue(sheetType: SheetType, testId: string, clo
 		isVerticalSheetGesture = function()
 			return false
 		end,
+		contentRevealOffset = function(): number?
+			return nil
+		end,
+		setIsContentReversed = noop,
 	}
 end
 

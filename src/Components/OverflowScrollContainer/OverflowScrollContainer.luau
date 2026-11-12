@@ -70,7 +70,7 @@ local function OverflowScrollContainer(overflowScrollContainerProps: OverflowScr
 		return Value.read(props.size)
 	end
 
-	local clippingRect = useClippingRect(getScrollingFrame :: () -> GuiObject?)
+	local clippingRect, hasClippingAncestor = useClippingRect(getScrollingFrame :: () -> GuiObject?)
 
 	local motor = createMotor(0, function(value: number)
 		local frame = Vide.untrack(getScrollingFrame)
@@ -117,7 +117,9 @@ local function OverflowScrollContainer(overflowScrollContainerProps: OverflowScr
 
 	local scroll = ScrollView({
 		tag = "size-full-0 auto-y",
-		ClipsDescendants = false,
+		ClipsDescendants = function()
+			return not hasClippingAncestor()
+		end,
 		onStateChanged = function(state: ControlState)
 			isContentHovered(isHoverState(state))
 		end,

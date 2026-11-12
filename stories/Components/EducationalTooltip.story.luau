@@ -128,6 +128,7 @@ local function PlaygroundStory(controls: { [string]: any })
 				end,
 				side = controls.side,
 				align = controls.align,
+				hasArrow = controls.hasArrow,
 				isOpen = isOpen,
 				steps = function(): CoachmarkSteps?
 					return if controls.showSteps() then { current = 2, total = 5 } else nil
@@ -379,6 +380,7 @@ return foundation.sections({
 		text = SAMPLE_TEXT,
 		side = UILabs.Choose(SIDE_OPTIONS),
 		align = UILabs.Choose(ALIGN_OPTIONS),
+		hasArrow = true,
 		showSteps = true,
 		hasCloseAffordance = true,
 		hasActions = true,

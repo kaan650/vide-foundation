@@ -2,7 +2,7 @@ local Vide = require("../../Packages/Vide")
 
 local FillBehavior = require("../../Enums/FillBehavior")
 local InputSize = require("../../Enums/InputSize")
-local OverflowScrollContainer = require("./OverflowScrollContainer")
+local OverflowScrollContainer = require("../OverflowScrollContainer")
 local TabItem = require("./TabItem")
 local Types = require("../Types")
 local Value = require("../../Utility/Value")
@@ -163,7 +163,12 @@ local function Tabs(tabsProps: TabsProps): GuiObject
 		)
 	end
 
+	local tabListWidth = Vide.source(0)
+
 	local tabList = View({
+		onAbsoluteSizeChanged = function(rbx: GuiObject)
+			tabListWidth(rbx.AbsoluteSize.X)
+		end,
 		tag = function()
 			local currentSize = size()
 			return {
@@ -184,6 +189,7 @@ local function Tabs(tabsProps: TabsProps): GuiObject
 	local scrollContainer = OverflowScrollContainer({
 		LayoutOrder = 1,
 		size = size,
+		scrimBottomInset = borderThickness,
 		testId = `{testId}--scroll-container`,
 		children = tabList,
 	})
@@ -264,9 +270,18 @@ local function Tabs(tabsProps: TabsProps): GuiObject
 	})
 	animatedBorder.Name = "AnimatedBorder"
 
+	local fitConstraint: Types.SizeConstraint = {
+		MaxSize = function()
+			return Vector2.new(tabListWidth(), math.huge)
+		end,
+	}
+
 	return View(withCommonProps(props, {
-		tag = "auto-y clip",
+		tag = "auto-y no-clip",
 		Size = UDim2.fromScale(1, 0),
+		sizeConstraint = function(): Types.SizeConstraint?
+			return if isFill() then nil else fitConstraint
+		end,
 		children = { container, animatedBorder },
 	}) :: any)
 end

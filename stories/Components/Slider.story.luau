@@ -7,13 +7,16 @@ local UILabs = foundation.UILabs
 
 local IconSize = require("@game/ReplicatedStorage/Packages/VideFoundation/Enums/IconSize")
 local InputSize = require("@game/ReplicatedStorage/Packages/VideFoundation/Enums/InputSize")
+local Orientation = require("@game/ReplicatedStorage/Packages/VideFoundation/Enums/Orientation")
 local PopoverAlign = require("@game/ReplicatedStorage/Packages/VideFoundation/Enums/PopoverAlign")
 local PopoverSide = require("@game/ReplicatedStorage/Packages/VideFoundation/Enums/PopoverSide")
+local SliderType = require("@game/ReplicatedStorage/Packages/VideFoundation/Enums/SliderType")
 local SliderVariant = require("@game/ReplicatedStorage/Packages/VideFoundation/Enums/SliderVariant")
 local Visibility = require("@game/ReplicatedStorage/Packages/VideFoundation/Enums/Visibility")
 
 type ColorStyleValue = VideFoundation.ColorStyleValue
 type InputSize = InputSize.InputSize
+type Orientation = Orientation.Orientation
 type SliderVariant = SliderVariant.SliderVariant
 type Visibility = Visibility.Visibility
 
@@ -38,6 +41,9 @@ local VISUAL_COLUMNS: { VisualColumn } = {
 local VISUALS_LABEL_COLUMN_WIDTH = 80
 local VISUALS_CELL_COLUMN_WIDTH = 200
 local VISUALS_SLIDER_WIDTH = UDim.new(0, 180)
+local VERTICAL_CELL_COLUMN_WIDTH = 80
+local VERTICAL_SLIDER_LENGTH = UDim.new(0, 240)
+local ORIENTATION_OPTIONS: { Orientation } = { Orientation.Horizontal, Orientation.Vertical }
 local KNOB_VISIBILITY_OPTIONS: { Visibility } = {
 	Visibility.None,
 	Visibility.Always,
@@ -54,7 +60,11 @@ local function PlaygroundStory(controls: { [string]: any })
 	local value = Vide.source(0.5)
 
 	return VF.View({
-		tag = "size-full-0 auto-y",
+		tag = function()
+			return if controls.orientation() == Orientation.Vertical
+				then "align-x-center size-full-3000"
+				else "size-full-0 auto-y"
+		end,
 		--* Slider picks its knob when it is created, so toggling the custom knob builds it again.
 		children = foundation.rebuildOn(controls.hasCustomKnob, function(hasCustomKnob: boolean)
 			return VF.Slider({
@@ -64,6 +74,7 @@ local function PlaygroundStory(controls: { [string]: any })
 					return NumberRange.new(min, max)
 				end,
 				size = controls.size,
+				orientation = controls.orientation,
 				knobVisibility = controls.knobVisibility,
 				variant = controls.variant,
 				isDisabled = controls.isDisabled,
@@ -119,6 +130,65 @@ local function HorizontalVisualsStory()
 		cellAlign = "left",
 		rowGap = "xxlarge",
 		rows = rows,
+	})
+end
+
+local function VerticalVisualsStory()
+	local columnHeaders = {}
+	for index, column in VISUAL_COLUMNS do
+		columnHeaders[index] = column.name
+	end
+
+	local rows: { MatrixGrid.MatrixGridRow } = {}
+	for index, size in SIZE_ORDER do
+		local cells = {}
+		for columnIndex, column in VISUAL_COLUMNS do
+			cells[columnIndex] = VF.Slider({
+				value = 0.5,
+				orientation = Orientation.Vertical,
+				size = size,
+				width = VERTICAL_SLIDER_LENGTH,
+				variant = column.variant,
+				isDisabled = column.isDisabled,
+				knobVisibility = Visibility.Always,
+			})
+		end
+		rows[index] = { label = MatrixGrid.matrixLabel(size), cells = cells }
+	end
+
+	return MatrixGrid.MatrixGrid({
+		labelColumnWidth = VISUALS_LABEL_COLUMN_WIDTH,
+		columnHeaders = columnHeaders,
+		cellColumnWidth = VERTICAL_CELL_COLUMN_WIDTH,
+		rowGap = "xxlarge",
+		rows = rows,
+	})
+end
+
+local function RangeStory()
+	local value = Vide.source(NumberRange.new(25, 75))
+
+	return VF.View({
+		tag = "col gap-small size-full-0 auto-y",
+		children = {
+			VF.Slider({
+				type = SliderType.Range,
+				value = value,
+				onValueChanged = function(newValue: NumberRange)
+					value(newValue)
+				end,
+				range = NumberRange.new(0, 100),
+				LayoutOrder = 1,
+			}),
+			VF.Text({
+				Text = function()
+					local current = value()
+					return `{math.round(current.Min)} - {math.round(current.Max)}`
+				end,
+				tag = "auto-xy text-body-medium content-default",
+				LayoutOrder = 2,
+			}),
+		},
 	})
 end
 
@@ -335,6 +405,7 @@ return foundation.sections({
 	summary = `If dragging does not work make sure to deselect any tools in Studio! By default the "Select" tool is selected and will interfere with dragging behavior`,
 	controls = {
 		size = UILabs.Choose(SIZE_ORDER),
+		orientation = UILabs.Choose(ORIENTATION_OPTIONS),
 		knobVisibility = UILabs.Choose(KNOB_VISIBILITY_OPTIONS),
 		isDisabled = false,
 		isContained = false,
@@ -350,6 +421,16 @@ return foundation.sections({
 			name = "Horizontal visuals",
 			summary = "Standard and Emphasis sliders, enabled and disabled, across every size",
 			story = HorizontalVisualsStory,
+		},
+		{
+			name = "Vertical visuals",
+			summary = "Standard and Emphasis vertical sliders, enabled and disabled, across every size",
+			story = VerticalVisualsStory,
+		},
+		{
+			name = "Range",
+			summary = "SliderType.Range selects an interval with two thumbs that stop when they meet",
+			story = RangeStory,
 		},
 		{
 			name = "Media timeline",

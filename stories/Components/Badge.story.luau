@@ -55,6 +55,7 @@ local ON_MEDIA_SOLID_VARIANTS: { BadgeVariant } = {
 	BadgeVariant.Contrast,
 	BadgeVariant.Emphasis,
 	BadgeVariant.OverMedia,
+	BadgeVariant.OverMediaWhite,
 }
 
 local PLACEMENT_SIZE_ORDER: { BadgeSize } = {

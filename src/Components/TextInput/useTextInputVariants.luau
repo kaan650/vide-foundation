@@ -34,6 +34,7 @@ export type TextInputVariantProps = {
 		minHeight: number,
 		horizontalPadding: UDim,
 		radius: number,
+		fgStyle: ColorStyleValue?,
 		bgStyle: ColorStyleValue?,
 		strokeStyle: ColorStyleValue?,
 		strokeThickness: number?,
@@ -87,6 +88,7 @@ end
 local function variantsFactory(tokens: Tokens)
 	local common: VariantProps = {
 		container = {
+			fgStyle = tokens.Color.Shift.Shift_200,
 			strokeStyle = tokens.Color.Stroke.Emphasis,
 			strokeThickness = tokens.Stroke.Standard,
 			tag = "row",

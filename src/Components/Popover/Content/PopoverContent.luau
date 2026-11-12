@@ -3,7 +3,6 @@ local Vide = require("../../../Packages/Vide")
 local Constants = require("../../../Constants")
 local ElevationLayer = require("../../../Enums/ElevationLayer")
 local ElevationProvider = require("../../../Providers/Elevation/ElevationProvider")
-local Image = require("../../Image")
 local PopoverAlign = require("../../../Enums/PopoverAlign")
 local PopoverContext = require("../PopoverContext")
 local PopoverSide = require("../../../Enums/PopoverSide")
@@ -66,10 +65,6 @@ local radiusToTag: { [Radius]: string } = {
 	[Radius.Medium] = "radius-medium",
 	[Radius.Circle] = "radius-circle",
 }
-
-local SHADOW_IMAGE = Constants.SHADOW_IMAGE
-local SHADOW_SIZE = Constants.SHADOW_SIZE
-local SHADOW_VERTICAL_OFFSET = 2
 
 local function noop() end
 
@@ -151,27 +146,13 @@ local function PopoverContent(contentProps: PopoverContentProps): () -> any
 	end
 
 	local function Shadow(): GuiObject
-		local shadow = Image({
+		local shadow = View({
 			AnchorPoint = floating.anchorPoint,
-			Image = SHADOW_IMAGE,
-			Size = function()
-				return floating.contentSize() + UDim2.fromOffset(SHADOW_SIZE, SHADOW_SIZE)
-			end,
-			Position = function()
-				local position, anchorPoint = floating.position(), floating.anchorPoint()
-				local xShift = if anchorPoint.X == 0 then -1 else 1
-				local yShift = if anchorPoint.Y == 0 then -1 else 1
-				return UDim2.fromOffset(
-					position.X + SHADOW_SIZE / 2 * xShift,
-					position.Y + SHADOW_SIZE / 2 * yShift + SHADOW_VERTICAL_OFFSET
-				)
-			end,
+			Size = floating.contentSize,
+			Position = offsetPosition(floating.position),
 			ZIndex = 2,
-			slice = {
-				center = Rect.new(SHADOW_SIZE, SHADOW_SIZE, SHADOW_SIZE + 1, SHADOW_SIZE + 1),
-			},
-			imageStyle = function()
-				return tokens().Color.Extended.Black.Black_20 :: ColorStyleValue
+			tag = function()
+				return `shadow-overlay-300 {radiusToTag[Value.read(props.radius)]}`
 			end,
 			testId = `{testId}--shadow`,
 		})

@@ -12,6 +12,7 @@ local composeStyleVariant = require("../../Utility/composeStyleVariant")
 type VariantProps = composeStyleVariant.VariantProps
 
 local Value = require("../../Utility/Value")
+local devAssert = require("../../Utility/devAssert")
 
 local Tokens = require("../../Providers/Style/Tokens")
 type Tokens = Tokens.Tokens
@@ -22,7 +23,12 @@ local Constants = require("../../Constants")
 
 export type StatusIndicatorVariantProps = {
 	container: { tag: string, backgroundStyle: ColorStyleValue?, size: UDim2? },
-	content: { tag: string, style: ColorStyleValue?, font: Font },
+	content: {
+		tag: string,
+		style: ColorStyleValue?,
+		font: Font,
+		typography: { FontSize: number, LineHeight: number },
+	},
 	ring: { tag: string, size: UDim2? }?,
 	stroke: Types.Stroke?,
 }
@@ -35,7 +41,9 @@ local function variantsFactory(tokens: Tokens)
 		content = {
 			tag = "auto-xy text-align-x-left",
 			font = BuilderSansSemiBold,
+			typography = tokens.Typography.LabelSmall,
 		},
+		stroke = { Thickness = tokens.Stroke.Thicker },
 	}
 
 	local variants: { [StatusIndicatorVariant]: VariantProps } = {
@@ -75,7 +83,7 @@ local function variantsFactory(tokens: Tokens)
 
 	local hasValue: { [boolean]: VariantProps } = {
 		[true] = {
-			container = { tag = "row align-x-center align-y-center size-400-400 auto-x padding-xsmall" },
+			container = { tag = "row align-x-center align-y-center auto-x padding-xsmall" },
 		},
 	}
 
@@ -95,18 +103,33 @@ local function variantsFactory(tokens: Tokens)
 		},
 	}
 
-	local function sizeVariant(size: number, thickness: number): VariantProps
+	local function sizeVariant(size: number): VariantProps
 		return {
 			container = { size = UDim2.fromOffset(size, size) },
 			ring = { size = UDim2.fromOffset(size / 2, size / 2) },
-			stroke = { Thickness = thickness },
 		}
 	end
 	local sizes: { [StatusIndicatorSize]: VariantProps } = {
-		[StatusIndicatorSize.XSmall] = sizeVariant(tokens.Size.Size_150, tokens.Stroke.Standard),
-		[StatusIndicatorSize.Small] = sizeVariant(tokens.Size.Size_200, tokens.Size.Size_50),
-		[StatusIndicatorSize.Medium] = sizeVariant(tokens.Size.Size_250, tokens.Size.Size_50),
-		[StatusIndicatorSize.Pictogram] = sizeVariant(tokens.Size.Size_500, tokens.Stroke.Thicker),
+		[StatusIndicatorSize.XSmall] = sizeVariant(tokens.Size.Size_150),
+		[StatusIndicatorSize.Small] = sizeVariant(tokens.Size.Size_200),
+		[StatusIndicatorSize.Medium] = sizeVariant(tokens.Size.Size_250),
+		[StatusIndicatorSize.Large] = sizeVariant(tokens.Size.Size_500),
+		[StatusIndicatorSize.Pictogram] = sizeVariant(tokens.Size.Size_500),
+	}
+
+	local numericDefault: VariantProps = {
+		container = { size = UDim2.fromOffset(tokens.Size.Size_400, tokens.Size.Size_400) },
+	}
+	local numericLarge: VariantProps = {
+		container = { size = UDim2.fromOffset(tokens.Size.Size_500, tokens.Size.Size_500) },
+		content = { typography = tokens.Typography.LabelMedium },
+	}
+	local numericSizes: { [StatusIndicatorSize]: VariantProps } = {
+		[StatusIndicatorSize.XSmall] = numericDefault,
+		[StatusIndicatorSize.Small] = numericDefault,
+		[StatusIndicatorSize.Medium] = numericDefault,
+		[StatusIndicatorSize.Large] = numericLarge,
+		[StatusIndicatorSize.Pictogram] = numericLarge,
 	}
 
 	return {
@@ -115,6 +138,7 @@ local function variantsFactory(tokens: Tokens)
 		hasValue = hasValue,
 		shape = shape,
 		sizes = sizes,
+		numericSizes = numericSizes,
 	}
 end
 
@@ -126,6 +150,15 @@ return function(
 	size: StatusIndicatorSize,
 	mask: Types.ColorStyle?
 ): StatusIndicatorVariantProps
+	devAssert(
+		variant ~= StatusIndicatorVariant.Contrast_Experiment,
+		"Contrast is not a supported StatusIndicator variant."
+	)
+	devAssert(
+		not (variant == StatusIndicatorVariant.Alert and hasValue),
+		"Alert is not a supported numeric StatusIndicator variant."
+	)
+
 	local commonMask: VariantProps? = if mask
 		then {
 			stroke = {
@@ -142,7 +175,7 @@ return function(
 		props.variants[variant],
 		props.hasValue[hasValue],
 		props.shape[shape],
-		if not hasValue then props.sizes[size] else {},
+		if hasValue then props.numericSizes[size] else props.sizes[size],
 		commonMask :: VariantProps
 	) :: any
 end

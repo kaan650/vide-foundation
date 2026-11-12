@@ -209,6 +209,67 @@ local function SeverityStory()
 	end)
 end
 
+local function CustomIconStory()
+	local IconName = VF.Enums.IconName
+	local IconVariant = VF.Enums.IconVariant
+	return VF.View({
+		tag = "col gap-xxlarge size-full-0 auto-y padding-large bg-surface-0",
+		children = {
+			Example({
+				LayoutOrder = 1,
+				label = "Info with a custom glyph, as a table with a variant",
+				children = BoundedAlert({
+					LayoutOrder = 1,
+					children = VF.Alert({
+						severity = AlertSeverity.Info,
+						icon = { name = IconName.CircleQuestion, variant = IconVariant.Filled },
+						text = "Studio now suggests edits as you type.",
+					}),
+				}),
+			}),
+			Example({
+				LayoutOrder = 2,
+				label = "Info with a custom glyph, as a name",
+				children = BoundedAlert({
+					LayoutOrder = 1,
+					children = VF.Alert({
+						severity = AlertSeverity.Info,
+						icon = IconName.Robux,
+						text = "Your payout is on its way.",
+					}),
+				}),
+			}),
+			Example({
+				LayoutOrder = 3,
+				label = "Other severities ignore icon",
+				children = BoundedAlert({
+					LayoutOrder = 1,
+					children = VF.Alert({
+						severity = AlertSeverity.Warning,
+						icon = IconName.CircleQuestion,
+						text = DEFAULT_TEXT,
+					}),
+				}),
+			}),
+		},
+	})
+end
+
+local function RichTextStory()
+	local text =
+		`Your <b>session</b> is about to expire. Save any <font color="#FF8A00">in-progress</font> work and sign in again to continue.`
+	return VF.View({
+		tag = "col gap-xxlarge size-full-0 auto-y padding-large bg-surface-0",
+		children = WidthPair({
+			LayoutOrder = 1,
+			label = "richText interprets markup in text",
+			renderAlert = function()
+				return VF.Alert({ text = text, richText = true, link = LINK, onClose = noop })
+			end,
+		}),
+	})
+end
+
 local function SizingStory()
 	return VF.View({
 		tag = "col gap-xxlarge size-full-0 auto-y padding-large bg-surface-0",
@@ -392,6 +453,8 @@ return foundation.sections({
 		{ name = "Playground", story = PlaygroundStory },
 		{ name = "Variants", story = VariantsStory },
 		{ name = "Severity", story = SeverityStory },
+		{ name = "Custom icon", story = CustomIconStory },
+		{ name = "Rich text", story = RichTextStory },
 		{ name = "Sizing", story = SizingStory },
 		{
 			name = "Controlled component",

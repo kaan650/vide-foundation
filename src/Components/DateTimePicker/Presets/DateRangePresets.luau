@@ -81,7 +81,7 @@ local function DateRangePresets(props: DateRangePresetsProps): GuiObject
 		LayoutOrder = props.LayoutOrder,
 		size = ChipSize.Small,
 		testId = props.testId,
-	})
+	}) :: GuiObject
 end
 
 return DateRangePresets

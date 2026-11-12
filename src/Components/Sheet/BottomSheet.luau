@@ -1,9 +1,7 @@
 local Vide = require("../../Packages/Vide")
 
-local Constants = require("../../Constants")
 local ElevationLayer = require("../../Enums/ElevationLayer")
 local ElevationProvider = require("../../Providers/Elevation/ElevationProvider")
-local Image = require("../Image")
 local Motion = require("../../Utility/Motion")
 local SheetContext = require("./SheetContext")
 local SheetType = require("./SheetType")
@@ -39,6 +37,7 @@ local SPRING_OMEGA = 2 * math.pi * SPRING_FREQUENCY_HZ
 local VELOCITY_THRESHOLD = 1
 local POSITION_THRESHOLD = 0.5
 local SCROLL_AT_MAX_TOLERANCE = 1e-2
+local INNER_AT_END_TOLERANCE = 1
 local ENGINE_INERTIA_FRICTION = 2.35
 local BOTTOM_PADDING = 200
 
@@ -46,9 +45,6 @@ local defaultProps = {
 	defaultSnapPointIndex = 1,
 	testId = "--foundation-sheet",
 }
-
-local SHADOW_IMAGE = Constants.SHADOW_IMAGE
-local SHADOW_SIZE = Constants.SHADOW_SIZE
 
 local function noop() end
 
@@ -141,6 +137,20 @@ local function BottomSheet(bottomSheetProps: BottomSheetProps)
 	local actionsHeight = Vide.source(0)
 	local innerScrollingEnabled = Vide.source(false)
 	local isVerticalSheetGesture = Vide.source(false)
+	local isContentReversed = false
+
+	local function contentRevealOffset(): number?
+		if snapPointsProp() == nil then
+			return nil
+		end
+		local maxHeight = maxSheetHeight()
+		local minSnapHeight = maxHeight
+		for _, snap in snapPoints() do
+			minSnapHeight = math.min(minSnapHeight, snapValueToPixels(snap))
+		end
+		local revealedHeight = sheetHeightAvailable() + tokens().Margin.Small
+		return maxHeight - math.clamp(revealedHeight, minSnapHeight, maxHeight)
+	end
 
 	local outerScrollY = 0
 	local outerScrollingFrame: ScrollingFrame? = nil
@@ -264,6 +274,24 @@ local function BottomSheet(bottomSheetProps: BottomSheetProps)
 	local function updateInnerScrolling()
 		local isAtTopOfInnerScroll = Vide.untrack(innerScrollY) <= 0
 		local isAtMaxOfOuterScroll = isOuterScrollAtMax()
+
+		if isContentReversed then
+			if inputActive and not Vide.untrack(innerScrollingEnabled) and not isAtMaxOfOuterScroll then
+				return
+			end
+			local frame = innerScrollingFrame
+			local isAtEndOfInnerScroll = frame == nil
+				or Vide.untrack(innerScrollY)
+					>= frame.AbsoluteCanvasSize.Y - frame.AbsoluteWindowSize.Y - INNER_AT_END_TOLERANCE
+			local isHandingOff = inputActive
+				and (
+					(scrollVelocity > 0 and isAtTopOfInnerScroll)
+					or (scrollVelocity < 0 and isAtEndOfInnerScroll and not isAtMaxOfOuterScroll)
+				)
+			innerScrollingEnabled(not isHandingOff)
+			return
+		end
+
 		local isCollapsing = not isAtMaxOfOuterScroll and scrollVelocity < 0
 
 		if isCollapsing or (scrollVelocity > 0 and isAtTopOfInnerScroll and inputActive) then
@@ -337,6 +365,10 @@ local function BottomSheet(bottomSheetProps: BottomSheetProps)
 		setIsVerticalSheetGesture(false)
 		scrollVelocity = if outerScrollingFrame then outerScrollingFrame:GetScrollVelocity().Y else 0
 
+		if isContentReversed then
+			innerScrollingEnabled(true)
+		end
+
 		--* Outer scrolling at its maximum hands the gesture to the inner content.
 		if isOuterScrollAtMax() or isClosing then
 			innerScrollingEnabled(true)
@@ -385,14 +417,22 @@ local function BottomSheet(bottomSheetProps: BottomSheetProps)
 	context.isVerticalSheetGesture = function()
 		return isVerticalSheetGesture()
 	end
+	context.contentRevealOffset = contentRevealOffset
+	context.setIsContentReversed = function(value: boolean)
+		isContentReversed = value
+	end
 
 	local function onGripperActivated()
 		--* Cancels the input-ended snap for this press.
 		inputActive = false
-		if innerScrollingFrame then
-			innerScrollY(0)
-			innerScrollingFrame.CanvasPosition = Vector2.new(0, 0)
-			innerScrollingFrame:ResetScrollVelocity()
+		local frame = innerScrollingFrame
+		if frame then
+			local scrollY = if isContentReversed
+				then math.max(0, frame.AbsoluteCanvasSize.Y - frame.AbsoluteWindowSize.Y)
+				else 0
+			innerScrollY(scrollY)
+			frame.CanvasPosition = Vector2.new(0, scrollY)
+			frame:ResetScrollVelocity()
 		end
 		local points = Vide.untrack(snapPoints)
 		if #points > 1 then
@@ -403,7 +443,7 @@ local function BottomSheet(bottomSheetProps: BottomSheetProps)
 				springToSnapIndex(nextIndex)
 			end
 			innerScrollingEnabled(Vide.untrack(function()
-				return snapValueToPixels(points[nextIndex]) >= maxSheetHeight()
+				return snapValueToPixels(points[nextIndex]) >= maxSheetHeight() or isContentReversed
 			end))
 		else
 			closeSheet()
@@ -501,22 +541,16 @@ local function BottomSheet(bottomSheetProps: BottomSheetProps)
 		})
 		sheetContainer.Name = "SheetContainer"
 
-		local shadow = Image({
-			Image = SHADOW_IMAGE,
+		local shadow = View({
+			tag = "shadow-overlay-300 radius-large",
 			Size = function()
-				return UDim2.new(1, SHADOW_SIZE * 2, 0, maxSheetHeight() + BOTTOM_PADDING + SHADOW_SIZE * 2)
+				return UDim2.new(1, 0, 0, maxSheetHeight() + BOTTOM_PADDING)
 			end,
 			Position = function()
-				return UDim2.new(-SHADOW_SIZE, 0, 1, -maxSheetHeight() - SHADOW_SIZE)
+				return UDim2.new(0, 0, 1, -maxSheetHeight())
 			end,
 			ZIndex = 2,
-			slice = {
-				center = Rect.new(SHADOW_SIZE, SHADOW_SIZE, SHADOW_SIZE + 1, SHADOW_SIZE + 1),
-				scale = 2,
-			},
-			imageStyle = function()
-				return tokens().Color.Extended.Black.Black_10 :: ColorStyleValue
-			end,
+			testId = `{testId}--shadow`,
 		})
 		shadow.Name = "Shadow"
 
@@ -563,7 +597,16 @@ local function BottomSheet(bottomSheetProps: BottomSheetProps)
 		end)
 		Vide.cleanup(scrollingFrame:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
 			outerScrollY = scrollingFrame.CanvasPosition.Y
+			local previousRevealOffset = Vide.untrack(contentRevealOffset)
 			sheetHeightAvailable(outerScrollY - Vide.untrack(safeAreaPadding) - Vide.untrack(tokens).Margin.Small)
+			local frame = innerScrollingFrame
+			if previousRevealOffset and isContentReversed and frame then
+				local revealOffsetDelta = (Vide.untrack(contentRevealOffset) or previousRevealOffset)
+					- previousRevealOffset
+				if revealOffsetDelta ~= 0 then
+					frame.CanvasPosition = Vector2.new(0, frame.CanvasPosition.Y + revealOffsetDelta)
+				end
+			end
 			updateInnerScrolling()
 			if outerScrollY <= 0 then
 				closeSheet()
@@ -619,7 +662,7 @@ local function BottomSheet(bottomSheetProps: BottomSheetProps)
 						duration = tokens().Time.Time_100,
 					}))
 				end
-				innerScrollingEnabled(snapValueToPixels(points[index]) >= maxSheetHeight())
+				innerScrollingEnabled(snapValueToPixels(points[index]) >= maxSheetHeight() or isContentReversed)
 			end)
 		end
 		Vide.cleanup(stopSpringSimulation)

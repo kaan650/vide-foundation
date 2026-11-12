@@ -59,6 +59,14 @@ local colorRulePaths: { [ThemeName]: { [ColorMode]: () -> any } } = {
 			return require("../Generated/StyleRules/ElectricLime/LightAttribute")
 		end,
 	},
+	[ThemeName.Halloween2026] = {
+		Dark = function()
+			return require("../Generated/StyleRules/Halloween2026/DarkAttribute")
+		end,
+		Light = function()
+			return require("../Generated/StyleRules/Halloween2026/LightAttribute")
+		end,
+	},
 	[ThemeName.HyperPlum] = {
 		Dark = function()
 			return require("../Generated/StyleRules/HyperPlum/DarkAttribute")
@@ -81,14 +89,6 @@ local colorRulePaths: { [ThemeName]: { [ColorMode]: () -> any } } = {
 		end,
 		Light = function()
 			return require("../Generated/StyleRules/Kids/LightAttribute")
-		end,
-	},
-	[ThemeName.KidsClassic] = {
-		Dark = function()
-			return require("../Generated/StyleRules/KidsClassic/DarkAttribute")
-		end,
-		Light = function()
-			return require("../Generated/StyleRules/KidsClassic/LightAttribute")
 		end,
 	},
 	[ThemeName.KineticEnergy] = {

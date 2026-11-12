@@ -37,6 +37,10 @@ export type SheetContextValue = {
 	contentStartRef: () -> GuiObject?,
 	setContentStartRef: (ref: Value<GuiObject?>) -> (),
 	isVerticalSheetGesture: () -> boolean,
+	-- How much of the sheet's full height is below the screen at the current snap, which reversed content shifts by.
+	-- Nil unless this is a bottom sheet with snap points.
+	contentRevealOffset: () -> number?,
+	setIsContentReversed: (isReversed: boolean) -> (),
 }
 
 local function zero(): number
@@ -84,4 +88,6 @@ return Vide.context({
 	contentStartRef = none,
 	setContentStartRef = noop,
 	isVerticalSheetGesture = no,
+	contentRevealOffset = none,
+	setIsContentReversed = noop,
 } :: SheetContextValue)
