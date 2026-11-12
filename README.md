@@ -6,7 +6,7 @@ Roblox's Foundation design system for [Vide](https://github.com/centau/vide), po
 
 ```toml
 [dependencies]
-VideFoundation = "kaan650/vide-foundation@0.1.1"
+VideFoundation = "kaan650/vide-foundation@0.2.0"
 ```
 
 ## Usage
