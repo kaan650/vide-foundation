@@ -300,535 +300,6 @@ return function(scale)
 				Warning = { Color3 = Color3.fromRGB(242, 186, 42), Transparency = 0 },
 			},
 		},
-		Component = {
-			BaseMenu = {
-				BackgroundColor = { Color3 = Color3.fromRGB(247, 247, 248), Transparency = 0 },
-				BorderRadius = 8 * scale,
-			},
-			ControllerBar = {
-				BackgroundColor = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.96 },
-				BorderRadius = {
-					LeadingBottom = 9999 * scale,
-					LeadingTop = 9999 * scale,
-					TrailingBottom = 9999 * scale,
-					TrailingTop = 9999 * scale,
-				},
-				Gap = 16 * scale,
-				Spacing = {
-					Bottom = 8 * scale,
-					Leading = 12 * scale,
-					Top = 8 * scale,
-					Trailing = 12 * scale,
-				},
-			},
-			ControllerBarShortcut = {
-				Container = {
-					ContentColor = { Color3 = Color3.fromRGB(32, 34, 39), Transparency = 0 },
-					Gap = 4 * scale,
-				},
-				Icon = {
-					Size = 36 * scale,
-				},
-				Label = {
-					Typography = {
-						Font = Enum.Font.Cartoon,
-						FontSize = 17 * scale,
-						LetterSpacing = 0,
-						LineHeight = 1.177,
-					},
-				},
-			},
-			Facepile = {
-				Badge = {
-					BackgroundColor = { Color3 = Color3.fromRGB(51, 95, 255), Transparency = 0 },
-					BorderColor = { Color3 = Color3.fromRGB(247, 247, 248), Transparency = 0 },
-					BorderRadius = 9999 * scale,
-					BorderWidth = 2 * scale,
-					ContentColor = { Color3 = Color3.fromRGB(247, 247, 248), Transparency = 0 },
-					Height = 16 * scale,
-					MinWidth = 16 * scale,
-					Spacing = 4 * scale,
-					Typography = {
-						Font = Enum.Font.Cartoon,
-						FontSize = 12 * scale,
-						LetterSpacing = 0,
-						LineHeight = 1.167,
-					},
-				},
-				Container = {
-					Gap = 4 * scale,
-				},
-				Face = {
-					BackgroundColor = { Color3 = Color3.fromRGB(73, 77, 90), Transparency = 0 },
-					BorderColor = { Color3 = Color3.fromRGB(247, 247, 248), Transparency = 0 },
-					BorderRadius = 9999 * scale,
-					BorderWidth = 2 * scale,
-					Height = 16 * scale,
-					Width = 16 * scale,
-				},
-				FaceGroup = {
-					Gap = -6 * scale,
-				},
-				Label = {
-					ContentColor = { Color3 = Color3.fromRGB(106, 111, 129), Transparency = 0 },
-					Typography = {
-						Font = Enum.Font.Cartoon,
-						FontSize = 15 * scale,
-						LetterSpacing = 0,
-						LineHeight = 1.2,
-					},
-				},
-			},
-			HelperText = {
-				Base = {
-					ContentColor = { Color3 = Color3.fromRGB(73, 77, 90), Transparency = 0 },
-					Opacity = 1,
-					Padding = {
-						Top = 4 * scale,
-					},
-					Typography = {
-						Font = Enum.Font.Cartoon,
-						FontSize = 12 * scale,
-						LetterSpacing = 0,
-						LineHeight = 1.167,
-					},
-				},
-				Error = {
-					ContentColor = { Color3 = Color3.fromRGB(217, 28, 21), Transparency = 0 },
-				},
-			},
-			InputLabel = {
-				Base = {
-					ContentColor = { Color3 = Color3.fromRGB(73, 77, 90), Transparency = 0 },
-					Opacity = 1,
-					Spacing = {
-						Bottom = 4 * scale,
-					},
-					Typography = {
-						Font = Enum.Font.Cartoon,
-						FontSize = 15 * scale,
-						LetterSpacing = 0,
-						LineHeight = 1.2,
-					},
-				},
-				Disabled = {
-					Opacity = 0.32,
-				},
-			},
-			MediaTile = {
-				Container = {
-					BorderRadius = 8 * scale,
-				},
-				Icon = {
-					Size = 36 * scale,
-				},
-			},
-			MenuCell = {
-				Base = {
-					CheckFrame = {
-						Size = 32 * scale,
-					},
-					Container = {
-						BackgroundColor = { Color3 = Color3.fromRGB(247, 247, 248), Transparency = 0 },
-						BorderColor = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.84 },
-						BorderRadius = {
-							BottomLeading = 0,
-							BottomTrailing = 0,
-							TopLeading = 0,
-							TopTrailing = 0,
-						},
-						BorderWidth = 0,
-						ContentColor = { Color3 = Color3.fromRGB(32, 34, 39), Transparency = 0 },
-						Height = 56 * scale,
-						Spacing = {
-							Bottom = 0,
-							Leading = 12 * scale,
-							Top = 0,
-							Trailing = 12 * scale,
-						},
-					},
-					IconFrame = {
-						Size = 32 * scale,
-					},
-					Text = {
-						Typography = {
-							Font = Enum.Font.Cartoon,
-							FontSize = 19 * scale,
-							LetterSpacing = 0,
-							LineHeight = 1.158,
-						},
-					},
-					TextFrame = {
-						Spacing = {
-							Bottom = 0,
-							Leading = 12 * scale,
-							Top = 0,
-							Trailing = 12 * scale,
-						},
-					},
-				},
-				Disabled = {
-					Container = {
-						ContentColor = { Color3 = Color3.fromRGB(32, 34, 39), Transparency = 0.5 },
-					},
-				},
-				Divider = {
-					Container = {
-						BorderWidth = 1 * scale,
-					},
-				},
-				HasRoundBottom = {
-					Container = {
-						BorderRadius = {
-							BottomLeading = 8 * scale,
-							BottomTrailing = 8 * scale,
-						},
-					},
-				},
-				HasRoundTop = {
-					Container = {
-						BorderRadius = {
-							TopLeading = 8 * scale,
-							TopTrailing = 8 * scale,
-						},
-					},
-				},
-			},
-			PlayerCount = {
-				Container = {
-					BackgroundColor = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 1 },
-					BorderRadius = 0,
-					Spacing = 8 * scale,
-				},
-			},
-			PlayerTileSmall = {
-				Base = {
-					Container = {
-						Gap = 8 * scale,
-						Spacing = {
-							Bottom = 8 * scale,
-							Leading = 8 * scale,
-							Top = 8 * scale,
-							Trailing = 8 * scale,
-						},
-					},
-					Content = {
-						ContentColor = { Color3 = Color3.fromRGB(32, 34, 39), Transparency = 0 },
-						Gap = 2 * scale,
-						Typography = {
-							Font = Enum.Font.Cartoon,
-							FontSize = 17 * scale,
-							LetterSpacing = 0,
-							LineHeight = 1.177,
-						},
-					},
-					Icon = {
-						Size = 16 * scale,
-					},
-					Image = {
-						BackgroundColor = { Color3 = Color3.fromRGB(247, 247, 248), Transparency = 0 },
-						BorderColor = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.84 },
-						BorderRadius = 9999 * scale,
-						BorderWidth = 3 * scale,
-						Size = 96 * scale,
-					},
-					Presence = {
-						ContentColor = { Color3 = Color3.fromRGB(73, 77, 90), Transparency = 0 },
-					},
-					Status = {
-						BackgroundColor = { Color3 = Color3.fromRGB(57, 197, 130), Transparency = 0 },
-						BorderColor = { Color3 = Color3.fromRGB(255, 255, 255), Transparency = 0 },
-						BorderWidth = 2.5 * scale,
-						Size = 16 * scale,
-					},
-				},
-			},
-			RateCount = {
-				ButtonGroup = {
-					Gap = 8 * scale,
-				},
-				Container = {
-					BackgroundColor = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.84 },
-					BorderRadius = 8 * scale,
-					Gap = 8 * scale,
-					Spacing = 8 * scale,
-				},
-			},
-			SelectionCursor = {
-				BorderWidth = 3 * scale,
-				Gradient = {
-					End = { Color3 = Color3.fromRGB(51, 95, 255), Transparency = 0 },
-					Start = { Color3 = Color3.fromRGB(51, 95, 255), Transparency = 0 },
-				},
-				Inset = 0,
-				Offset = 6 * scale,
-			},
-			StatGroup = {
-				Gap = 8 * scale,
-			},
-			StatItem = {
-				Container = {
-					ContentColor = { Color3 = Color3.fromRGB(106, 111, 129), Transparency = 0 },
-					Gap = 2 * scale,
-				},
-				Icon = {
-					Size = 16 * scale,
-				},
-				Label = {
-					Typography = {
-						Font = Enum.Font.Cartoon,
-						FontSize = 15 * scale,
-						LetterSpacing = 0,
-						LineHeight = 1.2,
-					},
-				},
-			},
-			StatWidget = {
-				Container = {
-					ContentColor = { Color3 = Color3.fromRGB(32, 34, 39), Transparency = 0 },
-					Gap = 8 * scale,
-				},
-				Data = {
-					Typography = {
-						Font = Enum.Font.Cartoon,
-						FontSize = 34 * scale,
-						LetterSpacing = -0.01,
-						LineHeight = 1,
-					},
-				},
-				DataGroup = {
-					Gap = 0,
-				},
-				Icon = {
-					Size = 48 * scale,
-				},
-				Label = {
-					Typography = {
-						Font = Enum.Font.Cartoon,
-						FontSize = 19 * scale,
-						LetterSpacing = 0,
-						LineHeight = 1.158,
-					},
-				},
-			},
-			StateLayer = {
-				Base = {
-					BorderWidth = 1 * scale,
-				},
-				Darken = {
-					Default = {
-						Color = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 1 },
-					},
-					Disabled = {
-						Color = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 1 },
-					},
-					Hover = {
-						Color = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.92 },
-					},
-					Initialize = {
-						Color = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 1 },
-					},
-					Pressed = {
-						Color = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.88 },
-					},
-					Selected = {
-						Color = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 1 },
-					},
-					SelectedPressed = {
-						Color = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.88 },
-					},
-				},
-				Inverse = {
-					Default = {
-						Color = { Color3 = Color3.fromRGB(255, 255, 255), Transparency = 1 },
-					},
-					Disabled = {
-						Color = { Color3 = Color3.fromRGB(255, 255, 255), Transparency = 1 },
-					},
-					Hover = {
-						Color = { Color3 = Color3.fromRGB(208, 217, 251), Transparency = 0.92 },
-					},
-					Initialize = {
-						Color = { Color3 = Color3.fromRGB(255, 255, 255), Transparency = 1 },
-					},
-					Pressed = {
-						Color = { Color3 = Color3.fromRGB(208, 217, 251), Transparency = 0.88 },
-					},
-					Selected = {
-						Color = { Color3 = Color3.fromRGB(255, 255, 255), Transparency = 1 },
-					},
-					SelectedPressed = {
-						Color = { Color3 = Color3.fromRGB(208, 217, 251), Transparency = 0.88 },
-					},
-				},
-				Lighten = {
-					Default = {
-						Color = { Color3 = Color3.fromRGB(255, 255, 255), Transparency = 1 },
-					},
-					Disabled = {
-						Color = { Color3 = Color3.fromRGB(255, 255, 255), Transparency = 1 },
-					},
-					Hover = {
-						Color = { Color3 = Color3.fromRGB(208, 217, 251), Transparency = 0.92 },
-					},
-					Initialize = {
-						Color = { Color3 = Color3.fromRGB(255, 255, 255), Transparency = 1 },
-					},
-					Pressed = {
-						Color = { Color3 = Color3.fromRGB(208, 217, 251), Transparency = 0.88 },
-					},
-					Selected = {
-						Color = { Color3 = Color3.fromRGB(255, 255, 255), Transparency = 1 },
-					},
-					SelectedPressed = {
-						Color = { Color3 = Color3.fromRGB(208, 217, 251), Transparency = 0.88 },
-					},
-				},
-				Standard = {
-					Default = {
-						Color = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 1 },
-					},
-					Disabled = {
-						Color = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 1 },
-					},
-					Hover = {
-						Color = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.92 },
-					},
-					Initialize = {
-						Color = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 1 },
-					},
-					Pressed = {
-						Color = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.88 },
-					},
-					Selected = {
-						Color = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 1 },
-					},
-					SelectedPressed = {
-						Color = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.88 },
-					},
-				},
-			},
-			TextField = {
-				Base = {
-					Field = {
-						BorderColor = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.84 },
-						BorderRadius = 8 * scale,
-						Gap = 8 * scale,
-						Opacity = 1,
-						Spacing = {
-							Leading = 12 * scale,
-							Trailing = 12 * scale,
-						},
-						Typography = {
-							Font = Enum.Font.Cartoon,
-							FontSize = 19 * scale,
-							LetterSpacing = 0,
-							LineHeight = 1.158,
-						},
-					},
-					FieldValue = {
-						ContentColor = { Color3 = Color3.fromRGB(32, 34, 39), Transparency = 0 },
-					},
-					IconLeading = {
-						ContentColor = { Color3 = Color3.fromRGB(106, 111, 129), Transparency = 0 },
-						Size = 16 * scale,
-					},
-					PlaceholderText = {
-						ContentColor = { Color3 = Color3.fromRGB(106, 111, 129), Transparency = 0 },
-					},
-				},
-				Disabled = {
-					Field = {
-						Opacity = 0.32,
-					},
-				},
-				Error = {
-					Field = {
-						BorderColor = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 1 },
-					},
-				},
-			},
-			VerticalScrollView = {
-				Base = {
-					Handle = {
-						BackgroundColor = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.84 },
-						BorderRadius = 9999 * scale,
-						ContentColor = { Color3 = Color3.fromRGB(32, 34, 39), Transparency = 0 },
-					},
-					Icon = {
-						Size = 36 * scale,
-					},
-					Track = {
-						Opacity = 0,
-						Spacing = {
-							Bottom = 4 * scale,
-							Top = 4 * scale,
-						},
-					},
-				},
-				Compact = {
-					Handle = {
-						Width = 2 * scale,
-					},
-					Track = {
-						Width = 12 * scale,
-					},
-				},
-				Gamepad = {
-					Handle = {
-						Width = 16 * scale,
-					},
-					Track = {
-						Width = 16 * scale,
-					},
-				},
-				Wide = {
-					Handle = {
-						Width = 8 * scale,
-					},
-					Track = {
-						Width = 16 * scale,
-					},
-				},
-			},
-			VerticalTile = {
-				Base = {
-					Container = {
-						Background = { Color3 = Color3.fromRGB(247, 247, 248), Transparency = 0 },
-						BorderColor = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.84 },
-						BorderRadius = {
-							LeadingBottom = 8 * scale,
-							LeadingTop = 8 * scale,
-							TrailingBottom = 8 * scale,
-							TrailingTop = 8 * scale,
-						},
-						BorderWidth = 1 * scale,
-						DropShadow = {
-							Blur = 8 * scale,
-							Color = { Color3 = Color3.fromRGB(10, 10, 14), Transparency = 0.5 },
-							X = 0,
-							Y = 4 * scale,
-						},
-					},
-					ContentBottom = {
-						Spacing = {
-							Bottom = 8 * scale,
-							Leading = 8 * scale,
-							Top = 8 * scale,
-							Trailing = 8 * scale,
-						},
-					},
-					ContentTop = {
-						Spacing = {
-							Bottom = 0,
-							Leading = 0,
-							Top = 0,
-							Trailing = 0,
-						},
-					},
-				},
-			},
-		},
 		Config = {
 			ColorMode = {
 				Name = "Light",
@@ -836,7 +307,7 @@ return function(scale)
 				IsLight = "true",
 			},
 			Text = {
-				Font = "Cartoon",
+				Font = "rbxassetid://127896232205472",
 				Interval = 4.836 * scale,
 				InverseScale = 1 / 1.209,
 				NominalScale = 1.209,
@@ -845,14 +316,14 @@ return function(scale)
 			Theme = {
 				Name = "Classic",
 				Text = {
-					Font = "Cartoon",
+					Font = "rbxassetid://127896232205472",
 					FontWeight = {
 						FontWeight_300 = "Regular",
 						FontWeight_400 = "Regular",
 						FontWeight_500 = "Regular",
-						FontWeight_600 = "Regular",
-						FontWeight_700 = "Regular",
-						FontWeight_800 = "Regular",
+						FontWeight_600 = "Bold",
+						FontWeight_700 = "Bold",
+						FontWeight_800 = "Bold",
 					},
 					NominalScale = 1.209,
 				},
@@ -1014,9 +485,9 @@ return function(scale)
 			FontWeight_300 = "Regular",
 			FontWeight_400 = "Regular",
 			FontWeight_500 = "Regular",
-			FontWeight_600 = "Regular",
-			FontWeight_700 = "Regular",
-			FontWeight_800 = "Regular",
+			FontWeight_600 = "Bold",
+			FontWeight_700 = "Bold",
+			FontWeight_800 = "Bold",
 		},
 		Gap = {
 			Large = 16 * scale,
@@ -1027,107 +498,6 @@ return function(scale)
 			XSmall = 4 * scale,
 			XXLarge = 24 * scale,
 			XXSmall = 2 * scale,
-		},
-		Global = {
-			Color = {
-				Alabaster = { Color3 = Color3.fromRGB(247, 247, 248), Transparency = 0 },
-				Ash = { Color3 = Color3.fromRGB(230, 231, 234), Transparency = 0 },
-				Black = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 0 },
-				Blue = { Color3 = Color3.fromRGB(51, 95, 255), Transparency = 0 },
-				Carbon = { Color3 = Color3.fromRGB(25, 26, 31), Transparency = 0 },
-				Chalk = { Color3 = Color3.fromRGB(213, 215, 221), Transparency = 0 },
-				Flint = { Color3 = Color3.fromRGB(39, 41, 48), Transparency = 0 },
-				Graphite = { Color3 = Color3.fromRGB(73, 77, 90), Transparency = 0 },
-				Green = { Color3 = Color3.fromRGB(57, 197, 130), Transparency = 0 },
-				None = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 1 },
-				Obsidian = { Color3 = Color3.fromRGB(18, 18, 21), Transparency = 0 },
-				Pumice = { Color3 = Color3.fromRGB(188, 190, 200), Transparency = 0 },
-				Red = { Color3 = Color3.fromRGB(223, 40, 31), Transparency = 0 },
-				Slate = { Color3 = Color3.fromRGB(32, 34, 39), Transparency = 0 },
-				Smoke = { Color3 = Color3.fromRGB(53, 55, 65), Transparency = 0 },
-				White = { Color3 = Color3.fromRGB(255, 255, 255), Transparency = 0 },
-			},
-			Family = {
-				Standard = "Cartoon",
-			},
-			FontSize_25 = 10 * scale,
-			FontSize_50 = 12 * scale,
-			FontSize_75 = 15 * scale,
-			FontSize_100 = 17 * scale,
-			FontSize_200 = 19 * scale,
-			FontSize_300 = 24 * scale,
-			FontSize_400 = 29 * scale,
-			FontSize_500 = 34 * scale,
-			FontSize_600 = 39 * scale,
-			FontSize_700 = 48 * scale,
-			FontSize_800 = 58 * scale,
-			FontSize_900 = 68 * scale,
-			FontSize_1000 = 82 * scale,
-			LetterSpacing = {
-				Default = 0,
-			},
-			LineHeight_100 = 0.827,
-			LineHeight_200 = 0.993,
-			LineHeight_300 = 1.075,
-			LineHeight_400 = 1.158,
-			Opacity_0 = 1,
-			Opacity_8 = 0.92,
-			Opacity_12 = 0.88,
-			Opacity_16 = 0.84,
-			Opacity_32 = 0.68,
-			Opacity_68 = 0.32,
-			Opacity_84 = 0.16,
-			Opacity_88 = 0.12,
-			Opacity_92 = 0.08,
-			Opacity_100 = 0,
-			Size_0 = 0,
-			Size_25 = 2 * scale,
-			Size_50 = 4 * scale,
-			Size_75 = 6 * scale,
-			Size_100 = 8 * scale,
-			Size_150 = 12 * scale,
-			Size_200 = 16 * scale,
-			Size_250 = 20 * scale,
-			Size_300 = 24 * scale,
-			Size_350 = 28 * scale,
-			Size_400 = 32 * scale,
-			Size_450 = 36 * scale,
-			Size_500 = 40 * scale,
-			Size_600 = 48 * scale,
-			Size_700 = 56 * scale,
-			Size_800 = 64 * scale,
-			Size_900 = 72 * scale,
-			Size_1000 = 80 * scale,
-			Size_1100 = 88 * scale,
-			Size_1200 = 96 * scale,
-			Size_1300 = 104 * scale,
-			Size_1400 = 112 * scale,
-			Space_0 = 0,
-			Space_25 = 2 * scale,
-			Space_50 = 4 * scale,
-			Space_75 = 6 * scale,
-			Space_100 = 8 * scale,
-			Space_150 = 12 * scale,
-			Space_200 = 16 * scale,
-			Space_250 = 20 * scale,
-			Space_300 = 24 * scale,
-			Space_400 = 32 * scale,
-			Space_500 = 40 * scale,
-			Space_600 = 48 * scale,
-			Space_800 = 64 * scale,
-			Space_1000 = 80 * scale,
-			Stroke_50 = 0.5 * scale,
-			Stroke_100 = 1 * scale,
-			Stroke_150 = 1.5 * scale,
-			Stroke_200 = 2 * scale,
-			Stroke_250 = 2.5 * scale,
-			Stroke_300 = 3 * scale,
-			Stroke_400 = 4 * scale,
-			Weight_300 = "Regular",
-			Weight_400 = "Regular",
-			Weight_600 = "Regular",
-			Weight_700 = "Regular",
-			Weight_900 = "Regular",
 		},
 		Gutter = {
 			Large = 16 * scale,
@@ -1395,188 +765,6 @@ return function(scale)
 			Small = 4 * scale,
 			XSmall = 2 * scale,
 		},
-		Semantic = {
-			Color = {
-				Action = {
-					Alert = {
-						Background = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.88 },
-						Border = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 1 },
-						Content = { Color3 = Color3.fromRGB(217, 28, 21), Transparency = 0 },
-					},
-					Primary = {
-						Background = { Color3 = Color3.fromRGB(32, 34, 39), Transparency = 0 },
-						Border = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 1 },
-						Content = { Color3 = Color3.fromRGB(247, 247, 248), Transparency = 0 },
-					},
-					PrimaryBrand = {
-						Background = { Color3 = Color3.fromRGB(51, 95, 255), Transparency = 0 },
-						Border = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 1 },
-						Content = { Color3 = Color3.fromRGB(247, 247, 248), Transparency = 0 },
-					},
-					Secondary = {
-						Background = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 1 },
-						Border = { Color3 = Color3.fromRGB(73, 77, 90), Transparency = 0 },
-						Content = { Color3 = Color3.fromRGB(32, 34, 39), Transparency = 0 },
-					},
-					Subtle = {
-						Background = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 1 },
-						Border = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 1 },
-						Content = { Color3 = Color3.fromRGB(32, 34, 39), Transparency = 0 },
-					},
-				},
-				Background = {
-					Contrast = { Color3 = Color3.fromRGB(247, 247, 248), Transparency = 0 },
-					Default = { Color3 = Color3.fromRGB(255, 255, 255), Transparency = 0 },
-					Muted = { Color3 = Color3.fromRGB(255, 255, 255), Transparency = 0 },
-					OnHover = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.92 },
-					OnPress = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.88 },
-				},
-				BackgroundUi = {
-					Contrast = { Color3 = Color3.fromRGB(255, 255, 255), Transparency = 0.08 },
-					Default = { Color3 = Color3.fromRGB(247, 247, 248), Transparency = 0 },
-				},
-				Common = {
-					Alert = { Color3 = Color3.fromRGB(223, 40, 31), Transparency = 0 },
-					Badge = { Color3 = Color3.fromRGB(32, 34, 39), Transparency = 0 },
-					BadgeContent = { Color3 = Color3.fromRGB(247, 247, 248), Transparency = 0 },
-					Divider = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.84 },
-					DropShadow = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 0.5 },
-					NavigationBar = { Color3 = Color3.fromRGB(214, 240, 255), Transparency = 0 },
-					Offline = { Color3 = Color3.fromRGB(73, 77, 90), Transparency = 0 },
-					Online = { Color3 = Color3.fromRGB(57, 197, 130), Transparency = 0 },
-					Overlay = { Color3 = Color3.fromRGB(10, 10, 14), Transparency = 0.5 },
-					Placeholder = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.88 },
-					Success = { Color3 = Color3.fromRGB(57, 197, 130), Transparency = 0 },
-				},
-				Focus = {
-					End = { Color3 = Color3.fromRGB(51, 95, 255), Transparency = 0 },
-					Gradient = { Color3 = Color3.fromRGB(51, 95, 255), Transparency = 0 },
-					Start = { Color3 = Color3.fromRGB(51, 95, 255), Transparency = 0 },
-				},
-				Icon = {
-					Default = { Color3 = Color3.fromRGB(73, 77, 90), Transparency = 0 },
-					Emphasis = { Color3 = Color3.fromRGB(32, 34, 39), Transparency = 0 },
-					OnHover = { Color3 = Color3.fromRGB(32, 34, 39), Transparency = 0 },
-				},
-				State = {
-					Darken = {
-						Default = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 1 },
-						Hover = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.92 },
-						Pressed = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.88 },
-					},
-					Inverse = {
-						Default = { Color3 = Color3.fromRGB(255, 255, 255), Transparency = 1 },
-						Hover = { Color3 = Color3.fromRGB(208, 217, 251), Transparency = 0.92 },
-						Pressed = { Color3 = Color3.fromRGB(208, 217, 251), Transparency = 0.88 },
-					},
-					Lighten = {
-						Default = { Color3 = Color3.fromRGB(255, 255, 255), Transparency = 1 },
-						Hover = { Color3 = Color3.fromRGB(208, 217, 251), Transparency = 0.92 },
-						Pressed = { Color3 = Color3.fromRGB(208, 217, 251), Transparency = 0.88 },
-					},
-					Standard = {
-						Default = { Color3 = Color3.fromRGB(0, 0, 0), Transparency = 1 },
-						Hover = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.92 },
-						Pressed = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.88 },
-					},
-				},
-				Text = {
-					Default = { Color3 = Color3.fromRGB(73, 77, 90), Transparency = 0 },
-					Emphasis = { Color3 = Color3.fromRGB(32, 34, 39), Transparency = 0 },
-					Inverse = { Color3 = Color3.fromRGB(213, 215, 221), Transparency = 0 },
-					Link = { Color3 = Color3.fromRGB(20, 70, 255), Transparency = 0 },
-					Muted = { Color3 = Color3.fromRGB(106, 111, 129), Transparency = 0 },
-				},
-				Ui = {
-					Default = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.92 },
-					Emphasis = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.84 },
-					Muted = { Color3 = Color3.fromRGB(27, 37, 75), Transparency = 0.96 },
-				},
-			},
-			Icon = {
-				Size = {
-					Large = 48 * scale,
-					Medium = 36 * scale,
-					Small = 16 * scale,
-					XLarge = 96 * scale,
-					XXLarge = 192 * scale,
-				},
-			},
-			Offset = {
-				Focus = {
-					Inset = 0,
-					Standard = 6 * scale,
-				},
-			},
-			Opacity = {
-				State = {
-					Darken = {
-						Hover = 0.88,
-						Pressed = 0.8,
-					},
-					Lighten = {
-						Hover = 0.88,
-						Pressed = 0.8,
-					},
-				},
-			},
-			Radius = {
-				Circle = 9999 * scale,
-				Large = 12 * scale,
-				Medium = 8 * scale,
-				None = 0,
-				Small = 4 * scale,
-				XLarge = 16 * scale,
-			},
-			Stroke = {
-				Focus = 3 * scale,
-				Input = 1 * scale,
-			},
-			Typography = {
-				Body = {
-					Font = Enum.Font.Cartoon,
-					FontSize = 19 * scale,
-					LetterSpacing = 0,
-					LineHeight = 1.158,
-				},
-				CaptionBody = {
-					Font = Enum.Font.Cartoon,
-					FontSize = 15 * scale,
-					LetterSpacing = 0,
-					LineHeight = 1.2,
-				},
-				CaptionHeader = {
-					Font = Enum.Font.Cartoon,
-					FontSize = 17 * scale,
-					LetterSpacing = 0,
-					LineHeight = 1.177,
-				},
-				Footer = {
-					Font = Enum.Font.Cartoon,
-					FontSize = 12 * scale,
-					LetterSpacing = 0,
-					LineHeight = 1.167,
-				},
-				Header = {
-					Font = Enum.Font.Cartoon,
-					FontSize = 24 * scale,
-					LetterSpacing = -0.01,
-					LineHeight = 1,
-				},
-				Subheader = {
-					Font = Enum.Font.Cartoon,
-					FontSize = 19 * scale,
-					LetterSpacing = 0,
-					LineHeight = 1.158,
-				},
-				Title = {
-					Font = Enum.Font.Cartoon,
-					FontSize = 34 * scale,
-					LetterSpacing = -0.01,
-					LineHeight = 1,
-				},
-			},
-		},
 		Size = {
 			Size_0 = 0,
 			Size_50 = 2 * scale,
@@ -1645,109 +833,109 @@ return function(scale)
 		},
 		Typography = {
 			BodyLarge = {
-				Font = Enum.Font.Cartoon,
+				Font = Font.new("rbxassetid://127896232205472", Enum.FontWeight.Regular, Enum.FontStyle.Normal),
 				FontSize = 19 * scale,
 				LetterSpacing = 0,
 				LineHeight = 1.158,
 			},
 			BodyMedium = {
-				Font = Enum.Font.Cartoon,
+				Font = Font.new("rbxassetid://127896232205472", Enum.FontWeight.Regular, Enum.FontStyle.Normal),
 				FontSize = 17 * scale,
 				LetterSpacing = 0,
 				LineHeight = 1.177,
 			},
 			BodySmall = {
-				Font = Enum.Font.Cartoon,
+				Font = Font.new("rbxassetid://127896232205472", Enum.FontWeight.Regular, Enum.FontStyle.Normal),
 				FontSize = 15 * scale,
 				LetterSpacing = 0,
 				LineHeight = 1.2,
 			},
 			CaptionLarge = {
-				Font = Enum.Font.Cartoon,
+				Font = Font.new("rbxassetid://127896232205472", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
 				FontSize = 17 * scale,
 				LetterSpacing = 0,
 				LineHeight = 1.177,
 			},
 			CaptionMedium = {
-				Font = Enum.Font.Cartoon,
+				Font = Font.new("rbxassetid://127896232205472", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
 				FontSize = 15 * scale,
 				LetterSpacing = 0,
 				LineHeight = 1.2,
 			},
 			CaptionSmall = {
-				Font = Enum.Font.Cartoon,
+				Font = Font.new("rbxassetid://127896232205472", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
 				FontSize = 12 * scale,
 				LetterSpacing = 0,
 				LineHeight = 1.167,
 			},
 			DisplayLarge = {
-				Font = Enum.Font.Cartoon,
+				Font = Font.new("rbxassetid://127896232205472", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
 				FontSize = 97 * scale,
 				LetterSpacing = -0.01,
 				LineHeight = 0.99,
 			},
 			DisplayMedium = {
-				Font = Enum.Font.Cartoon,
+				Font = Font.new("rbxassetid://127896232205472", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
 				FontSize = 68 * scale,
 				LetterSpacing = -0.01,
 				LineHeight = 1,
 			},
 			DisplaySmall = {
-				Font = Enum.Font.Cartoon,
+				Font = Font.new("rbxassetid://127896232205472", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
 				FontSize = 48 * scale,
 				LetterSpacing = -0.01,
 				LineHeight = 1,
 			},
 			HeadingLarge = {
-				Font = Enum.Font.Cartoon,
+				Font = Font.new("rbxassetid://127896232205472", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
 				FontSize = 34 * scale,
 				LetterSpacing = -0.01,
 				LineHeight = 1,
 			},
 			HeadingMedium = {
-				Font = Enum.Font.Cartoon,
+				Font = Font.new("rbxassetid://127896232205472", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
 				FontSize = 29 * scale,
 				LetterSpacing = -0.01,
 				LineHeight = 1.103,
 			},
 			HeadingSmall = {
-				Font = Enum.Font.Cartoon,
+				Font = Font.new("rbxassetid://127896232205472", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
 				FontSize = 24 * scale,
 				LetterSpacing = -0.01,
 				LineHeight = 1,
 			},
 			LabelLarge = {
-				Font = Enum.Font.Cartoon,
+				Font = Font.new("rbxassetid://127896232205472", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
 				FontSize = 19 * scale,
 				LetterSpacing = 0,
 				LineHeight = 0.842,
 			},
 			LabelMedium = {
-				Font = Enum.Font.Cartoon,
+				Font = Font.new("rbxassetid://127896232205472", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
 				FontSize = 17 * scale,
 				LetterSpacing = 0,
 				LineHeight = 0.824,
 			},
 			LabelSmall = {
-				Font = Enum.Font.Cartoon,
+				Font = Font.new("rbxassetid://127896232205472", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
 				FontSize = 15 * scale,
 				LetterSpacing = 0,
 				LineHeight = 0.8,
 			},
 			TitleLarge = {
-				Font = Enum.Font.Cartoon,
+				Font = Font.new("rbxassetid://127896232205472", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
 				FontSize = 19 * scale,
 				LetterSpacing = 0,
 				LineHeight = 1.158,
 			},
 			TitleMedium = {
-				Font = Enum.Font.Cartoon,
+				Font = Font.new("rbxassetid://127896232205472", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
 				FontSize = 17 * scale,
 				LetterSpacing = 0,
 				LineHeight = 1.177,
 			},
 			TitleSmall = {
-				Font = Enum.Font.Cartoon,
+				Font = Font.new("rbxassetid://127896232205472", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
 				FontSize = 15 * scale,
 				LetterSpacing = 0,
 				LineHeight = 1.2,

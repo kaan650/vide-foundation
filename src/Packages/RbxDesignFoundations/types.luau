@@ -1,5 +1,5 @@
 export type TokenPath =
-	| "Config.UI.Interval"
+		| "Config.UI.Interval"
 	| "Config.UI.Scale"
 	| "Config.UI.StrokeBase"
 	| "Config.Text.Interval"

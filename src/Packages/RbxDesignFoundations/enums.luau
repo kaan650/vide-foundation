@@ -5,7 +5,25 @@ local ColorMode = {
 	Light = "Light" :: "Light",
 }
 
-export type Theme = "CircuitRush" | "Classic" | "CosmicDust" | "Default" | "ElectricLime" | "HyperPlum" | "InfernoBlast" | "Kids" | "KidsClassic" | "KineticEnergy" | "LavaGlow" | "NebulaDrift" | "NitroFrost" | "PixelPop" | "PolarFreeze" | "QuantumPulse" | "StarBurst" | "SuperCharge"
+export type Theme =
+	"CircuitRush"
+	| "Classic"
+	| "CosmicDust"
+	| "Default"
+	| "ElectricLime"
+	| "Halloween2026"
+	| "HyperPlum"
+	| "InfernoBlast"
+	| "Kids"
+	| "KineticEnergy"
+	| "LavaGlow"
+	| "NebulaDrift"
+	| "NitroFrost"
+	| "PixelPop"
+	| "PolarFreeze"
+	| "QuantumPulse"
+	| "StarBurst"
+	| "SuperCharge"
 
 local Theme = {
 	CircuitRush = "CircuitRush" :: "CircuitRush",
@@ -13,10 +31,10 @@ local Theme = {
 	CosmicDust = "CosmicDust" :: "CosmicDust",
 	Default = "Default" :: "Default",
 	ElectricLime = "ElectricLime" :: "ElectricLime",
+	Halloween2026 = "Halloween2026" :: "Halloween2026",
 	HyperPlum = "HyperPlum" :: "HyperPlum",
 	InfernoBlast = "InfernoBlast" :: "InfernoBlast",
 	Kids = "Kids" :: "Kids",
-	KidsClassic = "KidsClassic" :: "KidsClassic",
 	KineticEnergy = "KineticEnergy" :: "KineticEnergy",
 	LavaGlow = "LavaGlow" :: "LavaGlow",
 	NebulaDrift = "NebulaDrift" :: "NebulaDrift",

@@ -1,12 +1,11 @@
 local FoundationImages = script.Parent
-
 local GetImageSetData = require(FoundationImages.Generated.GetImageSetData)
 local FALLBACK_IMAGES = require(FoundationImages.Generated.FallbackImages)
 
 local ImagesTypes = require(FoundationImages.ImagesTypes)
 local getResolutionScale = require(FoundationImages.getResolutionScale)
 
-local CorePackages = script:FindFirstAncestor("CorePackages")
+local CorePackages = game:GetService("CorePackages")
 local resolutionScale = getResolutionScale()
 local sourceData, sourceScale
 -- sourceScale should match the exact image scale used
@@ -17,22 +16,14 @@ local BuilderIcons = require(Packages.BuilderIcons)
 local deprecatedUIBloxIcons = BuilderIcons.Migration["uiblox"]
 local whitelistedIconDeprecations = require(FoundationImages.whitelistedIconAssets)
 
-local function getPackagePath(): string?
-	local packageRoot = FoundationImages
-
+local function getStaticLuaAppsPackageDir(): string?
 	if CorePackages == nil then
 		-- We're not running in CI as a core script, no internal path
 		return nil
+	else
+		local staticPackagePath = "LuaPackages/Packages/_Index/FoundationImages/FoundationImages"
+		return staticPackagePath
 	end
-
-	local path = {}
-	local current: Instance? = packageRoot
-	while current ~= nil and current ~= CorePackages do
-		table.insert(path, 1, current.Name)
-		current = current.Parent
-	end
-
-	return "LuaPackages/" .. table.concat(path, "/")
 end
 
 local function getImagePath(packagePath: string?, imageName: string): string
@@ -44,7 +35,8 @@ local function getImagePath(packagePath: string?, imageName: string): string
 	end
 end
 
-local packagePath = getPackagePath()
+local packagePath = getStaticLuaAppsPackageDir()
+
 local Images = {}
 
 for key, value in sourceData do
